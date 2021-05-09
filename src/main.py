@@ -22,7 +22,7 @@ def espressione_regolare(dict):
                 n0=el
                 n0['name']="N0"
             break
-        print(1)
+        print(el)
 
 
 
@@ -35,5 +35,5 @@ def espressione_regolare(dict):
 
 with open('data/graph.json') as f:
   data = json.load(f)
-#testare con random
-espressione_regolare(data)
+
+espressione_regolare(random.sample(data, k=len(data)))
