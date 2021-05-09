@@ -1,0 +1,70 @@
+[
+  {
+    "name": "0",
+    "type":"I",
+    "outgoings": [
+      {
+        "transaction": "a",
+        "node": "1"
+      },
+      {
+        "transaction": "a",
+        "node": "2"
+      }
+    ],
+    "incomings": [
+      {
+        "transaction": "",
+        "node": ""
+      }
+    ]
+  },
+  {
+    "name": "1",
+    "type":"N",
+    "outgoings": [
+      {
+        "transaction": "ε",
+        "node": "3"
+      }
+    ]
+  },
+  {
+    "name": "2",
+    "type":"N",
+    "outgoings": [
+      {
+        "transaction": "c",
+        "node": "2"
+      },
+      {
+        "transaction": "b",
+        "node": "3"
+      }
+    ]
+  },
+  {
+    "name": "3",
+    "type":"N",
+    "outgoings": [
+      {
+        "transaction": "a",
+        "node": "3"
+      },
+      {
+        "transaction": "c",
+        "node": "4"
+      }
+    ]
+  },
+  {
+    "name": "4",
+    "type":"F",
+    "outgoings": [
+      {
+        "transaction": "",
+        "node": ""
+      }
+    ]
+  }
+]
