@@ -1,0 +1,73 @@
+[
+  {sdgsgagadg
+    "name": "0",
+    "type":"I",
+    "outgoings": [
+      {
+        "transaction": "a",
+        "node": "1"
+      },
+      {
+        "transaction": "a",
+        "node": "4"
+      }
+    ],
+    "incomings": [
+      {
+        "transaction": "",
+        "node": ""
+      }
+    ]
+  },
+  {
+    "name": "1",
+    "type":"N",
+    "outgoings": [
+      {
+        "transaction": "o",
+        "node": "2"
+      }
+    ]
+  },
+  {
+    "name": "2",
+    "type":"N",
+    "outgoings": [
+      {
+        "transaction": "b",
+        "node": "3"
+      }
+    ]
+  },
+  {
+    "name": "4",
+    "type":"N",
+    "outgoings": [
+      {
+        "transaction": "b",
+        "node": "5"
+      }
+    ]
+  },
+  {
+    "name": "5",
+    "type":"N",
+    "outgoings": [
+      {
+        "transaction": "b",
+        "node": "3"
+      }
+    ]
+  },
+
+  {
+    "name": "3",
+    "type":"F",
+    "outgoings": [
+      {
+        "transaction": "",
+        "node": ""
+      }
+    ]
+  }
+]
