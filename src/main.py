@@ -1,5 +1,6 @@
 import json
 import random
+import os
 
 OP_CONCAT=' '
 OP_ALT='|'
@@ -7,12 +8,11 @@ OP_REP='*'
 NULL_SMIB='ε'
 
 
-
 def espressione_regolare(dict):
-    with open('data/stateNQ.json') as f:
-      nq = json.load(f)
+    with open(os.path.join('data','stateNQ.json')) as f:
+        nq = json.load(f)
     #da gestire con gli oggetti
-    with open('data/stateN0.json') as f:
+    with open(os.path.join('data','stateN0.json')) as f:
         n0 = json.load(f)
 
     #ricerca elemnto I dentro un array di tutti i nodi
@@ -47,16 +47,46 @@ def espressione_regolare(dict):
 
     #print(json.dumps(dict, indent = 4))
     ########automa definito########
+
     #crea albero transizioni
     global_sequence=create_sequence(dict)
     series_sequence=[]
-    for  in_node,transaction,out_node in global_sequence:
-        if (count_incoming(global_sequence,out_node) == 1 and count_outcoming(global_sequence,out_node)==1) or (count_incoming(global_sequence,in_node) == 1 and count_outcoming(global_sequence,in_node)==1):
-            series_sequence.append((in_node,transaction,out_node))#to test
+    series_found=1
+    for in_node,transaction,out_node in global_sequence:
+        inn=in_node
+        trans=transaction
+        out=out_node
+        while(series_found==1):
+            if (count_incoming(global_sequence,out) == 1 and count_outcoming(global_sequence,out)==1): #or (count_incoming(global_sequence,inn) == 1 and count_outcoming(global_sequence,inn)==1) and is_not_in_sequence(inn,trans,out,series_sequence):
+                print(global_sequence)
+                print((inn,transaction,out))
+                print("\n")
+                #banned_sequence.append((inn,transaction,out))
+                series_sequence.append((inn,transaction,out))#to test
+                for next_in_node, next_transaction, next_out_node in global_sequence:
+                    if(next_in_node == out_node):
+                        inn=next_in_node
+                        trans=next_transaction
+                        out=next_out_node
+                        print(out)
+                #successore della tupla appena esaminata nella serie
+                series_sequence.append((inn,transaction,out))
+            else:
+                series_found=0
 
+
+    print("series found: ")
     print(series_sequence)
-
+    print("\n")
+    print("united series: ")
     print(unite_series(series_sequence))
+
+def is_not_in_sequence(inn,trans,out,series_sequence):
+    for in_node,transaction,out_node in series_sequence:
+        if inn==in_node and trans==transaction and out==out_node:
+            return False
+    return True
+
 
 #to test seems to work
 def unite_series(series_sequence):
@@ -75,6 +105,8 @@ def create_sequence(dict):
     for el in dict:
         for out in el['outgoings']:
             sequence.append((el['name'],out['transaction'],out['node']))
+    print(sequence)
+    print("\n")
     return sequence
 
 def count_incoming(global_sequence, name):
@@ -108,12 +140,7 @@ def stati_accettazione(dict):
 
 
 
-
-
-
-
-
-with open('data/graph.json') as f:
+with open(os.path.join('data','another graph.json')) as f:
   data = json.load(f)
 
 espressione_regolare(data)
