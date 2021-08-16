@@ -1,0 +1,11 @@
+{
+  "name": "NQ",
+  "type":"I",
+  "outgoings": [
+    {
+      "transaction": "ε",
+      "node": ""
+    }
+  ],
+  "incomings": []
+}
