@@ -1,5 +1,5 @@
 [
-  {sdgsgagadg
+  {
     "name": "0",
     "type":"I",
     "outgoings": [
@@ -13,10 +13,6 @@
       }
     ],
     "incomings": [
-      {
-        "transaction": "",
-        "node": ""
-      }
     ]
   },
   {
@@ -59,15 +55,10 @@
       }
     ]
   },
-
   {
     "name": "3",
     "type":"F",
     "outgoings": [
-      {
-        "transaction": "",
-        "node": ""
-      }
     ]
   }
 ]

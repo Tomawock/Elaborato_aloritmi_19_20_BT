@@ -47,57 +47,63 @@ def espressione_regolare(dict):
 
     #print(json.dumps(dict, indent = 4))
     ########automa definito########
-
     #crea albero transizioni
     global_sequence=create_sequence(dict)
+    tmp_global=[]
     series_sequence=[]
+    banned_list=[]
     series_found=1
-    for in_node,transaction,out_node in global_sequence:
-        inn=in_node
-        trans=transaction
-        out=out_node
+    print("GLOBAL",global_sequence)
+
+    #i =input node, t= transaction , o= out_node
+    for i,t,o in global_sequence:
+        series_found=1
+        #print(i,t,o)
+        in_node=i
+        transaction=t
+        out_node=o
+        #initialize the series sequence
+        series_sequence.append((in_node,transaction,out_node))
         while(series_found==1):
-            if (count_incoming(global_sequence,out) == 1 and count_outcoming(global_sequence,out)==1): #or (count_incoming(global_sequence,inn) == 1 and count_outcoming(global_sequence,inn)==1) and is_not_in_sequence(inn,trans,out,series_sequence):
-                print(global_sequence)
-                print((inn,transaction,out))
-                print("\n")
-                #banned_sequence.append((inn,transaction,out))
-                series_sequence.append((inn,transaction,out))#to test
+            if (count_incoming(global_sequence,out_node) == 1 and count_outcoming(global_sequence,out_node)==1):
                 for next_in_node, next_transaction, next_out_node in global_sequence:
-                    if(next_in_node == out_node):
-                        inn=next_in_node
-                        trans=next_transaction
-                        out=next_out_node
-                        print(out)
-                #successore della tupla appena esaminata nella serie
-                series_sequence.append((inn,transaction,out))
+                    if(next_in_node == out_node and (count_incoming(global_sequence,out_node) == 1 and count_outcoming(global_sequence,out_node)==1)):
+                        in_node=next_in_node
+                        transaction=next_transaction
+                        out_node=next_out_node
+                        series_sequence.append((in_node,transaction,out_node))
             else:
+                for el in series_sequence:
+                    if el in banned_list:
+                        series_sequence=[]
+                #add series elemnts to global
+                if len(series_sequence)==1:
+                    tmp_global.append(series_sequence[0])
+                else:
+                    #print("SERIED",series_sequence)
+                    for el in unite_series(series_sequence):
+                        tmp_global.append(el)
+
+                for el in series_sequence:
+                    banned_list.append(el)
+                #print("BANNED",banned_list)
+                series_sequence=[]
                 series_found=0
 
-
-    print("series found: ")
-    print(series_sequence)
-    print("\n")
-    print("united series: ")
-    print(unite_series(series_sequence))
-
-def is_not_in_sequence(inn,trans,out,series_sequence):
-    for in_node,transaction,out_node in series_sequence:
-        if inn==in_node and trans==transaction and out==out_node:
-            return False
-    return True
+    print("FINAL_GLOBAL",tmp_global)
 
 
-#to test seems to work
+# Unite sequence if oredered, it unite one sequenze of arbitrary dimension
+# Prerequisite: cant contains miltiplie sequence to unite
 def unite_series(series_sequence):
     seried_sequence=[]
     if len(series_sequence)>= 2:
+        origin=series_sequence[0][0]
+        destination=series_sequence[len(series_sequence)-1][2]
+        transaction=series_sequence[0][1]
         for i in range(len(series_sequence)-1):
-            if series_sequence[i][2]==series_sequence[i+1][0]:
-                transaction=series_sequence[i][1]+OP_CONCAT+series_sequence[i+1][1]
-                origin=series_sequence[i][0]
-                destination=series_sequence[i+1][2]
-                seried_sequence.append((origin,transaction,destination))
+            transaction+=OP_CONCAT+series_sequence[i+1][1]
+        seried_sequence.append((origin,transaction,destination))
     return seried_sequence
 
 def create_sequence(dict):
@@ -105,8 +111,6 @@ def create_sequence(dict):
     for el in dict:
         for out in el['outgoings']:
             sequence.append((el['name'],out['transaction'],out['node']))
-    print(sequence)
-    print("\n")
     return sequence
 
 def count_incoming(global_sequence, name):
@@ -140,8 +144,7 @@ def stati_accettazione(dict):
 
 
 
-with open(os.path.join('data','another graph.json')) as f:
+with open(os.path.join('data','graph.json')) as f:
   data = json.load(f)
-
 espressione_regolare(data)
 #print(create_transaction(NULL_SMIB,3))

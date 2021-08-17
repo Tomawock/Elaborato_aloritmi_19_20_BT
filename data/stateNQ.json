@@ -1,6 +1,6 @@
 {
   "name": "NQ",
-  "type":"I",
+  "type":"F",
   "outgoings": [
     {
       "transaction": "ε",
