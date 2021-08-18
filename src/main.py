@@ -175,6 +175,7 @@ def espressione_regolare(dict):
         print("FINAL_GLOBAL_LOOP",global_sequence)
 
     print("FINAL_",global_sequence)
+
 # Unite sequence if oredered, it unite one sequenze of arbitrary dimension
 # Prerequisite: cant contains miltiplie sequence to unite
 def unite_series(series_sequence):
@@ -239,8 +240,8 @@ def stati_accettazione(dict):
     return stati_accettati
 
 
-
-with open(os.path.join('data','test_graph.json')) as f:
-  data = json.load(f)
-espressione_regolare(data)
+if __name__ == '__main__':
+    with open(os.path.join('data','test_graph.json')) as f:
+      data = json.load(f)
+    espressione_regolare(data)
 #print(create_transaction(NULL_SMIB,3))
