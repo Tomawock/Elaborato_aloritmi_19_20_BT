@@ -54,11 +54,20 @@
       {
         "transaction": "c",
         "node": "4"
+      },{
+        "transaction": "e",
+        "node": "5"
       }
     ]
   },
   {
     "name": "4",
+    "type":"A",
+    "outgoings": [
+    ]
+  },
+  {
+    "name": "5",
     "type":"A",
     "outgoings": [
     ]

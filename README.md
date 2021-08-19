@@ -9,6 +9,7 @@ Stop env with: deactivate  </br>
 ## NOTE
 
 Type puo essere:
-* I:Iniziale
-* N:neutro
-* F:accettazione -Finale
+* S:  Iniziale
+* N:  Neutro
+* A:  Accettazione
+* AF: Accettazione (solo NQ)
