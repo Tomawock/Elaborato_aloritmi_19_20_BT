@@ -1,11 +1,6 @@
 {
   "name": "NQ",
   "type":"AF",
-  "outgoings": [
-    {
-      "transaction": "ε",
-      "node": ""
-    }
-  ],
+  "outgoings": [],
   "incomings": []
 }

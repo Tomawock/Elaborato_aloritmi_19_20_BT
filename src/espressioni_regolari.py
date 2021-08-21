@@ -9,7 +9,7 @@ OPEN_BRA = '('
 CLOSE_BRA = ')'
 
 
-def create_series_from_graph(global_sequence, dict):
+def create_series_from_graph(global_sequence, stati_accettati):
     tmp_global = []  # Copy of global_sequence in order to be able to modify it
     banned_list = []  # List of elemnts in banned since already added to a list
     series_sequence = []
@@ -39,17 +39,66 @@ def create_series_from_graph(global_sequence, dict):
                 #add series elemnts to global
                 if len(series_sequence) == 1:
                     tmp_global.append(series_sequence[0])
-                else:
+                elif len(series_sequence) > 1:
                     # print("SERIED", series_sequence)
-                    for el in unite_series_with_pedice(series_sequence, stati_accettazione(dict)):
-                        tmp_global.append(el)
-                    break
+                    tmp_global.append(
+                        unite_series_with_pedice(series_sequence,
+                                                 stati_accettati))
                 for el in series_sequence:
                     banned_list.append(el)
                 #print("BANNED",banned_list)
                 series_sequence = []
                 series_found = 0
     #print("FINAL_GLOBAL_SERIES", tmp_global)
+    return tmp_global
+
+
+def create_parallel_from_graph(global_sequence):
+    parallel_sequence = []
+    tmp_global = []  # Copy of global_sequence in order to be able to modify it
+    banned_list = []  # List of elemnts in banned since already added to a list
+    #i =input node, t= transaction , o= out_node
+    for i, t, p, o in global_sequence:
+        in_node = i
+        priority = p
+        transaction = t
+        out_node = o
+        #initialize the series sequence
+        parallel_sequence.append((in_node, transaction, priority, out_node))
+        ## Generate Series
+        for (next_in_node, next_transaction, next_priority, next_out_node) in global_sequence:
+            if (in_node == next_in_node and out_node == next_out_node and in_node != out_node and transaction != next_transaction):
+                parallel_sequence.append(
+                    (next_in_node, next_transaction, next_priority, next_out_node))
+                in_node = next_in_node
+                priority = next_priority
+                transaction = next_transaction
+                out_node = next_out_node
+
+        for el in parallel_sequence:
+            if el in banned_list:
+                parallel_sequence = []
+        # add series elemnts to global
+        if len(parallel_sequence) == 1:
+            tmp_global.append(parallel_sequence[0])
+        elif len(parallel_sequence) > 1:
+            is_joinable = True
+            for i in range(len(parallel_sequence)-1):
+                for j in range(i+1, len(parallel_sequence)):
+                    if parallel_sequence[i][2] != parallel_sequence[j][2]:
+                        is_joinable = False
+            # print("SERIED",series_sequence)
+            if is_joinable:
+                tmp_global.append(
+                    unite_parallel_with_pedice(parallel_sequence))
+            else:
+                for el in parallel_sequence:
+                    tmp_global.append(el)
+        for el in parallel_sequence:
+            banned_list.append(el)
+
+        parallel_sequence = []
+
     return tmp_global
 
 
@@ -69,11 +118,13 @@ def espressioni_regolari(dict):
                 n0 = el
                 n0['name'] = "N0"
     stati_accettati = stati_accettazione(dict)
-    print("ACCETTATI", stati_accettati)
+    # print("ACCETTATI", stati_accettati)
+    # rimuovi gli stati accettati dal dict in qunato dopo verranno riaggiunti
+    for el in stati_accettati:
+        dict.remove(el)
     if len(stati_accettati) > 1 or len(stati_accettati[0]['outgoings']) > 0:
-        #aggiunte transazioni da beta0 a nq
+        # aggiunte transazioni da beta0 a nq
         for el in stati_accettati:
-            #PROBLEMA
             el['outgoings'].append(
                 (create_transaction(NULL_SMIB, nq['name'])))
         dict.append(nq)  # aggiungi lo stato accetato finale
@@ -91,14 +142,18 @@ def espressioni_regolari(dict):
         dict.append(sa)  # riaggiugi gli accettati con le nuove impostaziponi
     ########automa definito########
     #crea albero transizioni
-    print("DICT", dict)
+    # print("DICT", dict)
     global_sequence = create_sequence_with_pedice(dict)
     print("GLOBAL_", global_sequence)
     # check_number_of_states(global_sequence) and check_number_of_pedici(global_sequence):
-    for i in range(3):
+    for i in range(6):
         print("START CICLO")
-        global_sequence = create_series_from_graph(global_sequence, dict)
-        print("FINAL_", global_sequence)
+        global_sequence = create_series_from_graph(
+            global_sequence, stati_accettati)  # usa sta  non dict
+        print("PARZ_", global_sequence)
+        global_sequence = create_parallel_from_graph(global_sequence)
+        global_sequence = create_loop_from_graph(
+            global_sequence, n0, nq, stati_accettati)
 
     print("FINAL_", global_sequence)
 
@@ -123,36 +178,112 @@ def check_number_of_pedici(global_sequence):
 
 
 def unite_series_with_pedice(series_sequence, stati_accettati):
-    seried_sequence = []
-    if len(series_sequence) >= 2:
-        origin = series_sequence[0][0]
-        destination = series_sequence[len(series_sequence)-1][3]
-        transaction = series_sequence[0][1]
-        for i in range(len(series_sequence)-1):
-            transaction += OP_CONCAT+series_sequence[i+1][1]
+    origin = series_sequence[0][0]
+    destination = series_sequence[len(series_sequence)-1][3]
+    transaction = series_sequence[0][1]
+    for i in range(len(series_sequence)-1):
+        transaction += OP_CONCAT+series_sequence[i+1][1]
+    is_accettato = False
+    for sa in stati_accettati:
+        if sa['name'] == series_sequence[len(series_sequence)-1][0]:
+            is_accettato = True
+    if series_sequence[len(series_sequence)-1][3] != 'NQ' and not is_accettato:
+        return (origin, transaction, -1, destination)
+    elif series_sequence[len(series_sequence)-1][2] != -1:
+        return (origin, transaction, series_sequence[len(series_sequence)-1][2], destination)
+    else:
+        return (origin, transaction, series_sequence[len(series_sequence)-1][0], destination)
 
-        print("ACCETTATI_2", stati_accettati)
-        is_accettato = False
-        for sa in stati_accettati:
-            if sa['name'] == series_sequence[len(series_sequence)-1][0]:
-                is_accettato = True
-        print("STATO", is_accettato)
-        if series_sequence[len(series_sequence)-1][3] == 'NQ' and is_accettato:
-            seried_sequence.append((origin, transaction, -1, destination))
-        else:
-            seried_sequence.append(
-                (origin, transaction, series_sequence[len(series_sequence)-1][0], destination))
-    return seried_sequence
+
+def unite_parallel_with_pedice(series_sequence):
+    origin = series_sequence[0][0]
+    destination = series_sequence[len(series_sequence)-1][2]
+    transaction = series_sequence[0][1]
+    for i in range(len(series_sequence)-1):
+        transaction += OP_ALT+series_sequence[i+1][1]
+    transaction = OPEN_BRA+transaction+CLOSE_BRA
+
+    return (origin, transaction, series_sequence[0][2], destination)
 
 
 def create_sequence_with_pedice(dict):
     sequence = []
     for el in dict:
-        print("EL", el)
         for out in el['outgoings']:
             #nome nodo ingresso, trnsazione, pedice, nome nodo uscita
             sequence.append((el['name'], out['transaction'], -1, out['node']))
     return sequence
+
+
+def create_loop_from_graph(global_sequence, n0, nq, stati_accettati):
+    tmp_global = []  # Copy of global_sequence in order to be able to modify it
+    banned_list = []  # List of elemnts in banned since already added to a list
+    cycle_found = False
+    for i, t, p, o in global_sequence:
+        if(i != n0['name'] and o != nq['name']):
+            for (next_in_node, next_transaction, next_priority, next_out_node) in global_sequence:  # (n',r',n)
+                if (next_in_node != i and next_out_node == i):
+                    for (next_next_in_node, next_next_transaction, next_next_priority, next_next_out_node) in global_sequence:  # è (n,r",n")
+                        if (next_next_in_node == i and next_next_out_node != i and next_next_priority == -1):
+                            is_accettato = False
+                            for sa in stati_accettati:
+                                if sa['name'] == i:
+                                    is_accettato = True
+                            if next_next_out_node == 'NQ' and is_accettato:
+                                if(i == o):
+                                    r = next_transaction+OP_CONCAT+t+OP_REP
+                                    tmp_global.append(
+                                        (next_in_node, r, i, next_next_out_node))
+                                    cycle_found = True
+                                else:
+                                    r = next_transaction
+                                    tmp_global.append(
+                                        (next_in_node, r, i, next_next_out_node))
+
+                                    cycle_found = False
+                            elif(i == o):
+                                r = next_transaction+OP_CONCAT+t+OP_REP + \
+                                    OP_CONCAT+next_next_transaction
+                                tmp_global.append(
+                                    (next_in_node, r, -1, next_next_out_node))
+                                cycle_found = True
+                            else:
+                                if(i == o):
+                                    r = next_transaction+OP_CONCAT+next_next_transaction
+                                    tmp_global.append(
+                                        (next_in_node, r, -1, next_next_out_node))
+                                    cycle_found = True
+                        elif (next_next_in_node == i and next_next_out_node != i and next_next_priority != -1):
+                            if(i == o):
+                                r = next_transaction+OP_CONCAT+t+OP_REP + \
+                                    OP_CONCAT+next_next_transaction
+                                tmp_global.append(
+                                    (next_in_node, r, next_next_priority, next_next_out_node))
+                                cycle_found = True
+                            else:
+                                r = next_transaction+OP_CONCAT+next_next_transaction
+                                tmp_global.append(
+                                        (next_in_node, r, next_next_priority, next_next_out_node))
+                                cycle_found = True
+                        # rimuovi quelli usati per creare la nuova transaction
+                        banned_list.append((i, t, p, o))
+                        banned_list.append(
+                            (next_in_node, next_transaction, next_priority, next_out_node))
+                        banned_list.append(
+                            (next_next_in_node, next_next_transaction, next_priority, next_next_out_node))
+
+        if cycle_found:
+            break
+
+    for el in global_sequence:
+        if el not in banned_list:
+            tmp_global.append(el)
+    #move the fist elemnt into last position in order to have the graph ordered and mantains sereis sequence correct
+    loop = tmp_global[0]
+    tmp_global.pop(0)
+    tmp_global.append(loop)
+    print("FINAL_GLOBAL_LOOP", tmp_global)
+    return tmp_global
 
 
 def count_incoming(global_sequence, name):
@@ -176,21 +307,19 @@ def create_transaction(transaction, node):
         "transaction": transaction,
         "node": node
     }
-    return json.dumps(new_transaction)
+    return new_transaction
 
 
 def stati_accettazione(dict):
     stati_accettati = []
     for el in dict:
         if el['type'] == "A":
-            print("CANE", el)
             stati_accettati.append(el)
-            #dict.remove(el)
     return stati_accettati
 
 
 if __name__ == '__main__':
-    with open(os.path.join('data', 'graph_espressioni.json')) as f:
+    with open(os.path.join('data', 'graph.json')) as f:
       data = json.load(f)
     #print(unite_series([('0', '(a c* b|a ε) a* c', 'NQ'), ('N0', 'ε', '0')]))
     espressioni_regolari(data)

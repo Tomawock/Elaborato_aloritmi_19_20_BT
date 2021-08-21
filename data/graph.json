@@ -8,7 +8,7 @@
         "node": "1"
       },
       {
-        "transaction": "a",
+        "transaction": "b",
         "node": "2"
       }
     ],
@@ -21,8 +21,12 @@
   },
   {
     "name": "1",
-    "type":"N",
+    "type":"A",
     "outgoings": [
+      {
+        "transaction": "b",
+        "node": "1"
+      },
       {
         "transaction": "ε",
         "node": "3"
@@ -31,10 +35,10 @@
   },
   {
     "name": "2",
-    "type":"N",
+    "type":"A",
     "outgoings": [
       {
-        "transaction": "c",
+        "transaction": "a",
         "node": "2"
       },
       {
@@ -45,20 +49,6 @@
   },
   {
     "name": "3",
-    "type":"N",
-    "outgoings": [
-      {
-        "transaction": "a",
-        "node": "3"
-      },
-      {
-        "transaction": "c",
-        "node": "4"
-      }
-    ]
-  },
-  {
-    "name": "4",
     "type":"A",
     "outgoings": [
     ]
