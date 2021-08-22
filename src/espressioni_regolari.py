@@ -33,9 +33,9 @@ def create_series_from_graph(global_sequence, stati_accettati):
                         series_sequence.append(
                             (in_node, transaction, pedice, out_node))
             else:
-                for el in series_sequence:
-                    if el in banned_list:
-                        series_sequence = []
+                # for el in series_sequence:
+                #     if el in banned_list:
+                #         series_sequence = []
                 #add series elemnts to global
                 if len(series_sequence) == 1:
                     tmp_global.append(series_sequence[0])
@@ -44,9 +44,13 @@ def create_series_from_graph(global_sequence, stati_accettati):
                     tmp_global.append(
                         unite_series_with_pedice(series_sequence,
                                                  stati_accettati))
-                for el in series_sequence:
-                    banned_list.append(el)
-                #print("BANNED",banned_list)
+                    for el in series_sequence:
+                        if el in tmp_global:
+                            tmp_global.remove(el)
+
+                # for el in series_sequence:
+                #     banned_list.append(el)
+                # print("BANNED", banned_list)
                 series_sequence = []
                 series_found = 0
     #print("FINAL_GLOBAL_SERIES", tmp_global)
@@ -145,12 +149,10 @@ def espressioni_regolari(dict):
     # print("DICT", dict)
     global_sequence = create_sequence_with_pedice(dict)
     print("GLOBAL_", global_sequence)
-    # check_number_of_states(global_sequence) and check_number_of_pedici(global_sequence):
-    for i in range(6):
+    while check_number_of_states(global_sequence) and check_number_of_pedici(global_sequence):
         print("START CICLO")
         global_sequence = create_series_from_graph(
             global_sequence, stati_accettati)  # usa sta  non dict
-        print("PARZ_", global_sequence)
         global_sequence = create_parallel_from_graph(global_sequence)
         global_sequence = create_loop_from_graph(
             global_sequence, n0, nq, stati_accettati)
@@ -197,7 +199,7 @@ def unite_series_with_pedice(series_sequence, stati_accettati):
 
 def unite_parallel_with_pedice(series_sequence):
     origin = series_sequence[0][0]
-    destination = series_sequence[len(series_sequence)-1][2]
+    destination = series_sequence[len(series_sequence)-1][3]
     transaction = series_sequence[0][1]
     for i in range(len(series_sequence)-1):
         transaction += OP_ALT+series_sequence[i+1][1]
@@ -239,8 +241,7 @@ def create_loop_from_graph(global_sequence, n0, nq, stati_accettati):
                                     r = next_transaction
                                     tmp_global.append(
                                         (next_in_node, r, i, next_next_out_node))
-
-                                    cycle_found = False
+                                    cycle_found = True
                             elif(i == o):
                                 r = next_transaction+OP_CONCAT+t+OP_REP + \
                                     OP_CONCAT+next_next_transaction
@@ -248,11 +249,16 @@ def create_loop_from_graph(global_sequence, n0, nq, stati_accettati):
                                     (next_in_node, r, -1, next_next_out_node))
                                 cycle_found = True
                             else:
-                                if(i == o):
-                                    r = next_transaction+OP_CONCAT+next_next_transaction
-                                    tmp_global.append(
-                                        (next_in_node, r, -1, next_next_out_node))
-                                    cycle_found = True
+                                r = next_transaction+OP_CONCAT+next_next_transaction
+                                tmp_global.append(
+                                    (next_in_node, r, -1, next_next_out_node))
+                                cycle_found = True
+                            # rimuovi quelli usati per creare la nuova transaction
+                            banned_list.append((i, t, p, o))
+                            banned_list.append(
+                                (next_in_node, next_transaction, next_priority, next_out_node))
+                            banned_list.append(
+                                (next_next_in_node, next_next_transaction, next_priority, next_next_out_node))
                         elif (next_next_in_node == i and next_next_out_node != i and next_next_priority != -1):
                             if(i == o):
                                 r = next_transaction+OP_CONCAT+t+OP_REP + \
@@ -265,13 +271,12 @@ def create_loop_from_graph(global_sequence, n0, nq, stati_accettati):
                                 tmp_global.append(
                                         (next_in_node, r, next_next_priority, next_next_out_node))
                                 cycle_found = True
-                        # rimuovi quelli usati per creare la nuova transaction
-                        banned_list.append((i, t, p, o))
-                        banned_list.append(
-                            (next_in_node, next_transaction, next_priority, next_out_node))
-                        banned_list.append(
-                            (next_next_in_node, next_next_transaction, next_priority, next_next_out_node))
-
+                            # rimuovi quelli usati per creare la nuova transaction
+                            banned_list.append((i, t, p, o))
+                            banned_list.append(
+                                (next_in_node, next_transaction, next_priority, next_out_node))
+                            banned_list.append(
+                                (next_next_in_node, next_next_transaction, next_priority, next_next_out_node))
         if cycle_found:
             break
 
@@ -282,7 +287,7 @@ def create_loop_from_graph(global_sequence, n0, nq, stati_accettati):
     loop = tmp_global[0]
     tmp_global.pop(0)
     tmp_global.append(loop)
-    print("FINAL_GLOBAL_LOOP", tmp_global)
+    #print("FINAL_GLOBAL_LOOP", tmp_global)
     return tmp_global
 
 
@@ -320,6 +325,7 @@ def stati_accettazione(dict):
 
 if __name__ == '__main__':
     with open(os.path.join('data', 'graph.json')) as f:
-      data = json.load(f)
-    #print(unite_series([('0', '(a c* b|a ε) a* c', 'NQ'), ('N0', 'ε', '0')]))
-    espressioni_regolari(data)
+      dict = json.load(f)
+    # print(create_series_from_graph([('N0', 'ε b a*', '2', 'NQ'), ('N0', 'ε a b*', '1', 'NQ'),
+    #                                 ('3', 'ε', -1, 'NQ'), ('N0', '(ε a b* ε|ε b a* b)', -1, '3')], stati_accettazione(dict)))
+    espressioni_regolari(dict)
