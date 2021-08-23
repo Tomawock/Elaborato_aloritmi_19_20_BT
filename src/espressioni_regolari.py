@@ -149,14 +149,21 @@ def espressioni_regolari(dict):
     # print("DICT", dict)
     global_sequence = create_sequence_with_pedice(dict)
     print("GLOBAL_", global_sequence)
-    while check_number_of_states(global_sequence) and check_number_of_pedici(global_sequence):
+    while check_number_of_states(global_sequence) \
+            and check_number_of_pedici(global_sequence):
+
+        print("###################################")
         print("START CICLO")
         global_sequence = create_series_from_graph(
             global_sequence, stati_accettati)  # usa sta  non dict
+        print("FINE_ELABORAZIONE_SERIE")
         global_sequence = create_parallel_from_graph(global_sequence)
+        print("FINE_ELABORAZIONE_PARALLELO")
         global_sequence = create_loop_from_graph(
             global_sequence, n0, nq, stati_accettati)
+        print("FINE_ELABORAZIONE_LOOP")
 
+    print("###################################")
     print("FINAL_", global_sequence)
 
 
@@ -324,8 +331,6 @@ def stati_accettazione(dict):
 
 
 if __name__ == '__main__':
-    with open(os.path.join('data', 'graph.json')) as f:
-      dict = json.load(f)
-    # print(create_series_from_graph([('N0', 'ε b a*', '2', 'NQ'), ('N0', 'ε a b*', '1', 'NQ'),
-    #                                 ('3', 'ε', -1, 'NQ'), ('N0', '(ε a b* ε|ε b a* b)', -1, '3')], stati_accettazione(dict)))
+    with open(os.path.join('data', 'espressioni_regolari.json')) as f:
+        dict = json.load(f)
     espressioni_regolari(dict)
