@@ -52,6 +52,7 @@ for *[PEROGNI]* stato_comportamentale_attuale.stati do\
       * **FINE SETTAGGIO DEL NUOVO STATO IN BASE ALL'OUT DELLA TRANSAZIONE**\
         #Sono arrivato ad avere un array con gli stati comportamentali in base ad uno stato comportamentale di partenza, ora è necessario ciclare finchè non si è raggiunta la terminazione ovvero si è creatata la DFA
         **ATTENZIONE PUO CICLAREALL INFINITO SE NON GESTITO BENE IN QUANTO L'ALBERO è RICORSIVIO vedi t3b**
+        
 **FINE CAMBIO STATO FA**
 
 **INIZIO POTATURA**
