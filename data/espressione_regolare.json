@@ -9,7 +9,7 @@
       },
       {
         "transaction": "a",
-        "node": "4"
+        "node": "2"
       }
     ],
     "incomings": [
@@ -20,8 +20,8 @@
     "type":"N",
     "outgoings": [
       {
-        "transaction": "o",
-        "node": "2"
+        "transaction": "ε",
+        "node": "3"
       }
     ]
   },
@@ -32,32 +32,30 @@
       {
         "transaction": "b",
         "node": "3"
-      }
-    ]
-  },
-  {
-    "name": "4",
-    "type":"N",
-    "outgoings": [
+      },
       {
-        "transaction": "b",
-        "node": "5"
-      }
-    ]
-  },
-  {
-    "name": "5",
-    "type":"N",
-    "outgoings": [
-      {
-        "transaction": "b",
-        "node": "3"
+        "transaction": "c",
+        "node": "2"
       }
     ]
   },
   {
     "name": "3",
-    "type":"F",
+    "type":"N",
+    "outgoings": [
+      {
+        "transaction": "a",
+        "node": "3"
+      },
+      {
+        "transaction": "c",
+        "node": "4"
+      }
+    ]
+  },
+  {
+    "name": "4",
+    "type":"A",
     "outgoings": [
     ]
   }
