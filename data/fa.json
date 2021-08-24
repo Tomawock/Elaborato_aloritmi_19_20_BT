@@ -1,0 +1,41 @@
+[
+  {
+    "name": "C2",
+    "states": [
+      {
+        "name": "20",
+        "initial": true,
+        "outgoings_transitions":[
+          "t2a"
+        ]
+      },
+      {
+        "name": "21",
+        "initial": false,
+        "outgoings_transitions":[
+          "t2b"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "C3",
+    "states": [
+      {
+        "name": "30",
+        "initial": true,
+        "outgoings_transitions":[
+          "t3a"
+        ]
+      },
+      {
+        "name": "31",
+        "initial": false,
+        "outgoings_transitions":[
+          "t3b",
+          "t3c"
+        ]
+      }
+    ]
+  }
+]

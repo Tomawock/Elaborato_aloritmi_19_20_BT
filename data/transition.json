@@ -1,0 +1,70 @@
+[
+  {
+    "unique_name" : "t2a",
+    "fa_name" : "C2",
+    "next_state" : "21",
+    "input_link" : {
+      "name": "L2",
+      "event": "e2"
+    },
+    "output_link" : [
+      {
+        "name": "L3",
+        "event": "e3"
+      }
+    ],
+    "label" : "o2"
+  },
+  {
+    "unique_name" : "t2b",
+    "fa_name" : "C2",
+    "next_state" : "20",
+    "input_link" : null,
+    "output_link" : [
+      {
+        "name": "L3",
+        "event": "e3"
+      }
+    ],
+    "label" : "r"
+  },
+  {
+    "unique_name" : "t3a",
+    "fa_name" : "C3",
+    "next_state" : "31",
+    "input_link" : null,
+    "output_link" : [
+      {
+        "name": "L2",
+        "event": "e2"
+      }
+    ],
+    "label" : "o3"
+  },
+  {
+    "unique_name" : "t3b",
+    "fa_name" : "C3",
+    "next_state" : "30",
+    "input_link" : {
+      "name": "L3",
+      "event": "e3"
+    },
+    "output_link" : [
+
+    ],
+    "label" : ""
+  },
+  {
+    "unique_name" : "t3c",
+    "fa_name" : "C3",
+    "next_state" : "31",
+    "input_link" : {
+      "name": "L3",
+      "event": "e3"
+    },
+    "output_link" : [
+
+    ],
+    "label" : "f"
+  }
+]

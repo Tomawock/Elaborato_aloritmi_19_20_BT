@@ -84,7 +84,7 @@ get_etichetta()
 
 ## Stato
 * nome : String
-* is_iniziale : bool 
+* iniziale : bool
 * transizioni_uscenti : Transizioni
 
 ## Link
@@ -94,7 +94,7 @@ get_etichetta()
 ## Transizione
 * nome_univoco : String
 * FA : String
-* next_stato : Stato
+* next_stato : String
 * link_input : Link
 * link_output : array di Link
 * etichetta : String
