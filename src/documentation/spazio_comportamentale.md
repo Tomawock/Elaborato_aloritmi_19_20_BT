@@ -32,7 +32,6 @@ for *[PEROGNI]* stato_comportamentale_attuale.stati do\
 **INIZIO CAMBIO STATO FA**\
 *ta* == transizione abilitata\
 *fa* == Automa\
-*fa.stati* == stati dell'automa\
 *[indice]* == posizione nella lista
 
 * for transizioni_abilitate do
@@ -75,4 +74,32 @@ TODO
 get_etichetta()
 
 ## Note
-**Transazioni hanno un nome univoco**
+**Transazioni hanno un nome univoco, partono da uno statoe ed arrivano in un'altro non puo essitere che una transizione parta da uno stato ed arrivi in 2 stati differenti**
+
+# Struttura dati Spazio Comportamnetale
+
+## FA
+* nome_fa : String
+* stati : array di stato
+
+## Stato
+* nome : String
+* is_iniziale : bool 
+* transizioni_uscenti : Transizioni
+
+## Link
+* nome : String
+* evento : char
+
+## Transizione
+* nome_univoco : String
+* FA : String
+* next_stato : Stato
+* link_input : Link
+* link_output : array di Link
+* etichetta : String
+
+## Stato comportamntale
+* nome
+* lista_stati_fa : array di FA
+* lista_link : Array di link
