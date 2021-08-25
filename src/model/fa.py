@@ -9,6 +9,14 @@ class FA:
 
     def __init__(self, fa):
         self.fa_name = fa["name"]
+        self.states = []
         for state in fa["states"]:
             self.states.append(
-                State(state["name"], state["initial"], state["transitions"]))
+                State(state["name"], state["initial"],
+                      state["outgoings_transitions"]))
+
+    def __str__(self):
+        string_out = self.fa_name + " "
+        for el in self.states:
+            string_out += str(el) + " "
+        return string_out

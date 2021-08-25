@@ -1,6 +1,7 @@
 import json
 import os
 from model.fa import FA
+from model.transition import Transition
 
 
 def spazio_comportamentale(fa, transitions, labels):
@@ -16,7 +17,15 @@ if __name__ == '__main__':
     # Creiamo gli oggetti in base la json di ingresso
     fa_main_list = []
     for fa in fa_json:
-        print(fa)
         fa_main_list.append(FA(fa))
 
-    print(fa_main_list)
+    transition_main_list = []
+    for ta in transitions_json:
+        transition_main_list.append(Transition(ta))
+
+    # Out to video
+    for el in fa_main_list:
+        print("SINGOLA_FA", str(el))
+
+    for el in transition_main_list:
+        print("Transition", str(el))
