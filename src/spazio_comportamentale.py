@@ -7,6 +7,8 @@ from model.link import Link
 from model.transition import Transition
 from model.behavioral_state import BehavioralState
 
+NULL_SMIB = 'ε'
+
 
 def spazio_comportamentale(fa_list, transitions_list, original_link_list):
     print("CALCOLO INIZIATO")
@@ -24,13 +26,14 @@ def spazio_comportamentale(fa_list, transitions_list, original_link_list):
     print("STATO_INIZIALE:", str(initial_state))
     # set up queue and graph
     behavioral_state_queue = queue.LifoQueue()
-    behavioral_state_visited = []
+    behavioral_state_graph = []
     behavioral_state_final = []
     snapshot = []
 
     behavioral_state_queue.put(initial_state)
 
-    while not behavioral_state_queue.empty():
+    # while not behavioral_state_queue.empty():
+    for i in range(8):
         behavioral_state_actual = behavioral_state_queue.get()
         possible_transitions = []
         for (_, state) in behavioral_state_actual.list_fa_state:
@@ -43,12 +46,28 @@ def spazio_comportamentale(fa_list, transitions_list, original_link_list):
         for pt in possible_transitions:
             for link in behavioral_state_actual.list_link:
                 if (link.event == pt.input_link.event
-                        and link.name == pt.input_link.name) or \
-                        pt.input_link.event == "" and pt.input_link.name == "":
-                    allowed_transitions.append(pt)
+                        and link.name == pt.input_link.name):
+                    for out_link in pt.output_link:
+                        for link_beh in behavioral_state_actual.list_link:
+                            if link_beh.event == NULL_SMIB and link_beh.name == out_link.name:
+                                allowed_transitions.append(pt)
+                    if len(pt.output_link) == 0:
+                        allowed_transitions.append(pt)
 
+                elif pt.input_link.event == "" and pt.input_link.name == "":
+                    for out_link in pt.output_link:
+                        for link_beh in behavioral_state_actual.list_link:
+                            if link_beh.event == NULL_SMIB and link_beh.name == out_link.name:
+                                allowed_transitions.append(pt)
+                        if len(pt.output_link) == 0:
+                            allowed_transitions.append(pt)
+                    break
+
+        for el in allowed_transitions:
+            print("ALLOWED", el)
         for at in allowed_transitions:
             next_behavioral_state = copy.deepcopy(behavioral_state_actual)
+            # Set up stato
             for i in range(len(next_behavioral_state.list_fa_state)):
                 (fa_name, state) = next_behavioral_state.list_fa_state[i]
                 if fa_name == at.fa_name:
@@ -57,9 +76,54 @@ def spazio_comportamentale(fa_list, transitions_list, original_link_list):
                             if state.name == at.next_state:
                                 next_behavioral_state.list_fa_state[i] = (
                                     fa_name, state)
+            # set up link
+            for out_link in at.output_link:
+                for link in next_behavioral_state.list_link:
+                    if out_link.name == link.name:
+                        link.swap(out_link)
+                    elif at.input_link.name == link.name:
+                        link.event = NULL_SMIB
 
-        print("NEXT_FINALE", next_behavioral_state)
+            # special case of out_link empty
+            if len(at.output_link) == 0:
+                # print("NULL_OUT_LINK_", str(at))
+                for link in next_behavioral_state.list_link:
+                    if at.input_link.name == link.name:
+                        link.event = NULL_SMIB
+
+            # Create graph node with transiction from parent node to child node
+            behavioral_state_graph.append(
+                (behavioral_state_actual, at, next_behavioral_state))
+
+            can_add = False
+            for (parent_node, transition, child_node) in behavioral_state_graph:
+                # print("parent node", str(parent_node))
+                # print("next node", str(next_behavioral_state))
+                if parent_node != next_behavioral_state:
+                    can_add = True
+
+            if can_add:
+                # Aggiungi il nuovo nodo alla coda per essere analizzato
+                behavioral_state_queue.put(next_behavioral_state)
+            if next_behavioral_state.is_final():
+                behavioral_state_final.append(
+                    next_behavioral_state)
+            # add snapshot in order to retrive all info in case of
+            # blocked by the user execution
+            snapshot.append(
+                (behavioral_state_graph, behavioral_state_queue, behavioral_state_final))
+            print("########################################")
+
+    formatted_graph(behavioral_state_graph)
     print("CALCOLO TERMINATO")
+
+
+def formatted_graph(behavioral_state_graph):
+    print("GRAFO:")
+    for (parent_node, transition, child_node) in behavioral_state_graph:
+        print("PARENT_NODE ", parent_node,
+              "-TRANSITION ", transition.unique_name,
+              "CHILD_NODE ", child_node)
 
 
 if __name__ == '__main__':
@@ -86,4 +150,6 @@ if __name__ == '__main__':
     for el in transition_main_list:
         print("TRANSITIONS", str(el))
 
-    spazio_comportamentale(fa_main_list, transition_main_list, original_link)
+    print("########################################")
+    spazio_comportamentale(
+        fa_main_list, transition_main_list, original_link)
