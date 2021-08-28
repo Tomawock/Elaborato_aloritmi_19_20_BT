@@ -23,7 +23,7 @@ def spazio_comportamentale(fa_list, transitions_list, original_link_list):
     for link in original_link_list:
         initial_state.list_link.append(link)
     # Stato iniziale
-    print("STATO_INIZIALE:", str(initial_state))
+    # print("STATO_INIZIALE:", str(initial_state))
     # set up queue and graph
     behavioral_state_queue = queue.LifoQueue()
     behavioral_state_graph = []
@@ -32,8 +32,7 @@ def spazio_comportamentale(fa_list, transitions_list, original_link_list):
 
     behavioral_state_queue.put(initial_state)
 
-    # while not behavioral_state_queue.empty():
-    for i in range(8):
+    while not behavioral_state_queue.empty():
         behavioral_state_actual = behavioral_state_queue.get()
         possible_transitions = []
         for (_, state) in behavioral_state_actual.list_fa_state:
@@ -63,8 +62,8 @@ def spazio_comportamentale(fa_list, transitions_list, original_link_list):
                             allowed_transitions.append(pt)
                     break
 
-        for el in allowed_transitions:
-            print("ALLOWED", el)
+        # for el in allowed_transitions:
+        #     print("ALLOWED", el)
         for at in allowed_transitions:
             next_behavioral_state = copy.deepcopy(behavioral_state_actual)
             # Set up stato
@@ -95,12 +94,13 @@ def spazio_comportamentale(fa_list, transitions_list, original_link_list):
             behavioral_state_graph.append(
                 (behavioral_state_actual, at, next_behavioral_state))
 
-            can_add = False
+            can_add = True
             for (parent_node, transition, child_node) in behavioral_state_graph:
                 # print("parent node", str(parent_node))
                 # print("next node", str(next_behavioral_state))
-                if parent_node != next_behavioral_state:
-                    can_add = True
+                if parent_node == next_behavioral_state:
+                    can_add = False
+                    break
 
             if can_add:
                 # Aggiungi il nuovo nodo alla coda per essere analizzato
@@ -112,9 +112,11 @@ def spazio_comportamentale(fa_list, transitions_list, original_link_list):
             # blocked by the user execution
             snapshot.append(
                 (behavioral_state_graph, behavioral_state_queue, behavioral_state_final))
-            print("########################################")
 
     formatted_graph(behavioral_state_graph)
+    print("|DIMENSIONE GRAFO->", len(behavioral_state_graph),
+          "|DIMENSIONE STATI FINALI->", len(behavioral_state_final),
+          "|DIMENSIONE CODA->", behavioral_state_queue.qsize())
     print("CALCOLO TERMINATO")
 
 
