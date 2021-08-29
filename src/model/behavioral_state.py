@@ -9,7 +9,7 @@ class BehavioralState:
         self.list_link = list_link
 
     def __str__(self):
-        string_out = "(" + self.name + "STATI: "
+        string_out = "( LABEL: " + self.name + "|STATI: "
         for tuple_state in self.list_fa_state:
             string_out += str(tuple_state[1].name) + "|"
         string_out += " EVENTI: "
@@ -32,8 +32,15 @@ class BehavioralState:
         return equal
 
     def is_final(self):
-        not_final = True
+        final = True
         for link in self.list_link:
             if link.event != "ε":
-                not_final = False
-        return not not_final
+                final = False
+        return final
+
+    def has_son(self, behavioral_state_final):
+        son = False
+        for (parent_node, transition, child_node) in behavioral_state_final:
+            if self == parent_node:
+                son = True
+        return son

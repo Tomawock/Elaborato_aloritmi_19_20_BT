@@ -114,10 +114,49 @@ def spazio_comportamentale(fa_list, transitions_list, original_link_list):
                 (behavioral_state_graph, behavioral_state_queue, behavioral_state_final))
 
     formatted_graph(behavioral_state_graph)
+    print("##################################################")
+    for final in behavioral_state_final:
+        print(final)
+    print("##################################################")
+    formatted_graph(behavioral_state_graph)
     print("|DIMENSIONE GRAFO->", len(behavioral_state_graph),
           "|DIMENSIONE STATI FINALI->", len(behavioral_state_final),
           "|DIMENSIONE CODA->", behavioral_state_queue.qsize())
-    print("CALCOLO TERMINATO")
+    print("FINE CREAZIONE GRAFO")
+    print("##################################################")
+
+    print("STARTING PRUNING")
+    pruned_touple = 0
+    pruned_touple_before = -1
+    while pruned_touple != pruned_touple_before:
+        pruned_touple_before = pruned_touple
+        for (parent_node, transition, child_node) in behavioral_state_graph:
+            if child_node not in behavioral_state_final \
+                        and not child_node.has_son(behavioral_state_graph):
+                behavioral_state_graph.remove(
+                        (parent_node, transition, child_node))
+                pruned_touple += 1
+    print("END PRUNING")
+
+    print("##################################################")
+    formatted_graph(behavioral_state_graph)
+    print("|DIMENSIONE GRAFO->", len(behavioral_state_graph),
+          "|DIMENSIONE STATI FINALI->", len(behavioral_state_final),
+          "|DIMENSIONE CODA->", behavioral_state_queue.qsize())
+    print("FINE CREAZIONE GRAFO")
+    print("##################################################")
+
+    print("STARTING RENAMING")  # TODO
+    unique_id = 0
+    for main_node in range(len(behavioral_state_graph)):
+        if main_node == 0:
+            behavioral_state_graph[main_node][0].name = unique_id + 1
+            behavioral_state_graph[main_node][2].name = behavioral_state_graph[main_node][0].name + 1
+        else:
+            unique_id = behavioral_state_graph[main_node][2].name
+            for i in in range(len(behavioral_state_graph)):
+                if
+    print("END RENAMING")
 
 
 def formatted_graph(behavioral_state_graph):
