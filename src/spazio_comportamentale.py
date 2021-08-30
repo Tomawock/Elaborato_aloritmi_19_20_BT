@@ -6,6 +6,7 @@ from model.fa import FA
 from model.link import Link
 from model.transition import Transition
 from model.behavioral_state import BehavioralState
+from model.utility import create_pretty_graph
 
 NULL_SMIB = 'ε'
 
@@ -145,18 +146,65 @@ def spazio_comportamentale(fa_list, transitions_list, original_link_list):
           "|DIMENSIONE CODA->", behavioral_state_queue.qsize())
     print("FINE CREAZIONE GRAFO")
     print("##################################################")
-
-    print("STARTING RENAMING")  # TODO
-    unique_id = 0
-    for main_node in range(len(behavioral_state_graph)):
-        if main_node == 0:
-            behavioral_state_graph[main_node][0].name = unique_id + 1
-            behavioral_state_graph[main_node][2].name = behavioral_state_graph[main_node][0].name + 1
-        else:
-            unique_id = behavioral_state_graph[main_node][2].name
-            for i in in range(len(behavioral_state_graph)):
-                if
+    print("STARTING RENAMING")
+    behavioral_state_graph = enumerate_states(behavioral_state_graph)
     print("END RENAMING")
+    print("##################################################")
+    print("FINAL STATES")
+    for el in behavioral_state_final:
+        print(str(el))
+
+    print("##################################################")
+    print("GRAFO NUMERATO")
+    formatted_graph(behavioral_state_graph)
+    print("|DIMENSIONE GRAFO->", len(behavioral_state_graph),
+          "|DIMENSIONE STATI FINALI->", len(behavioral_state_final),
+          "|DIMENSIONE CODA->", behavioral_state_queue.qsize())
+    print("FINE CREAZIONE GRAFO")
+    print("##################################################")
+
+    my_path = os.path.dirname(__file__)
+    create_pretty_graph(os.path.join(my_path, "images/"),
+                        behavioral_state_graph)
+
+
+def enumerate_states(behavioral_state_graph):
+    behavioral_state_enumerated = copy.deepcopy(behavioral_state_graph)
+    label = 0
+    found = False
+    # print("enumerated states")
+    for (p, t, c) in behavioral_state_enumerated:
+        #print("state", state)
+        if found:
+            label += 1
+            found = False
+        for (p2, t2, c2) in behavioral_state_enumerated:
+            if p == p2:
+                #print(p, p2, p==p2)
+                #print(p2.name=="")
+                if(p2.name == ""):
+                    p2.name = label
+                    found = True
+            elif p == c2:
+                #print(p, p2, p==p2)
+                #print(p2.name=="")
+                if(c2.name == ""):
+                    c2.name = label
+                    found = True
+    for (p, t, c) in behavioral_state_enumerated:
+        #print("state", state)
+        if found:
+            label += 1
+            found = False
+        for (p2, t2, c2) in behavioral_state_enumerated:
+            if c == c2:
+                #print(p, p2, p==p2)
+                #print(p2.name=="")
+                if(c2.name == ""):
+                    c2.name = label
+                    found = True
+
+    return behavioral_state_enumerated
 
 
 def formatted_graph(behavioral_state_graph):
@@ -194,3 +242,5 @@ if __name__ == '__main__':
     print("########################################")
     spazio_comportamentale(
         fa_main_list, transition_main_list, original_link)
+
+    print("STATI FINALI")
