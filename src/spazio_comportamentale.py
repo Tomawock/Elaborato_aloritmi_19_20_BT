@@ -63,8 +63,6 @@ def spazio_comportamentale(fa_list, transitions_list, original_link_list):
                             allowed_transitions.append(pt)
                     break
 
-        # for el in allowed_transitions:
-        #     print("ALLOWED", el)
         for at in allowed_transitions:
             next_behavioral_state = copy.deepcopy(behavioral_state_actual)
             # Set up stato
@@ -97,8 +95,6 @@ def spazio_comportamentale(fa_list, transitions_list, original_link_list):
 
             can_add = True
             for (parent_node, transition, child_node) in behavioral_state_graph:
-                # print("parent node", str(parent_node))
-                # print("next node", str(next_behavioral_state))
                 if parent_node == next_behavioral_state:
                     can_add = False
                     break
@@ -114,8 +110,8 @@ def spazio_comportamentale(fa_list, transitions_list, original_link_list):
             snapshot.append(
                 (behavioral_state_graph, behavioral_state_queue, behavioral_state_final))
 
-    formatted_graph(behavioral_state_graph)
     print("##################################################")
+    print("STATI FINALI")
     for final in behavioral_state_final:
         print(final)
     print("##################################################")
@@ -150,11 +146,6 @@ def spazio_comportamentale(fa_list, transitions_list, original_link_list):
     behavioral_state_graph = enumerate_states(behavioral_state_graph)
     print("END RENAMING")
     print("##################################################")
-    print("FINAL STATES")
-    for el in behavioral_state_final:
-        print(str(el))
-
-    print("##################################################")
     print("GRAFO NUMERATO")
     formatted_graph(behavioral_state_graph)
     print("|DIMENSIONE GRAFO->", len(behavioral_state_graph),
@@ -162,10 +153,11 @@ def spazio_comportamentale(fa_list, transitions_list, original_link_list):
           "|DIMENSIONE CODA->", behavioral_state_queue.qsize())
     print("FINE CREAZIONE GRAFO")
     print("##################################################")
-
+    print("CREAZIONE IMMAGINI")
     my_path = os.path.dirname(__file__)
     create_pretty_graph(os.path.join(my_path, "images/"),
                         behavioral_state_graph)
+    print("FINE ELABORAZIONE")
 
 
 def enumerate_states(behavioral_state_graph):
@@ -242,5 +234,3 @@ if __name__ == '__main__':
     print("########################################")
     spazio_comportamentale(
         fa_main_list, transition_main_list, original_link)
-
-    print("STATI FINALI")
