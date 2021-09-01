@@ -9,12 +9,12 @@ class BehavioralState:
         self.list_link = list_link
 
     def __str__(self):
-        string_out = "( LABEL: " + str(self.name) + "|STATI: "
+        string_out = "(RENAMED:" + str(self.name) + "|STATI:"
         for tuple_state in self.list_fa_state:
-            string_out += str(tuple_state[1].name) + "|"
-        string_out += " EVENTI: "
+            string_out += "#" + str(tuple_state[1].name)
+        string_out += "|EVENTI:"
         for link in self.list_link:
-            string_out += link.event + "|"
+            string_out += "#" + link.event
 
         return string_out + ")"
 

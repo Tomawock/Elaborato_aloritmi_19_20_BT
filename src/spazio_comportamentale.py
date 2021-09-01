@@ -115,7 +115,7 @@ def spazio_comportamentale(fa_list, transitions_list, original_link_list):
     for final in behavioral_state_final:
         print(final)
     print("##################################################")
-    formatted_graph(behavioral_state_graph)
+    formatted_graph_labels(behavioral_state_graph)
     print("|DIMENSIONE GRAFO->", len(behavioral_state_graph),
           "|DIMENSIONE STATI FINALI->", len(behavioral_state_final),
           "|DIMENSIONE CODA->", behavioral_state_queue.qsize())
@@ -136,7 +136,7 @@ def spazio_comportamentale(fa_list, transitions_list, original_link_list):
     print("END PRUNING")
 
     print("##################################################")
-    formatted_graph(behavioral_state_graph)
+    formatted_graph_labels(behavioral_state_graph)
     print("|DIMENSIONE GRAFO->", len(behavioral_state_graph),
           "|DIMENSIONE STATI FINALI->", len(behavioral_state_final),
           "|DIMENSIONE CODA->", behavioral_state_queue.qsize())
@@ -147,16 +147,16 @@ def spazio_comportamentale(fa_list, transitions_list, original_link_list):
     print("END RENAMING")
     print("##################################################")
     print("GRAFO NUMERATO")
-    formatted_graph(behavioral_state_graph)
+    formatted_graph_labels(behavioral_state_graph)
     print("|DIMENSIONE GRAFO->", len(behavioral_state_graph),
           "|DIMENSIONE STATI FINALI->", len(behavioral_state_final),
           "|DIMENSIONE CODA->", behavioral_state_queue.qsize())
     print("FINE CREAZIONE GRAFO")
     print("##################################################")
-    print("CREAZIONE IMMAGINI")
-    my_path = os.path.dirname(__file__)
-    create_pretty_graph(os.path.join(my_path, "images/"),
-                        behavioral_state_graph)
+    # print("CREAZIONE IMMAGINI")
+    # my_path = os.path.dirname(__file__)
+    # create_pretty_graph(os.path.join(my_path, "images/"),
+    #                     behavioral_state_graph)
     print("FINE ELABORAZIONE")
 
 
@@ -205,6 +205,15 @@ def formatted_graph(behavioral_state_graph):
         print("PARENT_NODE ", parent_node,
               "-TRANSITION ", transition.unique_name,
               "CHILD_NODE ", child_node)
+
+
+def formatted_graph_labels(behavioral_state_graph):
+    print("GRAFO:")
+    for (parent_node, transition, child_node) in behavioral_state_graph:
+        print("PARENT_NODE:", parent_node,
+              "\tTRANSITION:", transition.unique_name,
+              "\tLABEL:", transition.label,
+              "\tCHILD_NODE:", child_node)
 
 
 if __name__ == '__main__':
