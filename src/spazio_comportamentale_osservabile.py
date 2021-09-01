@@ -6,12 +6,11 @@ from model.fa import FA
 from model.link import Link
 from model.transition import Transition
 from model.behavioral_state import BehavioralState
-from model.utility import create_pretty_graph
 
 NULL_SMIB = 'ε'
 
 
-def spazio_comportamentale(fa_list, transitions_list, original_link_list):
+def spazio_comportamentale_osservabile(fa_list, transitions_list, original_link_list, observation_list):
     print("START CREAZIONE GRAFO")
     initial_state = BehavioralState("", [], [])
 
@@ -158,34 +157,25 @@ def enumerate_states(behavioral_state_graph):
     behavioral_state_enumerated = copy.deepcopy(behavioral_state_graph)
     label = 0
     found = False
-    # print("enumerated states")
     for (p, t, c) in behavioral_state_enumerated:
-        #print("state", state)
         if found:
             label += 1
             found = False
         for (p2, t2, c2) in behavioral_state_enumerated:
             if p == p2:
-                #print(p, p2, p==p2)
-                #print(p2.name=="")
                 if(p2.name == ""):
                     p2.name = label
                     found = True
             elif p == c2:
-                #print(p, p2, p==p2)
-                #print(p2.name=="")
                 if(c2.name == ""):
                     c2.name = label
                     found = True
     for (p, t, c) in behavioral_state_enumerated:
-        #print("state", state)
         if found:
             label += 1
             found = False
         for (p2, t2, c2) in behavioral_state_enumerated:
             if c == c2:
-                #print(p, p2, p==p2)
-                #print(p2.name=="")
                 if(c2.name == ""):
                     c2.name = label
                     found = True
@@ -227,13 +217,18 @@ if __name__ == '__main__':
         transition_main_list.append(Transition(ta))
     for li in link_original_json:
         original_link.append(Link(li["name"], li["event"]))
+
+    observation_list = ['o3', 'o2']
     # Out to video
+    print("####################INPUT DATA####################")
     for el in fa_main_list:
         print("FA", str(el))
 
     for el in transition_main_list:
         print("TRANSITIONS", str(el))
 
-    print("########################################")
-    spazio_comportamentale(
-        fa_main_list, transition_main_list, original_link)
+    for el in observation_list:
+        print("OBSERVATION", el)
+    print("##################################################")
+    spazio_comportamentale_osservabile(
+        fa_main_list, transition_main_list, original_link, observation_list)
