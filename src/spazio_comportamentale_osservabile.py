@@ -10,7 +10,7 @@ from model.behavioral_state import BehavioralState
 NULL_SMIB = 'ε'
 
 
-def spazio_comportamentale_osservabile(fa_list, transitions_list, original_link_list, observation_list):
+def spazio_comportamentale_osservabile(fa_list, transitions_list, original_link_list, linear_observation):
     print("START CREAZIONE GRAFO")
     initial_state = BehavioralState("", [], [])
 
@@ -22,6 +22,10 @@ def spazio_comportamentale_osservabile(fa_list, transitions_list, original_link_
     # Aggiungo link allo stato inizale in numro pari al lìnumero di link totali
     for link in original_link_list:
         initial_state.list_link.append(link)
+
+    # Setto l'index dello stato iniziale a 0
+    initial_state.observation_index = 0
+
     # Stato iniziale
     # print("STATO_INIZIALE:", str(initial_state))
     # set up queue and graph
@@ -62,6 +66,14 @@ def spazio_comportamentale_osservabile(fa_list, transitions_list, original_link_
                             allowed_transitions.append(pt)
                     break
 
+        # deleting not allowed transition_object
+        if len(linear_observation) > behavioral_state_actual.observation_index:
+            for at in allowed_transitions:
+                if at.label != linear_observation[behavioral_state_actual.observation_index+1] and at.label != "":
+                    allowed_transitions.remove(at)
+        else:
+            allowed_transitions = []
+
         for at in allowed_transitions:
             next_behavioral_state = copy.deepcopy(behavioral_state_actual)
             # Set up stato
@@ -92,16 +104,17 @@ def spazio_comportamentale_osservabile(fa_list, transitions_list, original_link_
             behavioral_state_graph.append(
                 (behavioral_state_actual, at, next_behavioral_state))
 
-            can_add = True
-            for (parent_node, transition, child_node) in behavioral_state_graph:
-                if parent_node == next_behavioral_state:
-                    can_add = False
-                    break
+            # can_add = True
+            # for (parent_node, transition, child_node) in behavioral_state_graph:
+            #     if parent_node == next_behavioral_state:
+            #         can_add = False
+            #         break
+            #
+            # if can_add:
+            # Aggiungi il nuovo nodo alla coda per essere analizzato
+            behavioral_state_queue.put(next_behavioral_state)
 
-            if can_add:
-                # Aggiungi il nuovo nodo alla coda per essere analizzato
-                behavioral_state_queue.put(next_behavioral_state)
-            if next_behavioral_state.is_final():
+            if next_behavioral_state.is_final_obs(len(linear_observation)):
                 behavioral_state_final.append(
                     next_behavioral_state)
             # add snapshot in order to retrive all info in case of
@@ -218,7 +231,7 @@ if __name__ == '__main__':
     for li in link_original_json:
         original_link.append(Link(li["name"], li["event"]))
 
-    observation_list = ['o3', 'o2']
+    linear_observation = ['o3', 'o2']
     # Out to video
     print("####################INPUT DATA####################")
     for el in fa_main_list:
@@ -227,8 +240,8 @@ if __name__ == '__main__':
     for el in transition_main_list:
         print("TRANSITIONS", str(el))
 
-    for el in observation_list:
+    for el in linear_observation:
         print("OBSERVATION", el)
     print("##################################################")
     spazio_comportamentale_osservabile(
-        fa_main_list, transition_main_list, original_link, observation_list)
+        fa_main_list, transition_main_list, original_link, linear_observation)
