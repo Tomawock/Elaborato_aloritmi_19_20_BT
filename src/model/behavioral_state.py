@@ -11,11 +11,12 @@ class BehavioralState:
     def __str__(self):
         string_out = "(RENAMED:" + str(self.name) + "|STATI:"
         for tuple_state in self.list_fa_state:
-            string_out += "#" + str(tuple_state[1].name)
+            string_out += str(tuple_state[1].name) + ","
+        string_out = string_out[:-1]  # remove last virgola
         string_out += "|EVENTI:"
         for link in self.list_link:
-            string_out += "#" + link.event
-
+            string_out += link.event + ","
+        string_out = string_out[:-1]
         return string_out + ")"
 
     def short_str(self):
