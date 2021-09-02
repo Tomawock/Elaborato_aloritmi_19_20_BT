@@ -65,7 +65,7 @@ class BehavioralState:
     def is_final_obs(self, max_dim):
         final = True
         for link in self.list_link:
-            if link.event != "ε" and self.observation_index != max_dim:
+            if link.event != "ε" or self.observation_index != max_dim:
                 final = False
         return final
 

@@ -12,7 +12,7 @@ NULL_SMIB = 'ε'
 
 def spazio_comportamentale_osservabile(fa_list, transitions_list, original_link_list, linear_observation):
     print("START CREAZIONE GRAFO")
-    initial_state = BehavioralState("", [], [])
+    initial_state = BehavioralState("", -1, [], [])
 
     for fa in fa_list:
         for state in fa.states:
@@ -37,6 +37,7 @@ def spazio_comportamentale_osservabile(fa_list, transitions_list, original_link_
     behavioral_state_queue.put(initial_state)
 
     while not behavioral_state_queue.empty():
+        print("NEW WHILE")
         behavioral_state_actual = behavioral_state_queue.get()
         possible_transitions = []
         for (_, state) in behavioral_state_actual.list_fa_state:
@@ -69,7 +70,15 @@ def spazio_comportamentale_osservabile(fa_list, transitions_list, original_link_
         # deleting not allowed transition_object
         if len(linear_observation) > behavioral_state_actual.observation_index:
             for at in allowed_transitions:
-                if at.label != linear_observation[behavioral_state_actual.observation_index+1] and at.label != "":
+                print("BEH ACTUAL INDEX",
+                      behavioral_state_actual.observation_index)
+                if at.observable_label != linear_observation[behavioral_state_actual.observation_index] \
+                        and at.observable_label != NULL_SMIB:
+                    # print("T")
+                    allowed_transitions.remove(at)
+        elif len(linear_observation) == behavioral_state_actual.observation_index:
+            for at in allowed_transitions:
+                if at.observable_label != NULL_SMIB:
                     allowed_transitions.remove(at)
         else:
             allowed_transitions = []
@@ -99,6 +108,11 @@ def spazio_comportamentale_osservabile(fa_list, transitions_list, original_link_
                 for link in next_behavioral_state.list_link:
                     if at.input_link.name == link.name:
                         link.event = NULL_SMIB
+
+            print("|DIMENSIONE CODA->", behavioral_state_queue.qsize())
+            # Update index for the next_behavioral_state
+            if behavioral_state_actual.observation_index < len(linear_observation):
+                next_behavioral_state.observation_index = next_behavioral_state.observation_index + 1
 
             # Create graph node with transiction from parent node to child node
             behavioral_state_graph.append(
@@ -207,10 +221,11 @@ def formatted_graph(behavioral_state_graph):
 def formatted_graph_labels(behavioral_state_graph):
     print("GRAFO:")
     for (parent_node, transition, child_node) in behavioral_state_graph:
-        print("PARENT_NODE:", parent_node,
+        print("PARENT_NODE:", parent_node.observation_str(),
               "\tTRANSITION:", transition.unique_name,
-              "\tLABEL:", transition.label,
-              "\tCHILD_NODE:", child_node)
+              "\tLABEL_OBS:", transition.observable_label,
+              "\tLABEL_REL:", transition.relevant_label,
+              "\tCHILD_NODE:", child_node.observation_str())
 
 
 if __name__ == '__main__':

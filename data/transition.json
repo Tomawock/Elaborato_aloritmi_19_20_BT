@@ -13,7 +13,8 @@
         "event": "e3"
       }
     ],
-    "label" : "o2"
+    "observable_label" : "o2",
+    "relevant_label" : "ε"
   },
   {
     "unique_name" : "t2b",
@@ -29,7 +30,8 @@
         "event": "e3"
       }
     ],
-    "label" : "r"
+    "observable_label" : "ε",
+    "relevant_label" : "r"
   },
   {
     "unique_name" : "t3a",
@@ -45,7 +47,8 @@
         "event": "e2"
       }
     ],
-    "label" : "o3"
+    "observable_label" : "o3",
+    "relevant_label" : "ε"
   },
   {
     "unique_name" : "t3b",
@@ -58,7 +61,8 @@
     "output_link" : [
 
     ],
-    "label" : ""
+    "observable_label" : "ε",
+    "relevant_label" : "ε"
   },
   {
     "unique_name" : "t3c",
@@ -71,6 +75,7 @@
     "output_link" : [
 
     ],
-    "label" : "f"
+    "observable_label" : "ε",
+    "relevant_label" : "f"
   }
 ]
