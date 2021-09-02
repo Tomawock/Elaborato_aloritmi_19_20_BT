@@ -32,7 +32,7 @@ class BehavioralState:
 
     def observation_str(self):
         string_out = "(RENAMED:" + str(self.name) + \
-                       "|OBS INDEX" + str(self.observation_index) + "|STATI:"
+                       "|OBS INDEX " + str(self.observation_index) + "|STATI:"
         for tuple_state in self.list_fa_state:
             string_out += str(tuple_state[1].name) + ","
         string_out = string_out[:-1]  # remove last virgola
@@ -53,6 +53,8 @@ class BehavioralState:
         for i in range(len(self.list_link)):
             if self.list_link[i].event != other.list_link[i].event:
                 equal = False
+        if self.observation_index != other.observation_index:
+            equal = False
         return equal
 
     def is_final(self):

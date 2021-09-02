@@ -165,7 +165,8 @@ def spazio_comportamentale_osservabile(fa_list, transitions_list, original_link_
           "|DIMENSIONE CODA->", behavioral_state_queue.qsize())
     print("##################################################")
     print("STARTING RENAMING")
-    behavioral_state_graph = enumerate_states(behavioral_state_graph)
+    behavioral_state_graph = enumerate_states_observable(
+        behavioral_state_graph)
     print("END RENAMING")
     print("##################################################")
     formatted_graph_labels(behavioral_state_graph)
@@ -205,6 +206,36 @@ def enumerate_states(behavioral_state_graph):
             if c == c2:
                 if(c2.name == ""):
                     c2.name = label
+                    found = True
+
+    return behavioral_state_enumerated
+
+
+def enumerate_states_observable(behavioral_state_graph):
+    behavioral_state_enumerated = copy.deepcopy(behavioral_state_graph)
+    state_name = 0
+    found = False
+    for (p, t, c) in behavioral_state_enumerated:
+        if found:
+            state_name += 1
+            found = False
+        for (p2, t2, c2) in behavioral_state_enumerated:
+            if p == p2:
+                if(p2.name == ""):
+                    p2.name = state_name
+                    found = True
+            elif p == c2:
+                if(c2.name == ""):
+                    c2.name = state_name
+                    found = True
+    for (p, t, c) in behavioral_state_enumerated:
+        if found:
+            state_name += 1
+            found = False
+        for (p2, t2, c2) in behavioral_state_enumerated:
+            if c == c2:
+                if(c2.name == ""):
+                    c2.name = state_name
                     found = True
 
     return behavioral_state_enumerated

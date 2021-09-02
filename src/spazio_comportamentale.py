@@ -13,7 +13,7 @@ NULL_SMIB = 'ε'
 
 def spazio_comportamentale(fa_list, transitions_list, original_link_list):
     print("START CREAZIONE GRAFO")
-    initial_state = BehavioralState("", [], [])
+    initial_state = BehavioralState("", [], [], [])
 
     for fa in fa_list:
         for state in fa.states:
@@ -204,10 +204,11 @@ def formatted_graph(behavioral_state_graph):
 def formatted_graph_labels(behavioral_state_graph):
     print("GRAFO:")
     for (parent_node, transition, child_node) in behavioral_state_graph:
-        print("PARENT_NODE:", parent_node,
+        print("PARENT_NODE:", parent_node.observation_str(),
               "\tTRANSITION:", transition.unique_name,
-              "\tLABEL:", transition.label,
-              "\tCHILD_NODE:", child_node)
+              "\tLABEL_OBS:", transition.observable_label,
+              "\tLABEL_REL:", transition.relevant_label,
+              "\tCHILD_NODE:", child_node.observation_str())
 
 
 if __name__ == '__main__':
