@@ -152,6 +152,7 @@ def spazio_comportamentale(fa_list, transitions_list, original_link_list):
     # create_pretty_graph(os.path.join(my_path, "images/"),
     #                     behavioral_state_graph)
     print("FINE ELABORAZIONE")
+    
 
 
 def enumerate_states(behavioral_state_graph):
