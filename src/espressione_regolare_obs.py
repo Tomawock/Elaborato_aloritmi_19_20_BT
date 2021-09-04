@@ -1,5 +1,5 @@
 import json
-import random
+import time
 import os
 from model.fa import FA
 from model.link import Link
@@ -138,33 +138,33 @@ def espressione_regolare(dict):
     #da gestire con gli oggetti
     with open(os.path.join('data', 'stateN0.json')) as f:
         n0 = json.load(f)
-    #ricerca elemnto I dentro un array di tutti i nodi
-    for el in dict:
-        if el['type'] == "I":
-            if len(el['incomings']) > 0:
-                n0['outgoings'][0]['node'] = el['name']
-                dict = [n0]+dict
-            else:
-                n0 = el
-                n0['name'] = "N0"
-    stati_accettati = stati_accettazione(dict)
-    if len(stati_accettati) > 1 or len(stati_accettati[0]['outgoings']) > 0:
-        #aggiunte transazioni da beta0 a nq
-        for el in stati_accettati:
-            el['outgoings'].append(create_transaction(NULL_SMIB, nq['name']))
-            el['type'] = "N"
-        dict.append(nq)  # aggiungi lo stato accetato finale
-    else:
-        # updaet all last node names
-        nq_old_name = stati_accettati[0]['name']
-        for el in dict:
-            for transaction in el['outgoings']:
-                if transaction['node'] == nq_old_name:
-                    transaction['node'] = 'NQ'
-
-        stati_accettati[0]['name'] = 'NQ'
-    for sa in stati_accettati:
-        dict.append(sa)  # riaggiugi gli accettati con le nuove impostaziponi
+    # #ricerca elemnto I dentro un array di tutti i nodi
+    # for el in dict:
+    #     if el['type'] == "I":
+    #         if len(el['incomings']) > 0:
+    #             n0['outgoings'][0]['node'] = el['name']
+    #             dict = [n0]+dict
+    #         else:
+    #             n0 = el
+    #             n0['name'] = "N0"
+    # stati_accettati = stati_accettazione(dict)
+    # if len(stati_accettati) > 1 or len(stati_accettati[0]['outgoings']) > 0:
+    #     #aggiunte transazioni da beta0 a nq
+    #     for el in stati_accettati:
+    #         el['outgoings'].append(create_transaction(NULL_SMIB, nq['name']))
+    #         el['type'] = "N"
+    #     dict.append(nq)  # aggiungi lo stato accetato finale
+    # else:
+    #     # updaet all last node names
+    #     nq_old_name = stati_accettati[0]['name']
+    #     for el in dict:
+    #         for transaction in el['outgoings']:
+    #             if transaction['node'] == nq_old_name:
+    #                 transaction['node'] = 'NQ'
+    #
+    #     stati_accettati[0]['name'] = 'NQ'
+    # for sa in stati_accettati:
+    #     dict.append(sa)  # riaggiugi gli accettati con le nuove impostaziponi
     #print(json.dumps(dict, indent = 4))
     ########automa definito########
     #crea albero transizioni
@@ -186,7 +186,7 @@ def espressione_regolare(dict):
     for li in link_original_json:
         original_link.append(Link(li["name"], li["event"]))
 
-    linear_observation = ['o3', 'o2']
+    linear_observation = ['o3', 'o2', 'o3', 'o2']
     # Out to video
     print("####################INPUT DATA####################")
     for el in fa_main_list:
@@ -198,19 +198,26 @@ def espressione_regolare(dict):
     for el in linear_observation:
         print("OBSERVATION", el)
     print("##################################################")
-    observation_graph = spazio_comportamentale_osservabile(
+    observation_graph, final_states = spazio_comportamentale_osservabile(
         fa_main_list, transition_main_list, original_link, linear_observation)
 
     # parsing objects from observation graph into tuple array, called global_sequence
     global_sequence = parsing(observation_graph)
+
     print("GLOBAL", global_sequence)
+    for i, t, o in observation_graph:
+        for el in final_states:
+            if el == i and (i.name, NULL_SMIB, "NQ") not in global_sequence:
+                global_sequence.append((i.name, NULL_SMIB, "NQ"))
+            elif el == o and (o.name, NULL_SMIB, "NQ") not in global_sequence:
+                global_sequence.append((o.name, NULL_SMIB, "NQ"))
 
     while len(global_sequence) > 1:
-        break
         print("START CICLO")
         global_sequence = create_series_from_graph(global_sequence)
         global_sequence = create_parallel_from_graph(global_sequence)
         global_sequence = create_loop_from_graph(global_sequence, n0, nq)
+        time.sleep(1)
 
     print("FINAL_", global_sequence)
 

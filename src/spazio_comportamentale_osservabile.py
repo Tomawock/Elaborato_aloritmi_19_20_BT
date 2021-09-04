@@ -37,7 +37,7 @@ def spazio_comportamentale_osservabile(fa_list, transitions_list, original_link_
     behavioral_state_queue.put(initial_state)
 
     while not behavioral_state_queue.empty():
-        print("NEW WHILE")
+        #print("NEW WHILE")
         behavioral_state_actual = behavioral_state_queue.get()
         possible_transitions = []
         for (_, state) in behavioral_state_actual.list_fa_state:
@@ -70,8 +70,8 @@ def spazio_comportamentale_osservabile(fa_list, transitions_list, original_link_
         # deleting not allowed transition_object
         if len(linear_observation) > behavioral_state_actual.observation_index:
             for at in allowed_transitions:
-                print("BEH ACTUAL INDEX",
-                      behavioral_state_actual.observation_index)
+                #print("BEH ACTUAL INDEX",
+                #      behavioral_state_actual.observation_index)
                 if at.observable_label != linear_observation[behavioral_state_actual.observation_index] \
                         and at.observable_label != NULL_SMIB:
                     # print("T")
@@ -109,9 +109,10 @@ def spazio_comportamentale_osservabile(fa_list, transitions_list, original_link_
                     if at.input_link.name == link.name:
                         link.event = NULL_SMIB
 
-            print("|DIMENSIONE CODA->", behavioral_state_queue.qsize())
+            #print("|DIMENSIONE CODA->", behavioral_state_queue.qsize())
             # Update index for the next_behavioral_state
-            if behavioral_state_actual.observation_index < len(linear_observation):
+            if behavioral_state_actual.observation_index < len(linear_observation)\
+                    and at.observable_label == linear_observation[behavioral_state_actual.observation_index]:
                 next_behavioral_state.observation_index = next_behavioral_state.observation_index + 1
 
             # Create graph node with transiction from parent node to child node
@@ -135,17 +136,17 @@ def spazio_comportamentale_osservabile(fa_list, transitions_list, original_link_
             # blocked by the user execution
             snapshot.append(
                 (behavioral_state_graph, behavioral_state_queue, behavioral_state_final))
-    print("END CREAZIONE GRAFO")
-    print("##################################################")
-    print("STATI FINALI")
-    for final in behavioral_state_final:
-        print(final)
-    print("##################################################")
-    formatted_graph_labels(behavioral_state_graph)
-    print("|DIMENSIONE GRAFO->", len(behavioral_state_graph),
-          "|DIMENSIONE STATI FINALI->", len(behavioral_state_final),
-          "|DIMENSIONE CODA->", behavioral_state_queue.qsize())
-    print("##################################################")
+    # print("END CREAZIONE GRAFO")
+    # print("##################################################")
+    # print("STATI FINALI")
+    #for final in behavioral_state_final:
+    #    print(final)
+    # print("##################################################")
+    # formatted_graph_labels(behavioral_state_graph)
+    # print("|DIMENSIONE GRAFO->", len(behavioral_state_graph),
+    #       "|DIMENSIONE STATI FINALI->", len(behavioral_state_final),
+    #       "|DIMENSIONE CODA->", behavioral_state_queue.qsize())
+    # print("##################################################")
     print("STARTING PRUNING")
     pruned_touple = 0
     pruned_touple_before = -1
@@ -158,16 +159,16 @@ def spazio_comportamentale_osservabile(fa_list, transitions_list, original_link_
                         (parent_node, transition, child_node))
                 pruned_touple += 1
     print("END PRUNING")
-    print("##################################################")
-    formatted_graph_labels(behavioral_state_graph)
-    print("|DIMENSIONE GRAFO->", len(behavioral_state_graph),
-          "|DIMENSIONE STATI FINALI->", len(behavioral_state_final),
-          "|DIMENSIONE CODA->", behavioral_state_queue.qsize())
-    print("##################################################")
-    print("STARTING RENAMING")
+    # print("##################################################")
+    # formatted_graph_labels(behavioral_state_graph)
+    # print("|DIMENSIONE GRAFO->", len(behavioral_state_graph),
+    #       "|DIMENSIONE STATI FINALI->", len(behavioral_state_final),
+    #       "|DIMENSIONE CODA->", behavioral_state_queue.qsize())
+    # print("##################################################")
+    # print("STARTING RENAMING")
     behavioral_state_graph = enumerate_states_observable(
         behavioral_state_graph)
-    print("END RENAMING")
+    # print("END RENAMING")
     print("##################################################")
     formatted_graph_labels(behavioral_state_graph)
     print("|DIMENSIONE GRAFO->", len(behavioral_state_graph),
@@ -179,7 +180,7 @@ def spazio_comportamentale_osservabile(fa_list, transitions_list, original_link_
     # create_pretty_graph(os.path.join(my_path, "images/"),
     #                     behavioral_state_graph)
     print("FINE ELABORAZIONE")
-    return behavioral_state_graph
+    return behavioral_state_graph, behavioral_state_final
 
 
 def enumerate_states(behavioral_state_graph):
@@ -215,30 +216,43 @@ def enumerate_states(behavioral_state_graph):
 def enumerate_states_observable(behavioral_state_graph):
     behavioral_state_enumerated = copy.deepcopy(behavioral_state_graph)
     state_name = 0
-    found = False
+    #found = False
+    # for (p, t, c) in behavioral_state_enumerated:
+    #     if found:
+    #         state_name += 1
+    #         found = False
+    #     for (p2, t2, c2) in behavioral_state_enumerated:
+    #         if p == p2:
+    #             if(p2.name == ""):
+    #                 p2.name = state_name
+    #                 found = True
+    #         elif p == c2:
+    #             if(c2.name == ""):
+    #                 c2.name = state_name
+    #                 found = True
+    # for (p, t, c) in behavioral_state_enumerated:
+    #     if found:
+    #         state_name += 1
+    #         found = False
+    #     for (p2, t2, c2) in behavioral_state_enumerated:
+    #         if c == c2:
+    #             if(c2.name == ""):
+    #                 c2.name = state_name
+    #                 found = True
     for (p, t, c) in behavioral_state_enumerated:
-        if found:
-            state_name += 1
-            found = False
         for (p2, t2, c2) in behavioral_state_enumerated:
             if p == p2:
                 if(p2.name == ""):
+                    state_name += 1
                     p2.name = state_name
-                    found = True
-            elif p == c2:
-                if(c2.name == ""):
-                    c2.name = state_name
-                    found = True
+            # elif p == c2:
+            #     if(c2.name == ""):
+            #         state_name += 1
+            #         c2.name = state_name
     for (p, t, c) in behavioral_state_enumerated:
-        if found:
+        if(c.name == ""):
             state_name += 1
-            found = False
-        for (p2, t2, c2) in behavioral_state_enumerated:
-            if c == c2:
-                if(c2.name == ""):
-                    c2.name = state_name
-                    found = True
-
+            c.name = state_name
     return behavioral_state_enumerated
 
 
@@ -278,17 +292,17 @@ if __name__ == '__main__':
     for li in link_original_json:
         original_link.append(Link(li["name"], li["event"]))
 
-    linear_observation = ['o3', 'o2']
+    linear_observation = ['o3', 'o2', 'o3', 'o2']
     # Out to video
-    print("####################INPUT DATA####################")
-    for el in fa_main_list:
-        print("FA", str(el))
-
-    for el in transition_main_list:
-        print("TRANSITIONS", str(el))
-
-    for el in linear_observation:
-        print("OBSERVATION", el)
-    print("##################################################")
+    # print("####################INPUT DATA####################")
+    # for el in fa_main_list:
+    #     print("FA", str(el))
+    #
+    # for el in transition_main_list:
+    #     print("TRANSITIONS", str(el))
+    #
+    # for el in linear_observation:
+    #     print("OBSERVATION", el)
+    # print("##################################################")
     spazio_comportamentale_osservabile(
         fa_main_list, transition_main_list, original_link, linear_observation)
