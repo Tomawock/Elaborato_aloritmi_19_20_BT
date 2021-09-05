@@ -291,9 +291,10 @@ def create_loop_from_graph(global_sequence, n0, nq, stati_accettati):
         if el not in banned_list:
             tmp_global.append(el)
     #move the fist elemnt into last position in order to have the graph ordered and mantains sereis sequence correct
-    loop = tmp_global[0]
-    tmp_global.pop(0)
-    tmp_global.append(loop)
+    if cycle_found:
+        loop = tmp_global[0]
+        tmp_global.pop(0)
+        tmp_global.append(loop)
     #print("FINAL_GLOBAL_LOOP", tmp_global)
     return tmp_global
 

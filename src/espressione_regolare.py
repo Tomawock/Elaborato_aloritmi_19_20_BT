@@ -119,9 +119,10 @@ def create_loop_from_graph(global_sequence, n0, nq):
         if el not in banned_list:
             tmp_global.append(el)
     #move the fist elemnt into last position in order to have the graph ordered and mantains sereis sequence correct
-    loop = tmp_global[0]
-    tmp_global.pop(0)
-    tmp_global.append(loop)
+    if cycle_found:
+        loop = tmp_global[0]
+        tmp_global.pop(0)
+        tmp_global.append(loop)
     print("FINAL_GLOBAL_LOOP", tmp_global)
     return tmp_global
 
@@ -246,7 +247,7 @@ def stati_accettazione(dict):
 
 
 if __name__ == '__main__':
-    with open(os.path.join('data', 'graph.json')) as f:
+    with open(os.path.join('data', 'espressione_regolare.json')) as f:
       data = json.load(f)
     #print(unite_series([('0', '(a c* b|a ε) a* c', 'NQ'), ('N0', 'ε', '0')]))
     espressione_regolare(data)
