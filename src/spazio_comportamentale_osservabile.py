@@ -120,14 +120,6 @@ def spazio_comportamentale_osservabile(fa_list, transitions_list,
             behavioral_state_graph.append(
                 (behavioral_state_actual, at, next_behavioral_state))
 
-            # can_add = True
-            # for (parent_node, transition, child_node) in behavioral_state_graph:
-            #     if parent_node == next_behavioral_state:
-            #         can_add = False
-            #         break
-            #
-            # if can_add:
-            # Aggiungi il nuovo nodo alla coda per essere analizzato
             behavioral_state_queue.put(next_behavioral_state)
 
             if next_behavioral_state.is_final_obs(len(linear_observation)):
@@ -166,10 +158,12 @@ def spazio_comportamentale_osservabile(fa_list, transitions_list,
     #       "|DIMENSIONE STATI FINALI->", len(behavioral_state_final),
     #       "|DIMENSIONE CODA->", behavioral_state_queue.qsize())
     # print("##################################################")
-    # print("STARTING RENAMING")
+    print("STARTING RENAMING")
     behavioral_state_graph = enumerate_states_observable(
         behavioral_state_graph)
-    # print("END RENAMING")
+    print("END RENAMING")
+    print("FINE ELABORAZIONE")
+
     print("##################################################")
     formatted_graph_labels(behavioral_state_graph)
     print("|DIMENSIONE GRAFO->", len(behavioral_state_graph),
@@ -180,7 +174,6 @@ def spazio_comportamentale_osservabile(fa_list, transitions_list,
     # my_path = os.path.dirname(__file__)
     # create_pretty_graph(os.path.join(my_path, "images/"),
     #                     behavioral_state_graph)
-    print("FINE ELABORAZIONE")
     return behavioral_state_graph, behavioral_state_final
 
 
