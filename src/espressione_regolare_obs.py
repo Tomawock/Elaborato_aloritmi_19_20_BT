@@ -132,94 +132,29 @@ def create_loop_from_graph(global_sequence, n0, nq):
     return tmp_global
 
 
-def espressione_regolare(dict):
-    with open(os.path.join('data', 'stateNQ.json')) as f:
-        nq = json.load(f)
-    #da gestire con gli oggetti
-    with open(os.path.join('data', 'stateN0.json')) as f:
-        n0 = json.load(f)
-    # #ricerca elemnto I dentro un array di tutti i nodi
-    # for el in dict:
-    #     if el['type'] == "I":
-    #         if len(el['incomings']) > 0:
-    #             n0['outgoings'][0]['node'] = el['name']
-    #             dict = [n0]+dict
-    #         else:
-    #             n0 = el
-    #             n0['name'] = "N0"
-    # stati_accettati = stati_accettazione(dict)
-    # if len(stati_accettati) > 1 or len(stati_accettati[0]['outgoings']) > 0:
-    #     #aggiunte transazioni da beta0 a nq
-    #     for el in stati_accettati:
-    #         el['outgoings'].append(create_transaction(NULL_SMIB, nq['name']))
-    #         el['type'] = "N"
-    #     dict.append(nq)  # aggiungi lo stato accetato finale
-    # else:
-    #     # updaet all last node names
-    #     nq_old_name = stati_accettati[0]['name']
-    #     for el in dict:
-    #         for transaction in el['outgoings']:
-    #             if transaction['node'] == nq_old_name:
-    #                 transaction['node'] = 'NQ'
-    #
-    #     stati_accettati[0]['name'] = 'NQ'
-    # for sa in stati_accettati:
-    #     dict.append(sa)  # riaggiugi gli accettati con le nuove impostaziponi
-    #print(json.dumps(dict, indent = 4))
-    ########automa definito########
-    #crea albero transizioni
-    #global_sequence = create_sequence(dict)
-    with open(os.path.join('data', 'fa.json')) as f:
-        fa_json = json.load(f)
-    with open(os.path.join('data', 'transition.json')) as f:
-        transitions_json = json.load(f)
-    with open(os.path.join('data', 'original_link.json')) as f:
-        link_original_json = json.load(f)
-    # Creiamo gli oggetti in base la json di ingresso
-    fa_main_list = []
-    transition_main_list = []
-    original_link = []
-    for fa in fa_json:
-        fa_main_list.append(FA(fa))
-    for ta in transitions_json:
-        transition_main_list.append(Transition(ta))
-    for li in link_original_json:
-        original_link.append(Link(li["name"], li["event"]))
+def espressione_regolare_from_observable(observation_graph, final_states, n0, nq):
+    # parsing objects from observation graph into tuple array
+    if len(observation_graph) != 0:
+        global_sequence = parsing(observation_graph)
 
-    linear_observation = ['o3', 'o2', 'o3', 'o2']
-    # Out to video
-    print("####################INPUT DATA####################")
-    for el in fa_main_list:
-        print("FA", str(el))
+        print("GLOBAL", global_sequence)
+        for i, t, o in observation_graph:
+            for el in final_states:
+                if el == i and (i.name, NULL_SMIB, "NQ") not in global_sequence:
+                    global_sequence.append((i.name, NULL_SMIB, "NQ"))
+                elif el == o and (o.name, NULL_SMIB, "NQ") not in global_sequence:
+                    global_sequence.append((o.name, NULL_SMIB, "NQ"))
 
-    for el in transition_main_list:
-        print("TRANSITIONS", str(el))
+        while len(global_sequence) > 1:
+            print("START CICLO")
+            global_sequence = create_series_from_graph(global_sequence)
+            global_sequence = create_parallel_from_graph(global_sequence)
+            global_sequence = create_loop_from_graph(global_sequence, n0, nq)
+            # time.sleep(1)
 
-    for el in linear_observation:
-        print("OBSERVATION", el)
-    print("##################################################")
-    observation_graph, final_states = spazio_comportamentale_osservabile(
-        fa_main_list, transition_main_list, original_link, linear_observation)
-
-    # parsing objects from observation graph into tuple array, called global_sequence
-    global_sequence = parsing(observation_graph)
-
-    print("GLOBAL", global_sequence)
-    for i, t, o in observation_graph:
-        for el in final_states:
-            if el == i and (i.name, NULL_SMIB, "NQ") not in global_sequence:
-                global_sequence.append((i.name, NULL_SMIB, "NQ"))
-            elif el == o and (o.name, NULL_SMIB, "NQ") not in global_sequence:
-                global_sequence.append((o.name, NULL_SMIB, "NQ"))
-
-    while len(global_sequence) > 1:
-        print("START CICLO")
-        global_sequence = create_series_from_graph(global_sequence)
-        global_sequence = create_parallel_from_graph(global_sequence)
-        global_sequence = create_loop_from_graph(global_sequence, n0, nq)
-        time.sleep(1)
-
-    print("FINAL_", global_sequence)
+        print("FINAL_", global_sequence)
+    else:
+        print("The observation was not correct")
 
 # Unite sequence if oredered, it unite one sequenze of arbitrary dimension
 # Prerequisite: cant contains miltiplie sequence to unite
@@ -302,7 +237,32 @@ def stati_accettazione(dict):
 
 
 if __name__ == '__main__':
-    with open(os.path.join('data', 'espressione_regolare.json')) as f:
-        data = json.load(f)
-        #print(unite_series([('0', '(a c* b|a ε) a* c', 'NQ'), ('N0', 'ε', '0')]))
-        espressione_regolare(data)
+    # Load initial data from json files
+    with open(os.path.join('data', 'stateNQ.json')) as f:
+        nq = json.load(f)
+    #da gestire con gli oggetti
+    with open(os.path.join('data', 'stateN0.json')) as f:
+        n0 = json.load(f)
+    with open(os.path.join('data', 'fa.json')) as f:
+        fa_json = json.load(f)
+    with open(os.path.join('data', 'transition.json')) as f:
+        transitions_json = json.load(f)
+    with open(os.path.join('data', 'original_link.json')) as f:
+        link_original_json = json.load(f)
+    # Creiamo gli oggetti in base la json di ingresso
+    fa_main_list = []
+    transition_main_list = []
+    original_link = []
+    for fa in fa_json:
+        fa_main_list.append(FA(fa))
+    for ta in transitions_json:
+        transition_main_list.append(Transition(ta))
+    for li in link_original_json:
+        original_link.append(Link(li["name"], li["event"]))
+
+    linear_observation = ['o3', 'o2', 'o2']
+
+    observation_graph, final_states = spazio_comportamentale_osservabile(
+        fa_main_list, transition_main_list, original_link, linear_observation)
+    espressione_regolare_from_observable(
+        observation_graph, final_states, n0, nq)

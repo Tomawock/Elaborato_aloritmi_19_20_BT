@@ -1,7 +1,3 @@
-from model.link import Link
-from model.fa import FA
-
-
 class BehavioralState:
     def __init__(self, name, observation_index, list_fa_state, list_link):
         self.name = name

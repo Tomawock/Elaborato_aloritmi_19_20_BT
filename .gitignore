@@ -1,1 +1,4 @@
 env/
+__pycache__/
+src/model/__pycache__/
+*.pyc

@@ -10,7 +10,8 @@ from model.behavioral_state import BehavioralState
 NULL_SMIB = 'ε'
 
 
-def spazio_comportamentale_osservabile(fa_list, transitions_list, original_link_list, linear_observation):
+def spazio_comportamentale_osservabile(fa_list, transitions_list,
+                                       original_link_list, linear_observation):
     print("START CREAZIONE GRAFO")
     initial_state = BehavioralState("", -1, [], [])
 
@@ -216,39 +217,12 @@ def enumerate_states(behavioral_state_graph):
 def enumerate_states_observable(behavioral_state_graph):
     behavioral_state_enumerated = copy.deepcopy(behavioral_state_graph)
     state_name = 0
-    #found = False
-    # for (p, t, c) in behavioral_state_enumerated:
-    #     if found:
-    #         state_name += 1
-    #         found = False
-    #     for (p2, t2, c2) in behavioral_state_enumerated:
-    #         if p == p2:
-    #             if(p2.name == ""):
-    #                 p2.name = state_name
-    #                 found = True
-    #         elif p == c2:
-    #             if(c2.name == ""):
-    #                 c2.name = state_name
-    #                 found = True
-    # for (p, t, c) in behavioral_state_enumerated:
-    #     if found:
-    #         state_name += 1
-    #         found = False
-    #     for (p2, t2, c2) in behavioral_state_enumerated:
-    #         if c == c2:
-    #             if(c2.name == ""):
-    #                 c2.name = state_name
-    #                 found = True
     for (p, t, c) in behavioral_state_enumerated:
         for (p2, t2, c2) in behavioral_state_enumerated:
             if p == p2:
                 if(p2.name == ""):
                     state_name += 1
                     p2.name = state_name
-            # elif p == c2:
-            #     if(c2.name == ""):
-            #         state_name += 1
-            #         c2.name = state_name
     for (p, t, c) in behavioral_state_enumerated:
         if(c.name == ""):
             state_name += 1
@@ -294,15 +268,15 @@ if __name__ == '__main__':
 
     linear_observation = ['o3', 'o2', 'o3', 'o2']
     # Out to video
-    # print("####################INPUT DATA####################")
-    # for el in fa_main_list:
-    #     print("FA", str(el))
-    #
-    # for el in transition_main_list:
-    #     print("TRANSITIONS", str(el))
-    #
-    # for el in linear_observation:
-    #     print("OBSERVATION", el)
-    # print("##################################################")
+    print("####################INPUT DATA####################")
+    for el in fa_main_list:
+        print("FA", str(el))
+
+    for el in transition_main_list:
+        print("TRANSITIONS", str(el))
+
+    for el in linear_observation:
+        print("OBSERVATION", el)
+    print("##################################################")
     spazio_comportamentale_osservabile(
         fa_main_list, transition_main_list, original_link, linear_observation)
