@@ -124,9 +124,10 @@ def create_loop_from_graph(global_sequence, n0, nq):
         if el not in banned_list:
             tmp_global.append(el)
     #move the fist elemnt into last position in order to have the graph ordered and mantains sereis sequence correct
-    loop = tmp_global[0]
-    tmp_global.pop(0)
-    tmp_global.append(loop)
+    if cycle_found:
+        loop = tmp_global[0]
+        tmp_global.pop(0)
+        tmp_global.append(loop)
     print("FINAL_GLOBAL_LOOP", tmp_global)
     return tmp_global
 
@@ -135,20 +136,19 @@ def diagnosis_from_observable(observation_graph, final_states, n0, nq):
     # parsing objects from observation graph into tuple array
     global_sequence = parsing(observation_graph)
 
-    print("GLOBAL", global_sequence)
     for i, t, o in observation_graph:
         for el in final_states:
             if el == i and (i.name, NULL_SMIB, "NQ") not in global_sequence:
                 global_sequence.append((i.name, NULL_SMIB, "NQ"))
             elif el == o and (o.name, NULL_SMIB, "NQ") not in global_sequence:
                 global_sequence.append((o.name, NULL_SMIB, "NQ"))
-
+    print("GLOBAL", global_sequence)
     while len(global_sequence) > 1:
         print("START CICLO")
         global_sequence = create_series_from_graph(global_sequence)
         global_sequence = create_parallel_from_graph(global_sequence)
         global_sequence = create_loop_from_graph(global_sequence, n0, nq)
-        # time.sleep(1)
+        time.sleep(1)
 
     print("FINAL_", global_sequence)
 
@@ -256,7 +256,7 @@ if __name__ == '__main__':
     for li in link_original_json:
         original_link.append(Link(li["name"], li["event"]))
 
-    linear_observation = ['o3', 'o2', 'o2']
+    linear_observation = ['o3', 'o2']
 
     observation_graph, final_states = spazio_comportamentale_osservabile(
         fa_main_list, transition_main_list, original_link, linear_observation)
