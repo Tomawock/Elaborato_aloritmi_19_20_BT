@@ -236,7 +236,7 @@ if __name__ == '__main__':
     # Load initial data from json files
     with open(os.path.join('data', 'stateNQ.json')) as f:
         nq = json.load(f)
-    #da gestire con gli oggetti
+    # da gestire con gli oggetti
     with open(os.path.join('data', 'stateN0.json')) as f:
         n0 = json.load(f)
     with open(os.path.join('data', 'fa.json')) as f:
