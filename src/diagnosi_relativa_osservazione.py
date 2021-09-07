@@ -146,7 +146,7 @@ def diagnosis_from_observable(observation_graph, final_states, n0, nq):
     while len(global_sequence) > 1:
         print("START CICLO")
         global_sequence = create_series_from_graph(global_sequence)
-        global_sequence = create_parallel_from_graph(global_sequence)
+        globprint("GLOBAL_", global_sequence)al_sequence = create_parallel_from_graph(global_sequence)
         global_sequence = create_loop_from_graph(global_sequence, n0, nq)
         time.sleep(1)
 

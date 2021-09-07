@@ -29,6 +29,22 @@ def generate_closure(behavioral_state_graph, initial_state, silent_closure):
     return ((None, None, None))
 
 
+def generate_closure_space(behavioral_state_graph):
+    slient_closure_space = []
+    # stato inziale : behavioral_state_graph[0][0]
+    silent_closure = create_silent_closure(
+        behavioral_state_graph, behavioral_state_graph[0][0])
+    slient_closure_space.append(silent_closure)
+
+    for (parent_node, transition, child_node) in behavioral_state_graph:
+        if transition.observable_label != 'ε':
+            silent_closure = create_silent_closure(
+                behavioral_state_graph, child_node)
+            slient_closure_space.append(silent_closure)
+
+    return slient_closure_space
+
+
 if __name__ == '__main__':
     # Load initial data from json files
     with open(os.path.join('data', 'stateNQ.json')) as f:
@@ -55,7 +71,12 @@ if __name__ == '__main__':
 
     behavioral_state_graph, final_states = spazio_comportamentale(
         fa_main_list, transition_main_list, original_link)
-    silent_closure = create_silent_closure(
-        behavioral_state_graph, behavioral_state_graph[2][0])
-    print("SILENT CLOSURE")
-    silent_closure.to_video()
+    # silent_closure = create_silent_closure(
+    #     behavioral_state_graph, behavioral_state_graph[2][0])
+    # print("SILENT CLOSURE")
+    # silent_closure.to_video()
+    silent_space = generate_closure_space(behavioral_state_graph)
+    silent_space[2].decorate()
+    for i in range(len(silent_space)):
+        print("\nSILENT SPACE \t:", i, "DELTA",
+              silent_space[i].delta, "EXIT", silent_space[i].exit_expressions)
