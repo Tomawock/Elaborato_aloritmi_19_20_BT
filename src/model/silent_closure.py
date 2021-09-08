@@ -1,4 +1,12 @@
-from model.espressioni_regolari_silent import diagnosi_from_silent_closure
+import copy
+from model.espressione_regolare_silent import diagnosis
+
+OP_CONCAT = ' '
+OP_ALT = '|'
+OP_REP = '*'
+NULL_SMIB = 'ε'
+OPEN_BRA = '('
+CLOSE_BRA = ')'
 
 
 class SilentClosure:
@@ -22,28 +30,55 @@ class SilentClosure:
     def get_delta_final_states(self):
         delta_final_states = []
         for (parent, t, child) in self.sub_graph:
-            if parent.is_final() and parent.name not in delta_final_states:
-                delta_final_states.append(parent.name)
-            if child.is_final() and child.name not in delta_final_states:
-                delta_final_states.append(child.name)
+            if parent.is_final() and parent not in delta_final_states:
+                delta_final_states.append(parent)
+            if child.is_final() and child not in delta_final_states:
+                delta_final_states.append(child)
 
         return delta_final_states
 
     def get_exit_final_states(self):
         exit_states = []
         for (parent, t, child) in self.exit_transitions:
-            if parent.name not in exit_states:
-                exit_states.append(parent.name)
+            if parent not in exit_states:
+                exit_states.append(parent)
 
         return exit_states
 
     def decorate(self):
         delta_final_states = self.get_delta_final_states()
-        print("DELTA FINAL STATE", delta_final_states)
         exit_final_states = self.get_exit_final_states()
-        print("EXIT FINAL STATE", exit_final_states)
+        if len(self.sub_graph) > 0:
+           for final_state in delta_final_states:
+               # pruning
+               pruned_graph = self.silent_prune(final_state)
+               regular_expression = diagnosis(pruned_graph, [final_state])
+               self.delta = self.delta + regular_expression[0][1] + OP_ALT
+           self.delta = self.delta[:-1]
+           for final_state in exit_final_states:
+               # pruning
+               pruned_graph = self.silent_prune(final_state)
+               regular_expression = diagnosis(pruned_graph, [final_state])
+               for (p, t, c) in self.exit_transitions:
+                   if final_state == p:
+                       t.relevant_label = t.relevant_label + \
+                            OP_CONCAT + regular_expression[0][1]
 
-        self.delta = diagnosi_from_silent_closure(
-            self.sub_graph, delta_final_states)
-        self.exit_expressions = diagnosi_from_silent_closure(
-            self.sub_graph, exit_final_states)
+    def silent_prune(self, final_state):
+        behavioral_state_graph = copy.deepcopy(self.sub_graph)
+        pruned_touple = 0
+        pruned_touple_before = -1
+        while pruned_touple != pruned_touple_before:
+            pruned_touple_before = pruned_touple
+            for (parent_node, transition, child_node) in behavioral_state_graph:
+                if child_node != final_state \
+                            and not child_node.has_son(behavioral_state_graph):
+                    behavioral_state_graph.remove(
+                            (parent_node, transition, child_node))
+                    pruned_touple += 1
+        return behavioral_state_graph
+
+# self.delta = diagnosi_from_silent_closure(
+#     self.sub_graph, delta_final_states)
+# self.exit_expressions = diagnosi_from_silent_closure(
+#     self.sub_graph, exit_final_states)

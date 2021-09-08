@@ -53,7 +53,7 @@ def create_series_from_graph(global_sequence):
                 #print("BANNED",banned_list)
                 series_sequence = []
                 series_found = 0
-    print("FINAL_GLOBAL_SERIES", tmp_global)
+    #print("FINAL_GLOBAL_SERIES", tmp_global)
     return tmp_global
 
 
@@ -93,7 +93,7 @@ def create_parallel_from_graph(global_sequence):
 
         parallel_sequence = []
 
-    print("FINAL_GLOBAL_PARALLEL", tmp_global)
+    #print("FINAL_GLOBAL_PARALLEL", tmp_global)
     return tmp_global
 
 
@@ -128,11 +128,17 @@ def create_loop_from_graph(global_sequence, n0, nq):
         loop = tmp_global[0]
         tmp_global.pop(0)
         tmp_global.append(loop)
-    print("FINAL_GLOBAL_LOOP", tmp_global)
+    #print("FINAL_GLOBAL_LOOP", tmp_global)
     return tmp_global
 
 
-def diagnosis_from_observable(observation_graph, final_states, n0, nq):
+def diagnosis(observation_graph, final_states):
+    # Load initial data from json files
+    with open(os.path.join('data', 'stateNQ.json')) as f:
+        nq = json.load(f)
+    # da gestire con gli oggetti
+    with open(os.path.join('data', 'stateN0.json')) as f:
+        n0 = json.load(f)
     # parsing objects from observation graph into tuple array
     global_sequence = parsing(observation_graph)
 
@@ -142,15 +148,14 @@ def diagnosis_from_observable(observation_graph, final_states, n0, nq):
                 global_sequence.append((i.name, NULL_SMIB, "NQ"))
             elif el == o and (o.name, NULL_SMIB, "NQ") not in global_sequence:
                 global_sequence.append((o.name, NULL_SMIB, "NQ"))
-    print("GLOBAL", global_sequence)
+    # print("GLOBAL", global_sequence)
     while len(global_sequence) > 1:
-        print("START CICLO")
         global_sequence = create_series_from_graph(global_sequence)
         global_sequence = create_parallel_from_graph(global_sequence)
         global_sequence = create_loop_from_graph(global_sequence, n0, nq)
-        time.sleep(1)
 
-    print("FINAL_", global_sequence)
+    # print("FINAL_", global_sequence)
+    return global_sequence
 
 # Unite sequence if oredered, it unite one sequenze of arbitrary dimension
 # Prerequisite: cant contains miltiplie sequence to unite
@@ -230,37 +235,3 @@ def stati_accettazione(dict):
             stati_accettati.append(el)
             dict.remove(el)
     return stati_accettati
-
-
-if __name__ == '__main__':
-    # Load initial data from json files
-    with open(os.path.join('data', 'stateNQ.json')) as f:
-        nq = json.load(f)
-    # da gestire con gli oggetti
-    with open(os.path.join('data', 'stateN0.json')) as f:
-        n0 = json.load(f)
-    with open(os.path.join('data', 'fa.json')) as f:
-        fa_json = json.load(f)
-    with open(os.path.join('data', 'transition.json')) as f:
-        transitions_json = json.load(f)
-    with open(os.path.join('data', 'original_link.json')) as f:
-        link_original_json = json.load(f)
-    # Creiamo gli oggetti in base la json di ingresso
-    fa_main_list = []
-    transition_main_list = []
-    original_link = []
-    for fa in fa_json:
-        fa_main_list.append(FA(fa))
-    for ta in transitions_json:
-        transition_main_list.append(Transition(ta))
-    for li in link_original_json:
-        original_link.append(Link(li["name"], li["event"]))
-
-    linear_observation = ['o3', 'o2']
-
-    observation_graph, final_states = spazio_comportamentale_osservabile(
-        fa_main_list, transition_main_list, original_link, linear_observation)
-    if len(observation_graph) != 0:
-        diagnosis_from_observable(observation_graph, final_states, n0, nq)
-    else:
-        print("Observation is not correct")

@@ -8,7 +8,7 @@ from spazio_comportamentale import spazio_comportamentale
 
 
 def create_silent_closure(behavioral_state_graph, initial_state):
-    silent_closure = SilentClosure("", [], [], [], [])
+    silent_closure = SilentClosure("", [], [], "", [])
     generate_closure(
         behavioral_state_graph, initial_state, silent_closure)
     return silent_closure
@@ -76,7 +76,11 @@ if __name__ == '__main__':
     # print("SILENT CLOSURE")
     # silent_closure.to_video()
     silent_space = generate_closure_space(behavioral_state_graph)
-    silent_space[2].decorate()
     for i in range(len(silent_space)):
-        print("\nSILENT SPACE \t:", i, "DELTA",
-              silent_space[i].delta, "EXIT", silent_space[i].exit_expressions)
+        silent_space[i].name = i
+        silent_space[i].decorate()
+        print("\nSILENT SPACE \t:",
+              silent_space[i].name, "DELTA", silent_space[i].delta)
+        print("EXIT TRANSICTIONS")
+        for (p, t, c) in silent_space[i].exit_transitions:
+            print("P:", p, "\tT:", t, "\tC:", c)
