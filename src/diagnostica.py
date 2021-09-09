@@ -45,6 +45,22 @@ def generate_closure_space(behavioral_state_graph):
     return slient_closure_space
 
 
+def generate_diagnostic_graph(silent_space):
+    diagnostic_graph = []
+    for el in silent_space:
+        for (p, t, c) in el.exit_transitions:
+            for el2 in silent_space:
+                if len(el2.sub_graph) > 0:
+                    main_parent = el2.sub_graph[0][0]
+                    if main_parent == c:
+                        diagnostic_graph.append((el, t, el2))
+                else:
+                    main_parent = el2.exit_transitions[0][0]
+                    if main_parent == c:
+                        diagnostic_graph.append((el, t, el2))
+    return diagnostic_graph
+
+
 if __name__ == '__main__':
     # Load initial data from json files
     with open(os.path.join('data', 'stateNQ.json')) as f:
@@ -84,3 +100,11 @@ if __name__ == '__main__':
         print("EXIT TRANSICTIONS")
         for (p, t, c) in silent_space[i].exit_transitions:
             print("P:", p, "\tT:", t, "\tC:", c)
+
+    diagnostic_graph = generate_diagnostic_graph(silent_space)
+
+    for (p, t, c) in diagnostic_graph:
+        print("SILENT_PARENT", p.name,
+              "\tTRANSITION ", t.unique_name,
+              t.observable_label, t.relevant_label,
+              "\tSILENT_CHILD", c.name)

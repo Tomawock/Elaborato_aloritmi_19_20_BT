@@ -12,7 +12,8 @@ CLOSE_BRA = ')'
 class SilentClosure:
     def __init__(self, name, sub_graph, exit_transitions, delta, exit_expressions):
         self.name = name
-        self.sub_graph = sub_graph
+        self.sub_graph = sub_graph  # subgraph il primo padre è il nodo d'ingresso
+        # nel caso in cui sub sia nullo exit[0] è il nodo di ingresso
         self.exit_transitions = exit_transitions
         self.delta = delta
         self.exit_expressions = exit_expressions
@@ -25,8 +26,6 @@ class SilentClosure:
         for (p, t, c) in self.exit_transitions:
             print("P:", p, "\tT:", t, "\tC:", c)
 
-    # def decorate(self):
-    #     for el in sub_graph:
     def get_delta_final_states(self):
         delta_final_states = []
         for (parent, t, child) in self.sub_graph:
