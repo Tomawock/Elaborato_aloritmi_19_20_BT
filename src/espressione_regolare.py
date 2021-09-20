@@ -1,6 +1,10 @@
 import json
 import random
 import os
+import time
+import model.utility as util
+from pynput import keyboard
+import sys
 
 OP_CONCAT = ' '
 OP_ALT = '|'
@@ -165,8 +169,10 @@ def espressione_regolare(dict):
     #crea albero transizioni
     global_sequence = create_sequence(dict)
     print("GLOBAL", global_sequence)
-    while len(global_sequence) > 1:
-        # print("START CICLO")
+    # while len(global_sequence) > 1:
+    while True:
+        time.sleep(0.5)
+        print("START CICLO")
         global_sequence = create_series_from_graph(global_sequence)
         global_sequence = create_parallel_from_graph(global_sequence)
         global_sequence = create_loop_from_graph(global_sequence, n0, nq)
@@ -249,6 +255,12 @@ def stati_accettazione(dict):
 
 
 if __name__ == '__main__':
-    with open(os.path.join('data', 'espressione_regolare.json')) as f:
+    with open(os.path.join('testing_data', 'espressione_regolare.json')) as f:
       data = json.load(f)
-    espressione_regolare(data)
+    util.start_timer()
+    try:
+        espressione_regolare(data)
+    except KeyboardInterrupt:
+        util.stop_timer()
+        util.get_code_time_execution()
+        sys.exit()
