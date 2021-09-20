@@ -1,5 +1,7 @@
 from model.link import Link
 
+NULL_SMIB = 'ε'
+
 
 class Transition:
     def __init__(self, unique_name, fa_name, next_state, input_link,

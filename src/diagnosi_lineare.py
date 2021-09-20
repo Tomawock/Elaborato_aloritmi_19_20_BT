@@ -15,6 +15,19 @@ OPEN_BRA = '('
 CLOSE_BRA = ')'
 
 
+def relevant_label_correct(relevant_label):
+    relevant_label_correct = ""
+    if len(relevant_label) > 1:
+        for char in relevant_label:
+            if char != NULL_SMIB:
+                relevant_label_correct += char
+    else:
+        relevant_label_correct = relevant_label
+
+    # print("CORRECT_", relevant_label_correct)
+    return relevant_label_correct.strip().replace(" ", "")
+
+
 def generate_linear_diagnostic(diagnostic_graph, linear_observation):
     X = [(diagnostic_graph[0][0], diagnostic_graph[0][1].relevant_label)]
     for o in linear_observation:
@@ -23,20 +36,37 @@ def generate_linear_diagnostic(diagnostic_graph, linear_observation):
             for (p, t, c) in diagnostic_graph:
                 if p == x1:
                     p2 = p1+OP_CONCAT+t.relevant_label
+                    p2 = relevant_label_correct(p2)
+                    # print("p,t,c", p.name, t.relevant_label, c.name)
                     found = False
-                    for (x2_primo, p2_primo) in X_new:
+                    for i in range(len(X_new)):
+                        (x2_primo, p2_primo) = X_new[i]
                         if x2_primo == c:
                             found = True
-                            p2_primo = p2_primo+OP_ALT+p2
+                            del X_new[i]
+                            # print("X1", x1.name)
+                            # print("P2", p2)
+                            # print("X_PRIMO", x2_primo.name)
+                            # print("P2_PRIMO", p2_primo)
+                            # print("@@@@")
+                            # se p2 == p2 primo non serve concatenare i due elementi
+                            if p2 != p2_primo:
+                                p2_primo = OPEN_BRA+p2_primo+OP_ALT+p2+CLOSE_BRA
+                            X_new.append((x2_primo, p2_primo))
                             break
                     if not found:
                         X_new.append((c, p2))
+        # X <- X_new
         X = X_new
+
+        # for (x, p) in X:
+        #     print("CLOSURE:", x.name, "LABEL", p)
+        # print("##########")
     for (x, p) in X:
         if x.delta == "":
             X.remove((x, p))
     R = ""
-    print("GRANDE", len(X))
+    # print("GRANDE", len(X))
     if len(X) == 1:
         R = X[0][1] + OP_CONCAT + X[0][0].delta
     elif len(X) > 1:
