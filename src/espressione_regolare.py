@@ -169,10 +169,7 @@ def espressione_regolare(dict):
     #crea albero transizioni
     global_sequence = create_sequence(dict)
     print("GLOBAL", global_sequence)
-    # while len(global_sequence) > 1:
-    while True:
-        time.sleep(0.5)
-        print("START CICLO")
+    while len(global_sequence) > 1:
         global_sequence = create_series_from_graph(global_sequence)
         global_sequence = create_parallel_from_graph(global_sequence)
         global_sequence = create_loop_from_graph(global_sequence, n0, nq)
