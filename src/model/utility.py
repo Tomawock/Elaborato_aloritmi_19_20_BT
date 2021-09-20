@@ -12,4 +12,4 @@ def stop_timer():
 
 
 def get_code_time_execution():
-    print("DURATION ms:\t", end_time_ms-start_time_ms)
+    return end_time_ms-start_time_ms

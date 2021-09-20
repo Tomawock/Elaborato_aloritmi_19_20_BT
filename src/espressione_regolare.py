@@ -1,10 +1,9 @@
 import json
-import random
 import os
-import time
 import model.utility as util
-from pynput import keyboard
 import sys
+import my_logger
+
 
 OP_CONCAT = ' '
 OP_ALT = '|'
@@ -252,12 +251,19 @@ def stati_accettazione(dict):
 
 
 if __name__ == '__main__':
+    logger = my_logger.setup_logger("log/espressione_regolare")
     with open(os.path.join('testing_data', 'espressione_regolare.json')) as f:
       data = json.load(f)
+
     util.start_timer()
     try:
         espressione_regolare(data)
-    except KeyboardInterrupt:
         util.stop_timer()
-        util.get_code_time_execution()
+        logger.critical("Execution time:\t"
+                        + str(util.get_code_time_execution()))
+    except KeyboardInterrupt:
+        logger.critical("Interrupted from keyboard")
+        util.stop_timer()
+        logger.critical("Execution time:\t"
+                        + str(util.get_code_time_execution()))
         sys.exit()
