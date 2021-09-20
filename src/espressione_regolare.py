@@ -48,7 +48,7 @@ def create_series_from_graph(global_sequence):
                 #print("BANNED",banned_list)
                 series_sequence = []
                 series_found = 0
-    print("FINAL_GLOBAL_SERIES", tmp_global)
+    # print("FINAL_GLOBAL_SERIES", tmp_global)
     return tmp_global
 
 
@@ -88,7 +88,7 @@ def create_parallel_from_graph(global_sequence):
 
         parallel_sequence = []
 
-    print("FINAL_GLOBAL_PARALLEL", tmp_global)
+    # print("FINAL_GLOBAL_PARALLEL", tmp_global)
     return tmp_global
 
 
@@ -123,7 +123,7 @@ def create_loop_from_graph(global_sequence, n0, nq):
         loop = tmp_global[0]
         tmp_global.pop(0)
         tmp_global.append(loop)
-    print("FINAL_GLOBAL_LOOP", tmp_global)
+    # print("FINAL_GLOBAL_LOOP", tmp_global)
     return tmp_global
 
 
@@ -166,12 +166,12 @@ def espressione_regolare(dict):
     global_sequence = create_sequence(dict)
     print("GLOBAL", global_sequence)
     while len(global_sequence) > 1:
-        print("START CICLO")
+        # print("START CICLO")
         global_sequence = create_series_from_graph(global_sequence)
         global_sequence = create_parallel_from_graph(global_sequence)
         global_sequence = create_loop_from_graph(global_sequence, n0, nq)
 
-    print("FINAL_", global_sequence)
+    print("Espressione Regolare:\t", global_sequence)
 
 # Unite sequence if oredered, it unite one sequenze of arbitrary dimension
 # Prerequisite: cant contains miltiplie sequence to unite
@@ -184,7 +184,9 @@ def unite_series(series_sequence):
         destination = series_sequence[len(series_sequence)-1][2]
         transaction = series_sequence[0][1]
         for i in range(len(series_sequence)-1):
-            transaction += OP_CONCAT+series_sequence[i+1][1]
+            # Consente di non aggiungere le e in concatenzatione con altri simboli
+            if series_sequence[i+1][1] != NULL_SMIB:
+                transaction += OP_CONCAT+series_sequence[i+1][1]
         seried_sequence.append((origin, transaction, destination))
     return seried_sequence
 
@@ -249,5 +251,4 @@ def stati_accettazione(dict):
 if __name__ == '__main__':
     with open(os.path.join('data', 'espressione_regolare.json')) as f:
       data = json.load(f)
-    #print(unite_series([('0', '(a c* b|a ε) a* c', 'NQ'), ('N0', 'ε', '0')]))
     espressione_regolare(data)
