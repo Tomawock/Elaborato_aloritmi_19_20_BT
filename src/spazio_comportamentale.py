@@ -6,7 +6,7 @@ from model.fa import FA
 from model.link import Link
 from model.transition import Transition
 from model.behavioral_state import BehavioralState
-from model.utility import create_pretty_graph
+#from model.utility import create_pretty_graph
 
 NULL_SMIB = 'ε'
 
