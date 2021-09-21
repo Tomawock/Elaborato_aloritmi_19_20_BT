@@ -1,0 +1,11 @@
+[INFO]	DIMENSION:1 ALLOWED STATES:[{'name': 'NQ', 'type': 'F', 'outgoings': []}]
+[INFO]	DIMENSION:7 ORIGINAL SEQUENCE:[('N0', 'a', '1'), ('N0', 'a', '2'), ('1', 'ε', '3'), ('2', 'b', '3'), ('2', 'c', '2'), ('3', 'a', '3'), ('3', 'c', 'NQ')]
+[INFO]	DIMENSION:6 NEW SERIES EXECUTED:[('N0', 'a', '3'), ('N0', 'a', '2'), ('2', 'b', '3'), ('2', 'c', '2'), ('3', 'a', '3'), ('3', 'c', 'NQ')]
+[INFO]	DIMENSION:6 NEW PARALLEL EXECUTED:[('N0', 'a', '3'), ('N0', 'a', '2'), ('2', 'b', '3'), ('2', 'c', '2'), ('3', 'a', '3'), ('3', 'c', 'NQ')]
+[INFO]	DIMENSION:4 NEW LOOP EXECUTED:[('N0', 'a', '3'), ('3', 'a', '3'), ('3', 'c', 'NQ'), ('N0', 'a c* b', '3')]
+[INFO]	DIMENSION:4 NEW SERIES EXECUTED:[('N0', 'a', '3'), ('3', 'a', '3'), ('3', 'c', 'NQ'), ('N0', 'a c* b', '3')]
+[INFO]	DIMENSION:3 NEW PARALLEL EXECUTED:[('N0', '(a|a c* b)', '3'), ('3', 'a', '3'), ('3', 'c', 'NQ')]
+[INFO]	DIMENSION:1 NEW LOOP EXECUTED:[('N0', '(a|a c* b) a* c', 'NQ')]
+[INFO]	DIMENSION:1 FINAL SEQUENCE:[('N0', '(a|a c* b) a* c', 'NQ')]
+[WARNING]	REGULAR EXPRESSION:(a|a c* b) a* c
+[CRITICAL]	Execution time|0:00:00.000968

@@ -51,6 +51,9 @@ def create_series_from_graph(global_sequence):
                 #print("BANNED",banned_list)
                 series_sequence = []
                 series_found = 0
+    logger = my_logger.Logger.__call__().get_logger()
+    logger.info("DIMENSION:"+str(len(tmp_global))
+                + " NEW SERIES EXECUTED:" + str(tmp_global))
     # print("FINAL_GLOBAL_SERIES", tmp_global)
     return tmp_global
 
@@ -92,6 +95,9 @@ def create_parallel_from_graph(global_sequence):
         parallel_sequence = []
 
     # print("FINAL_GLOBAL_PARALLEL", tmp_global)
+    logger = my_logger.Logger.__call__().get_logger()
+    logger.info("DIMENSION:"+str(len(tmp_global))
+                + " NEW PARALLEL EXECUTED:" + str(tmp_global))
     return tmp_global
 
 
@@ -126,6 +132,9 @@ def create_loop_from_graph(global_sequence, n0, nq):
         loop = tmp_global[0]
         tmp_global.pop(0)
         tmp_global.append(loop)
+    logger = my_logger.Logger.__call__().get_logger()
+    logger.info("DIMENSION:"+str(len(tmp_global))
+                + " NEW LOOP EXECUTED:" + str(tmp_global))
     # print("FINAL_GLOBAL_LOOP", tmp_global)
     return tmp_global
 
@@ -163,17 +172,24 @@ def espressione_regolare(dict):
         stati_accettati[0]['name'] = 'NQ'
     for sa in stati_accettati:
         dict.append(sa)  # riaggiugi gli accettati con le nuove impostaziponi
-    #print(json.dumps(dict, indent = 4))
-    ########automa definito########
-    #crea albero transizioni
+    # print(json.dumps(dict, indent = 4))
+    # #######automa definito########
+    # crea albero transizioni
+    logger = my_logger.Logger.__call__().get_logger()
+    logger.info("DIMENSION:"+str(len(stati_accettati))
+                + " ALLOWED STATES:" + str(stati_accettati))
     global_sequence = create_sequence(dict)
-    print("GLOBAL", global_sequence)
+    # print("GLOBAL", global_sequence)
+    logger.info("DIMENSION:"+str(len(global_sequence))
+                + " ORIGINAL SEQUENCE:" + str(global_sequence))
     while len(global_sequence) > 1:
         global_sequence = create_series_from_graph(global_sequence)
         global_sequence = create_parallel_from_graph(global_sequence)
         global_sequence = create_loop_from_graph(global_sequence, n0, nq)
 
-    print("Espressione Regolare:\t", global_sequence)
+    logger.info("DIMENSION:"+str(len(global_sequence))
+                + " FINAL SEQUENCE:" + str(global_sequence))
+    logger.warning("REGULAR EXPRESSION:" + str(global_sequence[0][1]))
 
 # Unite sequence if oredered, it unite one sequenze of arbitrary dimension
 # Prerequisite: cant contains miltiplie sequence to unite
@@ -251,7 +267,9 @@ def stati_accettazione(dict):
 
 
 if __name__ == '__main__':
-    logger = my_logger.setup_logger("log/espressione_regolare")
+    #set up logger
+    logger = my_logger.Logger("log/espressione_regolare").get_logger()
+
     with open(os.path.join('testing_data', 'espressione_regolare.json')) as f:
       data = json.load(f)
 
@@ -259,11 +277,11 @@ if __name__ == '__main__':
     try:
         espressione_regolare(data)
         util.stop_timer()
-        logger.critical("Execution time:\t"
+        logger.critical(my_logger.EXECUTION_TIME
                         + str(util.get_code_time_execution()))
     except KeyboardInterrupt:
-        logger.critical("Interrupted from keyboard")
+        logger.critical(my_logger.INTERRUPED_FROM_KEYBOARD)
         util.stop_timer()
-        logger.critical("Execution time:\t"
+        logger.critical(my_logger.EXECUTION_TIME
                         + str(util.get_code_time_execution()))
-        sys.exit()
+        sys.exit(1)
