@@ -250,6 +250,11 @@ def stati_accettazione(dict):
     return stati_accettati
 
 
+def start_execution(file):
+    util.start_timer()
+    espressione_regolare(file)
+    util.stop_timer()
+
 if __name__ == '__main__':
     logger = my_logger.setup_logger("log/espressione_regolare")
     with open(os.path.join('testing_data', 'espressione_regolare.json')) as f:
