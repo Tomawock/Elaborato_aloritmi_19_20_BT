@@ -1,0 +1,21 @@
+[INFO]	DIMENSION:3 ALLOWED STATES:[{'name': '1', 'type': 'A', 'outgoings': [{'transaction': 'b', 'node': '1'}, {'transaction': 'ε', 'node': '3'}]}, {'name': '2', 'type': 'A', 'outgoings': [{'transaction': 'a', 'node': '2'}, {'transaction': 'b', 'node': '3'}]}, {'name': '3', 'type': 'A', 'outgoings': []}]
+[INFO]	DIMENSION:10 MAIN SEQUENCE:[('N0', 'ε', -1, '0'), ('0', 'a', -1, '1'), ('0', 'b', -1, '2'), ('1', 'b', -1, '1'), ('1', 'ε', -1, '3'), ('1', 'ε', -1, 'NQ'), ('2', 'a', -1, '2'), ('2', 'b', -1, '3'), ('2', 'ε', -1, 'NQ'), ('3', 'ε', -1, 'NQ')]
+[INFO]	DIMENSION:10 NEW SERIES EXECUTED:[('N0', 'ε', -1, '0'), ('0', 'a', -1, '1'), ('0', 'b', -1, '2'), ('1', 'b', -1, '1'), ('1', 'ε', -1, '3'), ('1', 'ε', -1, 'NQ'), ('2', 'a', -1, '2'), ('2', 'b', -1, '3'), ('2', 'ε', -1, 'NQ'), ('3', 'ε', -1, 'NQ')]
+[INFO]	DIMENSION:10 NEW PARALLEL EXECUTED:[('N0', 'ε', -1, '0'), ('0', 'a', -1, '1'), ('0', 'b', -1, '2'), ('1', 'b', -1, '1'), ('1', 'ε', -1, '3'), ('1', 'ε', -1, 'NQ'), ('2', 'a', -1, '2'), ('2', 'b', -1, '3'), ('2', 'ε', -1, 'NQ'), ('3', 'ε', -1, 'NQ')]
+[INFO]	DIMENSION:9 NEW CYCLE EXECUTED:[('N0', 'ε b', -1, '2'), ('1', 'b', -1, '1'), ('1', 'ε', -1, '3'), ('1', 'ε', -1, 'NQ'), ('2', 'a', -1, '2'), ('2', 'b', -1, '3'), ('2', 'ε', -1, 'NQ'), ('3', 'ε', -1, 'NQ'), ('N0', 'ε a', -1, '1')]
+[INFO]	DIMENSION:9 NEW SERIES EXECUTED:[('N0', 'ε b', -1, '2'), ('1', 'b', -1, '1'), ('1', 'ε', -1, '3'), ('1', 'ε', -1, 'NQ'), ('2', 'a', -1, '2'), ('2', 'b', -1, '3'), ('2', 'ε', -1, 'NQ'), ('3', 'ε', -1, 'NQ'), ('N0', 'ε a', -1, '1')]
+[INFO]	DIMENSION:9 NEW PARALLEL EXECUTED:[('N0', 'ε b', -1, '2'), ('1', 'b', -1, '1'), ('1', 'ε', -1, '3'), ('1', 'ε', -1, 'NQ'), ('2', 'a', -1, '2'), ('2', 'b', -1, '3'), ('2', 'ε', -1, 'NQ'), ('3', 'ε', -1, 'NQ'), ('N0', 'ε a', -1, '1')]
+[INFO]	DIMENSION:7 NEW CYCLE EXECUTED:[('N0', 'ε a b*', '1', 'NQ'), ('N0', 'ε b', -1, '2'), ('2', 'a', -1, '2'), ('2', 'b', -1, '3'), ('2', 'ε', -1, 'NQ'), ('3', 'ε', -1, 'NQ'), ('N0', 'ε a b* ε', -1, '3')]
+[INFO]	DIMENSION:7 NEW SERIES EXECUTED:[('N0', 'ε a b*', '1', 'NQ'), ('N0', 'ε b', -1, '2'), ('2', 'a', -1, '2'), ('2', 'b', -1, '3'), ('2', 'ε', -1, 'NQ'), ('3', 'ε', -1, 'NQ'), ('N0', 'ε a b* ε', -1, '3')]
+[INFO]	DIMENSION:7 NEW PARALLEL EXECUTED:[('N0', 'ε a b*', '1', 'NQ'), ('N0', 'ε b', -1, '2'), ('2', 'a', -1, '2'), ('2', 'b', -1, '3'), ('2', 'ε', -1, 'NQ'), ('3', 'ε', -1, 'NQ'), ('N0', 'ε a b* ε', -1, '3')]
+[INFO]	DIMENSION:5 NEW CYCLE EXECUTED:[('N0', 'ε b a*', '2', 'NQ'), ('N0', 'ε a b*', '1', 'NQ'), ('3', 'ε', -1, 'NQ'), ('N0', 'ε a b* ε', -1, '3'), ('N0', 'ε b a* b', -1, '3')]
+[INFO]	DIMENSION:5 NEW SERIES EXECUTED:[('N0', 'ε b a*', '2', 'NQ'), ('N0', 'ε a b*', '1', 'NQ'), ('3', 'ε', -1, 'NQ'), ('N0', 'ε a b* ε', -1, '3'), ('N0', 'ε b a* b', -1, '3')]
+[INFO]	DIMENSION:4 NEW PARALLEL EXECUTED:[('N0', 'ε b a*', '2', 'NQ'), ('N0', 'ε a b*', '1', 'NQ'), ('3', 'ε', -1, 'NQ'), ('N0', '(ε a b* ε|ε b a* b)', -1, '3')]
+[INFO]	DIMENSION:4 NEW CYCLE EXECUTED:[('N0', 'ε b a*', '2', 'NQ'), ('N0', 'ε a b*', '1', 'NQ'), ('3', 'ε', -1, 'NQ'), ('N0', '(ε a b* ε|ε b a* b)', -1, '3')]
+[INFO]	DIMENSION:3 NEW SERIES EXECUTED:[('N0', 'ε b a*', '2', 'NQ'), ('N0', 'ε a b*', '1', 'NQ'), ('N0', '(ε a b* ε|ε b a* b)', '3', 'NQ')]
+[INFO]	DIMENSION:3 NEW PARALLEL EXECUTED:[('N0', 'ε b a*', '2', 'NQ'), ('N0', 'ε a b*', '1', 'NQ'), ('N0', '(ε a b* ε|ε b a* b)', '3', 'NQ')]
+[INFO]	DIMENSION:3 NEW CYCLE EXECUTED:[('N0', 'ε b a*', '2', 'NQ'), ('N0', 'ε a b*', '1', 'NQ'), ('N0', '(ε a b* ε|ε b a* b)', '3', 'NQ')]
+[WARNING]	REGULAR EXPRESSIONS:ε b a* INDEX:2
+[WARNING]	REGULAR EXPRESSIONS:ε a b* INDEX:1
+[WARNING]	REGULAR EXPRESSIONS:(ε a b* ε|ε b a* b) INDEX:3
+[CRITICAL]	Execution time|0:00:00.001168

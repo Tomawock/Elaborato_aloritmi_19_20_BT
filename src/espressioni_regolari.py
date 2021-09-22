@@ -1,5 +1,8 @@
 import json
 import os
+import my_logger
+import model.utility as util
+import sys
 
 OP_CONCAT = ' '
 OP_ALT = '|'
@@ -53,7 +56,10 @@ def create_series_from_graph(global_sequence, stati_accettati):
                 # print("BANNED", banned_list)
                 series_sequence = []
                 series_found = 0
-    #print("FINAL_GLOBAL_SERIES", tmp_global)
+    # print("FINAL_GLOBAL_SERIES", tmp_global)
+    logger = my_logger.Logger.__call__().get_logger()
+    logger.info("DIMENSION:"+str(len(tmp_global))
+                + " NEW SERIES EXECUTED:" + str(tmp_global))
     return tmp_global
 
 
@@ -103,10 +109,14 @@ def create_parallel_from_graph(global_sequence):
 
         parallel_sequence = []
 
+    logger = my_logger.Logger.__call__().get_logger()
+    logger.info("DIMENSION:"+str(len(tmp_global))
+                + " NEW PARALLEL EXECUTED:" + str(tmp_global))
     return tmp_global
 
 
 def espressioni_regolari(dict):
+    logger = my_logger.Logger.__call__().get_logger()
     with open(os.path.join('data', 'stateNQ.json')) as f:
         nq = json.load(f)
     #da gestire con gli oggetti
@@ -123,6 +133,8 @@ def espressioni_regolari(dict):
                 n0['name'] = "N0"
     stati_accettati = stati_accettazione(dict)
     # print("ACCETTATI", stati_accettati)
+    logger.info("DIMENSION:"+str(len(stati_accettati))
+                + " ALLOWED STATES:" + str(stati_accettati))
     # rimuovi gli stati accettati dal dict in qunato dopo verranno riaggiunti
     for el in stati_accettati:
         dict.remove(el)
@@ -144,27 +156,28 @@ def espressioni_regolari(dict):
         stati_accettati[0]['type'] = 'AF'
     for sa in stati_accettati:
         dict.append(sa)  # riaggiugi gli accettati con le nuove impostaziponi
-    ########automa definito########
-    #crea albero transizioni
+    # #######automa definito########
+    # crea albero transizioni
     # print("DICT", dict)
     global_sequence = create_sequence_with_pedice(dict)
-    print("GLOBAL_", global_sequence)
+    # print("GLOBAL_", global_sequence)
+    logger.info("DIMENSION:"+str(len(global_sequence))
+                + " MAIN SEQUENCE:" + str(global_sequence))
     while check_number_of_states(global_sequence) \
             and check_number_of_pedici(global_sequence):
-
-        print("###################################")
-        print("START CICLO")
         global_sequence = create_series_from_graph(
             global_sequence, stati_accettati)  # usa sta  non dict
-        print("FINE_ELABORAZIONE_SERIE")
+        # print("FINE_ELABORAZIONE_SERIE")
         global_sequence = create_parallel_from_graph(global_sequence)
-        print("FINE_ELABORAZIONE_PARALLELO")
+        # print("FINE_ELABORAZIONE_PARALLELO")
         global_sequence = create_loop_from_graph(
             global_sequence, n0, nq, stati_accettati)
-        print("FINE_ELABORAZIONE_LOOP")
+        # print("FINE_ELABORAZIONE_LOOP")
 
-    print("###################################")
-    print("FINAL_", global_sequence)
+    # print("###################################")
+    # print("FINAL_", global_sequence)
+    for i, t, p, o in global_sequence:
+        logger.warning("REGULAR EXPRESSIONS:" + str(t) + " INDEX:" + str(p))
 
 
 def check_number_of_states(global_sequence):
@@ -191,7 +204,12 @@ def unite_series_with_pedice(series_sequence, stati_accettati):
     destination = series_sequence[len(series_sequence)-1][3]
     transaction = series_sequence[0][1]
     for i in range(len(series_sequence)-1):
-        transaction += OP_CONCAT+series_sequence[i+1][1]
+        # Consente di non aggiungere le e in concatenzatione con altri simboli
+        if series_sequence[i+1][1] != NULL_SMIB:
+            transaction += OP_CONCAT+series_sequence[i+1][1]
+        elif transaction == NULL_SMIB:
+            transaction = ''
+        #transaction += OP_CONCAT+series_sequence[i+1][1]
     is_accettato = False
     for sa in stati_accettati:
         if sa['name'] == series_sequence[len(series_sequence)-1][0]:
@@ -290,12 +308,15 @@ def create_loop_from_graph(global_sequence, n0, nq, stati_accettati):
     for el in global_sequence:
         if el not in banned_list:
             tmp_global.append(el)
-    #move the fist elemnt into last position in order to have the graph ordered and mantains sereis sequence correct
+    # move the fist elemnt into last position in order to have the graph ordered and mantains sereis sequence correct
     if cycle_found:
         loop = tmp_global[0]
         tmp_global.pop(0)
         tmp_global.append(loop)
-    #print("FINAL_GLOBAL_LOOP", tmp_global)
+    # print("FINAL_GLOBAL_LOOP", tmp_global)
+    logger = my_logger.Logger.__call__().get_logger()
+    logger.info("DIMENSION:"+str(len(tmp_global))
+                + " NEW CYCLE EXECUTED:" + str(tmp_global))
     return tmp_global
 
 
@@ -332,6 +353,20 @@ def stati_accettazione(dict):
 
 
 if __name__ == '__main__':
+    # set up logger
+    logger = my_logger.Logger("log/espressioni_regolari").get_logger()
+
     with open(os.path.join('data', 'espressioni_regolari.json')) as f:
         dict = json.load(f)
-    espressioni_regolari(dict)
+    util.start_timer()
+    try:
+        espressioni_regolari(dict)
+        util.stop_timer()
+        logger.critical(my_logger.EXECUTION_TIME
+                        + str(util.get_code_time_execution()))
+    except KeyboardInterrupt:
+        logger.critical(my_logger.INTERRUPED_FROM_KEYBOARD)
+        util.stop_timer()
+        logger.critical(my_logger.EXECUTION_TIME
+                        + str(util.get_code_time_execution()))
+        sys.exit(1)
