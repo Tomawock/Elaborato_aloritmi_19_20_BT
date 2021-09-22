@@ -1,5 +1,6 @@
 import json
 import os
+import model.utility as util
 from model.fa import FA
 from model.link import Link
 from model.transition import Transition
@@ -59,6 +60,36 @@ def generate_diagnostic_graph(silent_space):
                     if main_parent == c:
                         diagnostic_graph.append((el, t, el2))
     return diagnostic_graph
+
+
+def start_execution(fa_json, transition_json, link_original_json):
+    fa_main_list = []
+    transition_main_list = []
+    original_link = []
+    for fa in fa_json:
+        fa_main_list.append(FA(fa))
+    for ta in transitions_json:
+        transition_main_list.append(Transition(ta))
+    for li in link_original_json:
+        original_link.append(Link(li["name"], li["event"]))
+
+
+    util.start_timer()
+    behavioral_state_graph, final_states = spazio_comportamentale_osservabile(
+        fa_main_list, transition_main_list, original_link)
+
+    silent_space = generate_closure_space(behavioral_state_graph)
+    for i in range(len(silent_space)):
+        silent_space[i].name = i
+        silent_space[i].decorate()
+
+    diagnostic_graph = generate_diagnostic_graph(silent_space)
+
+    for (p, t, c) in diagnostic_graph:
+        print("SILENT_PARENT", p.name,
+              "\tTRANSITION ", t.unique_name,
+              t.observable_label, t.relevant_label,
+              "\tSILENT_CHILD", c.name)
 
 
 if __name__ == '__main__':

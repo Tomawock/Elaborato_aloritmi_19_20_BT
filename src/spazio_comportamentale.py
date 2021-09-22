@@ -2,6 +2,7 @@ import json
 import os
 import queue
 import copy
+import model.utility as util
 from model.fa import FA
 from model.link import Link
 from model.transition import Transition
@@ -211,6 +212,28 @@ def formatted_graph_labels(behavioral_state_graph):
               "\tLABEL_REL:", transition.relevant_label,
               "\tCHILD_NODE:", child_node.observation_str())
 
+def start_execution(fa_json, transitions_json, link_original_json):
+    fa_main_list = []
+    transition_main_list = []
+    original_link = []
+    for fa in fa_json:
+        fa_main_list.append(FA(fa))
+    for ta in transitions_json:
+        transition_main_list.append(Transition(ta))
+    for li in link_original_json:
+        original_link.append(Link(li["name"], li["event"]))
+    # Out to video
+    for el in fa_main_list:
+        print("FA", str(el))
+
+    for el in transition_main_list:
+        print("TRANSITIONS", str(el))
+
+    print("########################################")
+    util.start_timer()
+    spazio_comportamentale(
+        fa_main_list, transition_main_list, original_link)
+    util.stop_timer()
 
 if __name__ == '__main__':
     with open(os.path.join('data', 'fa.json')) as f:

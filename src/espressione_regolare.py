@@ -266,9 +266,10 @@ def stati_accettazione(dict):
     return stati_accettati
 
 
-def start_execution(file):
+def start_execution(data):
+    logger = my_logger.Logger("log/espressione_regolare").get_logger()
     util.start_timer()
-    espressione_regolare(file)
+    espressione_regolare(data)
     util.stop_timer()
 
 if __name__ == '__main__':

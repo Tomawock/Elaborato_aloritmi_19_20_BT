@@ -1,5 +1,7 @@
 import json
 import os
+import model.utility as util
+import sys
 
 OP_CONCAT = ' '
 OP_ALT = '|'
@@ -329,6 +331,11 @@ def stati_accettazione(dict):
         if el['type'] == "A":
             stati_accettati.append(el)
     return stati_accettati
+
+def start_execution(data):
+    util.start_timer()
+    espressioni_regolari(data)
+    util.stop_timer()
 
 
 if __name__ == '__main__':

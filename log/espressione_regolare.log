@@ -8,4 +8,3 @@
 [INFO]	DIMENSION:1 NEW LOOP EXECUTED:[('N0', '(a|a c* b) a* c', 'NQ')]
 [INFO]	DIMENSION:1 FINAL SEQUENCE:[('N0', '(a|a c* b) a* c', 'NQ')]
 [WARNING]	REGULAR EXPRESSION:(a|a c* b) a* c
-[CRITICAL]	Execution time|0:00:00.000968
