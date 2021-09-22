@@ -219,6 +219,23 @@ def formatted_graph_labels(behavioral_state_graph):
     return result
 
 
+def start_execution(fa_json, transitions_json, link_original_json):
+    fa_main_list = []
+    transition_main_list = []
+    original_link = []
+    for fa in fa_json:
+        fa_main_list.append(FA(fa))
+    for ta in transitions_json:
+        transition_main_list.append(Transition(ta))
+    for li in link_original_json:
+        original_link.append(Link(li["name"], li["event"]))
+    # Out to video
+    util.start_timer()
+    spazio_comportamentale(
+        fa_main_list, transition_main_list, original_link)
+    util.stop_timer()
+
+
 if __name__ == '__main__':
     logger = my_logger.Logger("log/spazio_comportamentale").get_logger()
     with open(os.path.join('data', 'fa.json')) as f:
