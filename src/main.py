@@ -45,17 +45,20 @@ def execute(args, input_read):
         elif x==6:
             logger = my_logger.Logger("log/diagnosi_lineare").get_logger()
             diagnosi_lineare.start_execution(input_read[0], input_read[1], input_read[2], input_read[3]) # fa, transition, original_link
-
         else:
             print("ERROR: there was an index input error")
     elif args.bin:
 
-        if x==4:
+        if x==0:
+            logger = my_logger.Logger("log/diagnosi_relativa_osservazione_from_spazio_comportamentale_osservabile").get_logger()
             # posso richiamare diagnosi_relativa_osservazione partendo dall'observable graph
             diagnosi_relativa_osservazione.start_execution_from_serialized(input_read[0], input_read[1]) #observation_graph, finals_states
-        elif x==5:
-            diagnostica.start_execution_from_serialized() #
-        elif x==6:
+        elif x==1:
+            logger = my_logger.Logger("log/diagnosi_relativa_osservazione_from_spazio_comportamentale").get_logger()
+            diagnostica.start_execution_from_serialized_behave_space(input_read[0]) #
+        elif x==2:
+            diagnostica.start_execution_from_serialized_silent_space(input_read[0]) #
+        elif x==3:
             diagnosi_lineare.start_execution_from_serialized() #
         else:
             print("ERROR: there was an index input error")

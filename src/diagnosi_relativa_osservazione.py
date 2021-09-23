@@ -88,13 +88,13 @@ def start_execution(fa_json, transitions_json, link_original_json, linear_observ
         logger.critical("OBSERVATION: "
                         + str(linear_observation)+" IS NOT CORRECT")
 
-def start_execution_from_serialized(behavioral_state_graph, final_states):
+def start_execution_from_serialized(observation_graph, final_states):
+    logger=my_logger.Logger.__call__().get_logger()
     with open(os.path.join('data', 'stateNQ.json')) as f:
         nq = json.load(f)
     # da gestire con gli oggetti
     with open(os.path.join('data', 'stateN0.json')) as f:
         n0 = json.load(f)
-
 
     if len(observation_graph) != 0:
         logger.warning("STARTING DIAGNOSIS_FROM_OBSERVABLE")

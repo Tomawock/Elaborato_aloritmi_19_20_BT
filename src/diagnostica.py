@@ -2,6 +2,7 @@ import json
 import os
 import model.utility as util
 import my_logger
+import pickle
 from model.fa import FA
 from model.link import Link
 from model.transition import Transition
@@ -27,24 +28,31 @@ def generate_closure(behavioral_state_graph, initial_state, silent_closure):
             else:
                 silent_closure.exit_transitions.append((
                     parent_node, transition, child_node))
-
     return ((None, None, None))
 
 
 def generate_closure_space(behavioral_state_graph):
-    slient_closure_space = []
+    silent_closure_space = []
     # stato inziale : behavioral_state_graph[0][0]
     silent_closure = create_silent_closure(
         behavioral_state_graph, behavioral_state_graph[0][0])
-    slient_closure_space.append(silent_closure)
+    silent_closure_space.append(silent_closure)
 
     for (parent_node, transition, child_node) in behavioral_state_graph:
         if transition.observable_label != 'ε':
             silent_closure = create_silent_closure(
                 behavioral_state_graph, child_node)
-            slient_closure_space.append(silent_closure)
+            silent_closure_space.append(silent_closure)
+    serialize_silent_closure(silent_closure_space)
+    return silent_closure_space
 
-    return slient_closure_space
+
+def serialize_silent_closure(silent_closure_space):
+    serialize_path="data/serialized_objects/"
+    with open(os.path.join(serialize_path, "silent_closure_space"), 'wb') as f:
+        #outfile=open(filename, 'wb')
+        pickle.dump(silent_closure_space, f)
+        #outfile.close()
 
 
 def generate_diagnostic_graph(silent_space):
@@ -89,7 +97,34 @@ def start_execution(fa_json, transitions_json, link_original_json):
 
     logger.warning("STARTING GENERATE_DIAGNOSTIC_GRAPH")
     diagnostic_graph = generate_diagnostic_graph(silent_space)
+    for (p, t, c) in diagnostic_graph:
+        print("SILENT_PARENT", p.name,
+              "\tTRANSITION ", t.unique_name,
+              t.observable_label, t.relevant_label,
+              "\tSILENT_CHILD", c.name)
 
+def start_execution_from_serialized_behave_space(behavioral_state_graph):
+    util.start_timer()
+    logger=my_logger.Logger.__call__().get_logger()
+    logger.warning("STARTING GENERATE_CLOSURE_SPACE")
+    silent_space = generate_closure_space(behavioral_state_graph)
+    for i in range(len(silent_space)):
+        silent_space[i].name = i
+        silent_space[i].decorate()
+
+    logger.warning("STARTING GENERATE_DIAGNOSTIC_GRAPH")
+    diagnostic_graph = generate_diagnostic_graph(silent_space)
+    for (p, t, c) in diagnostic_graph:
+        print("SILENT_PARENT", p.name,
+              "\tTRANSITION ", t.unique_name,
+              t.observable_label, t.relevant_label,
+              "\tSILENT_CHILD", c.name)
+
+def start_execution_from_serialized_silent_space(silent_space):
+    util.start_timer()
+    logger=my_logger.Logger.__call__().get_logger()
+    logger.warning("STARTING GENERATE_DIAGNOSTIC_GRAPH")
+    diagnostic_graph = generate_diagnostic_graph(silent_space)
     for (p, t, c) in diagnostic_graph:
         print("SILENT_PARENT", p.name,
               "\tTRANSITION ", t.unique_name,
