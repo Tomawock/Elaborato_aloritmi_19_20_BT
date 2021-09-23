@@ -191,8 +191,38 @@ def espressione_regolare(dict):
                 + " FINAL SEQUENCE:" + str(global_sequence))
     logger.warning("REGULAR EXPRESSION:" + str(global_sequence[0][1]))
 
-# Unite sequence if oredered, it unite one sequenze of arbitrary dimension
-# Prerequisite: cant contains miltiplie sequence to unite
+
+def diagnosis(observation_graph, final_states):
+    # Load initial data from json files
+    with open(os.path.join('data', 'stateNQ.json')) as f:
+        nq = json.load(f)
+    # da gestire con gli oggetti
+    with open(os.path.join('data', 'stateN0.json')) as f:
+        n0 = json.load(f)
+    # parsing objects from observation graph into tuple array
+    global_sequence = parsing(observation_graph)
+
+    for i, t, o in observation_graph:
+        for el in final_states:
+            if el == i and (i.name, NULL_SMIB, "NQ") not in global_sequence:
+                global_sequence.append((i.name, NULL_SMIB, "NQ"))
+            elif el == o and (o.name, NULL_SMIB, "NQ") not in global_sequence:
+                global_sequence.append((o.name, NULL_SMIB, "NQ"))
+    # print("GLOBAL", global_sequence)
+    while len(global_sequence) > 1:
+        global_sequence = create_series_from_graph(global_sequence)
+        global_sequence = create_parallel_from_graph(global_sequence)
+        global_sequence = create_loop_from_graph(global_sequence, n0, nq)
+
+    # print("FINAL_", global_sequence)
+    return global_sequence
+
+
+def parsing(observation_graph):
+    global_sequence = []
+    for i, t, o in observation_graph:
+        global_sequence.append((i.name, t.relevant_label, o.name))
+    return global_sequence
 
 
 def unite_series(series_sequence):
@@ -207,9 +237,6 @@ def unite_series(series_sequence):
                 transaction += OP_CONCAT+series_sequence[i+1][1]
         seried_sequence.append((origin, transaction, destination))
     return seried_sequence
-
-# Unite sequence if oredered, it unite one sequenze of arbitrary dimension
-# Prerequisite: cant contains miltiplie sequence to unite
 
 
 def unite_parallel(series_sequence):
@@ -271,6 +298,7 @@ def start_execution(data):
     util.start_timer()
     espressione_regolare(data)
     util.stop_timer()
+
 
 if __name__ == '__main__':
     #set up logger

@@ -74,13 +74,12 @@ def start_execution(fa_json, transitions_json, link_original_json):
     for li in link_original_json:
         original_link.append(Link(li["name"], li["event"]))
 
-
     util.start_timer()
-    logger=my_logger.Logger.__call__().get_logger()
+    logger = my_logger.Logger.__call__().get_logger()
     logger.warning("STARTING SPAZIO_COMPORTAMENTALE")
     behavioral_state_graph, final_states = spazio_comportamentale(
         fa_main_list, transition_main_list, original_link)
-
+    print()
     logger.warning("STARTING GENERATE_CLOSURE_SPACE")
     silent_space = generate_closure_space(behavioral_state_graph)
     for i in range(len(silent_space)):
@@ -98,6 +97,7 @@ def start_execution(fa_json, transitions_json, link_original_json):
 
 
 if __name__ == '__main__':
+    logger = my_logger.Logger("log/diagnostica").get_logger()
     # Load initial data from json files
     with open(os.path.join('data', 'stateNQ.json')) as f:
         nq = json.load(f)
@@ -121,12 +121,14 @@ if __name__ == '__main__':
     for li in link_original_json:
         original_link.append(Link(li["name"], li["event"]))
 
+    logger.debug("STARTING SPAZIO_COMPORTAMENTALE")
     behavioral_state_graph, final_states = spazio_comportamentale(
         fa_main_list, transition_main_list, original_link)
     # silent_closure = create_silent_closure(
     #     behavioral_state_graph, behavioral_state_graph[2][0])
     # print("SILENT CLOSURE")
     # silent_closure.to_video()
+    logger.debug("STARTING CLOSURE SPACE")
     silent_space = generate_closure_space(behavioral_state_graph)
     for i in range(len(silent_space)):
         silent_space[i].name = i
@@ -137,6 +139,7 @@ if __name__ == '__main__':
         for (p, t, c) in silent_space[i].exit_transitions:
             print("P:", p, "\tT:", t, "\tC:", c)
 
+    logger.debug("STARTING DIAGNOSTIC_GRAPH")
     diagnostic_graph = generate_diagnostic_graph(silent_space)
 
     for (p, t, c) in diagnostic_graph:
