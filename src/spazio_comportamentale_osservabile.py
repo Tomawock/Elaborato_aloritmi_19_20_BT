@@ -4,6 +4,7 @@ import queue
 import copy
 import my_logger
 import sys
+import pickle
 import model.utility as util
 from model.fa import FA
 from model.link import Link
@@ -221,8 +222,16 @@ def spazio_comportamentale_osservabile(fa_list, transitions_list,
     # my_path = os.path.dirname(__file__)
     # create_pretty_graph(os.path.join(my_path, "images/"),
     #                     behavioral_state_graph)
+    serialize_object(behavioral_state_graph, behavioral_state_final)
     return behavioral_state_graph, behavioral_state_final
 
+def serialize_object(behavioral_state_graph, behavioral_state_final):
+    serialize_path="data/serialized_objects/"
+    with open(os.path.join(serialize_path, "obs_behave_state"), 'wb') as f:
+    #outfile=open(filename, 'wb')
+        data=(behavioral_state_graph, behavioral_state_final)
+        pickle.dump(data, f)
+    #outfile.close()
 
 def enumerate_states(behavioral_state_graph):
     behavioral_state_enumerated = copy.deepcopy(behavioral_state_graph)

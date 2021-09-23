@@ -1,6 +1,7 @@
 import argparse
 import sys
 import json
+import pickle
 import my_logger
 import espressione_regolare, espressioni_regolari, \
 spazio_comportamentale, spazio_comportamentale_osservabile, diagnostica, \
@@ -124,16 +125,25 @@ if __name__ == '__main__':
     #     print('ERROR: use json option')
     #     sys.exit()
     # else:
-
     input_read=[]
-#    print("JSON", args.json[1].name)
-    for i in range (len(args.json)):
-        lines = [line.strip() for line in args.json[i].name]
+    if args.bin:
+        lines = [line.strip() for line in args.bin[0].name]
         line = ''.join(line for line in lines)
-        print("line from args.json", line)
-        with open(line) as f:
-          input_read.append(json.load(f))
-        #input_read = json.loads(''.join(line for line in lines))
+        print("line from args.bin", line)
+        with open(line, 'rb') as f:
+            behavioral_state_graph, behavioral_state_final = pickle.load(f)
+            input_read.append(behavioral_state_graph)
+            input_read.append(behavioral_state_final)
+
+    elif args.json:
+    #    print("JSON", args.json[1].name)
+        for i in range (len(args.json)):
+            lines = [line.strip() for line in args.json[i].name]
+            line = ''.join(line for line in lines)
+            print("line from args.json", line)
+            with open(line) as f:
+              input_read.append(json.load(f))
+            #input_read = json.loads(''.join(line for line in lines))
 
     if args.obs_list:
         arr = args.obs_list[0].split(',')

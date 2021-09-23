@@ -3,6 +3,7 @@ import json
 import time
 import my_logger
 import model.utility as util
+import pickle
 from model.fa import FA
 from model.link import Link
 from model.transition import Transition
@@ -265,6 +266,21 @@ def start_execution(fa_json, transitions_json, link_original_json, linear_observ
         util.stop_timer()
         print("Observation is not correct")
 
+def start_execution_from_serialized(behavioral_state_graph, final_states):
+    with open(os.path.join('data', 'stateNQ.json')) as f:
+        nq = json.load(f)
+    # da gestire con gli oggetti
+    with open(os.path.join('data', 'stateN0.json')) as f:
+        n0 = json.load(f)
+
+
+    if len(observation_graph) != 0:
+        logger.warning("STARTING DIAGNOSIS_FROM_OBSERVABLE")
+        diagnosis_from_observable(observation_graph, final_states, n0, nq)
+        util.stop_timer()
+    else:
+        util.stop_timer()
+        print("Observation is not correct")
 
 if __name__ == '__main__':
     # Load initial data from json files
