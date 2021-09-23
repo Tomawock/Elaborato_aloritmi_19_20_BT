@@ -1,6 +1,7 @@
 import json
 import os
 import model.utility as util
+import my_logger
 from model.fa import FA
 from model.link import Link
 from model.transition import Transition
@@ -78,7 +79,7 @@ def generate_linear_diagnostic(diagnostic_graph, linear_observation):
     return R
 
 
-def start_execution(fa_json, transition_json, link_original_json, linear_observation):
+def start_execution(fa_json, transitions_json, link_original_json, linear_observation):
     fa_main_list = []
     transition_main_list = []
     original_link = []
@@ -91,14 +92,18 @@ def start_execution(fa_json, transition_json, link_original_json, linear_observa
 
 
     util.start_timer()
-    behavioral_state_graph, final_states = spazio_comportamentale_osservabile(
+    logger=my_logger.Logger.__call__().get_logger()
+    logger.warning("STARTING SPAZIO_COMPORTAMENTALE")
+    behavioral_state_graph, final_states = spazio_comportamentale(
         fa_main_list, transition_main_list, original_link)
 
+    logger.warning("STARTING GENERATE_CLOSURE_SPACE")
     silent_space = generate_closure_space(behavioral_state_graph)
     for i in range(len(silent_space)):
         silent_space[i].name = i
         silent_space[i].decorate()
 
+    logger.warning("STARTING GENERATE_DIAGNOSTIC_GRAPH")
     diagnostic_graph = generate_diagnostic_graph(silent_space)
 
     for (p, t, c) in diagnostic_graph:
@@ -107,6 +112,7 @@ def start_execution(fa_json, transition_json, link_original_json, linear_observa
               t.observable_label, t.relevant_label,
               "\tSILENT_CHILD", c.name)
 
+    logger.warning("STARTING GENERATE_LINEAR_DIAGNOSIS")
     r = generate_linear_diagnostic(diagnostic_graph, linear_observation)
     print("FINEEEE\t", r)
 

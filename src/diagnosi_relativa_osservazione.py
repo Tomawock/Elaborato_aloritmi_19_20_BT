@@ -1,6 +1,7 @@
 import os
 import json
 import time
+import my_logger
 import model.utility as util
 from model.fa import FA
 from model.link import Link
@@ -233,7 +234,7 @@ def stati_accettazione(dict):
     return stati_accettati
 
 
-def start_execution(fa_json, transition_json, link_original_json, linear_observation):
+def start_execution(fa_json, transitions_json, link_original_json, linear_observation):
     fa_main_list = []
     transition_main_list = []
     original_link = []
@@ -251,11 +252,15 @@ def start_execution(fa_json, transition_json, link_original_json, linear_observa
         n0 = json.load(f)
 
     util.start_timer()
+    logger=my_logger.Logger.__call__().get_logger()
+    logger.warning("STARTING SPAZIO_COMPORTAMENTALE_OSSERVABILE")
     observation_graph, final_states = spazio_comportamentale_osservabile(
-        fa_main_list, transition_main_list, original_link, linear_observation)
+    fa_main_list, transition_main_list, original_link, linear_observation)
+
     if len(observation_graph) != 0:
+        logger.warning("STARTING DIAGNOSIS_FROM_OBSERVABLE")
         diagnosis_from_observable(observation_graph, final_states, n0, nq)
-        util-stop_timer()
+        util.stop_timer()
     else:
         util.stop_timer()
         print("Observation is not correct")
