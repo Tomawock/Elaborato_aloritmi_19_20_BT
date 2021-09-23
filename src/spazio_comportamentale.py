@@ -141,7 +141,7 @@ def spazio_comportamentale(fa_list, transitions_list, original_link_list):
         final_states_string = final_states_string + "\n" + str(final)
     logger.info("FINAL STATES:" + final_states_string)
     # print("##################################################")
-    logger.info(formatted_graph_labels(behavioral_state_graph))
+    logger.info("COMPLETE "+formatted_graph_labels(behavioral_state_graph))
     logger.info("DIMENSIONE GRAFO->" + str(len(behavioral_state_graph))
                 + "\n"
                 + "|DIMENSIONE STATI FINALI->" + str(len(
