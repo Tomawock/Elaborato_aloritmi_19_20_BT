@@ -151,11 +151,11 @@ def spazio_comportamentale_osservabile(fa_list, transitions_list,
             snapshot.append(
                 (behavioral_state_graph, behavioral_state_queue, behavioral_state_final))
 
-            logger.info("SNAPSHOT|\n|DIMENSIONE GRAFO->" + str(len(behavioral_state_graph))
-                        + "\n"
+            logger.info("SNAPSHOT|\t|DIMENSIONE GRAFO->" + str(len(behavioral_state_graph))
+                        + "\t"
                         + "|DIMENSIONE STATI FINALI->" + str(len(
                             behavioral_state_final))
-                        + "\n"
+                        + "\t"
                         + "|DIMENSIONE CODA->" + str(behavioral_state_queue.qsize()))
     # print("END CREAZIONE GRAFO")
     # print("##################################################")
@@ -175,10 +175,10 @@ def spazio_comportamentale_osservabile(fa_list, transitions_list,
     # print("##################################################")
     logger.info("COMPLETE "+formatted_graph_labels(behavioral_state_graph))
     logger.info("DIMENSIONE GRAFO->" + str(len(behavioral_state_graph))
-                + "\n"
+                + "\t"
                 + "|DIMENSIONE STATI FINALI->" + str(len(
                     behavioral_state_final))
-                + "\n"
+                + "\t"
                 + "|DIMENSIONE CODA->" + str(behavioral_state_queue.qsize()))
     # print("STARTING PRUNING")
     pruned_touple = 0
@@ -271,7 +271,7 @@ def enumerate_states_observable(behavioral_state_graph):
 
 
 def formatted_graph_labels(behavioral_state_graph):
-    result = "GRAPH\n"
+    result = "GRAPH\t"
     for (parent_node, transition, child_node) in behavioral_state_graph:
         result = result + "PARENT_NODE:" + parent_node.observation_str() \
             + "\tTRANSITION: " + str(transition.unique_name) \
