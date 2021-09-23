@@ -88,7 +88,7 @@ def start_execution(fa_json, transitions_json, link_original_json, linear_observ
         logger.critical("OBSERVATION: "
                         + str(linear_observation)+" IS NOT CORRECT")
 
-def start_execution_from_serialized(observation_graph, final_states):
+def start_execution_from_serialized_obs_graph(observation_graph, final_states):
     logger=my_logger.Logger.__call__().get_logger()
     with open(os.path.join('data', 'stateNQ.json')) as f:
         nq = json.load(f)

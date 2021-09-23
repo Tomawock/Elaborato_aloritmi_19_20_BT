@@ -68,7 +68,15 @@ def generate_diagnostic_graph(silent_space):
                     main_parent = el2.exit_transitions[0][0]
                     if main_parent == c:
                         diagnostic_graph.append((el, t, el2))
+    serialize_diagnostic_graph(diagnostic_graph)
     return diagnostic_graph
+
+def serialize_diagnostic_graph(diagnositc_graph):
+    serialize_path="data/serialized_objects/"
+    with open(os.path.join(serialize_path, "diagnostic_graph"), 'wb') as f:
+        #outfile=open(filename, 'wb')
+        pickle.dump(diagnositc_graph, f)
+        #outfile.close()
 
 
 def start_execution(fa_json, transitions_json, link_original_json):
