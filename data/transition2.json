@@ -76,10 +76,6 @@
       "event": "op"
     },
     "output_link" : [
-      {
-        "name": "",
-        "event": ""
-      }
     ],
     "observable_label" : "opn",
     "relevant_label" : "ε"
@@ -93,10 +89,6 @@
       "event": "cl"
     },
     "output_link" : [
-      {
-        "name": "",
-        "event": ""
-      }
     ],
     "observable_label" : "cls",
     "relevant_label" : "ε"
@@ -110,10 +102,6 @@
       "event": "op"
     },
     "output_link" : [
-      {
-        "name": "",
-        "event": ""
-      }
     ],
     "observable_label" : "ε",
     "relevant_label" : "f3"
@@ -127,10 +115,6 @@
       "event": "cl"
     },
     "output_link" : [
-      {
-        "name": "",
-        "event": ""
-      }
     ],
     "observable_label" : "ε",
     "relevant_label" : "f4"
@@ -144,10 +128,6 @@
       "event": "cl"
     },
     "output_link" : [
-      {
-        "name": "",
-        "event": ""
-      }
     ],
     "observable_label" : "nop",
     "relevant_label" : "ε"
@@ -161,10 +141,6 @@
       "event": "op"
     },
     "output_link" : [
-      {
-        "name": "",
-        "event": ""
-      }
     ],
     "observable_label" : "nop",
     "relevant_label" : "ε"
@@ -178,10 +154,6 @@
       "event": "cl"
     },
     "output_link" : [
-      {
-        "name": "",
-        "event": ""
-      }
     ],
     "observable_label" : "opn",
     "relevant_label" : "f5"
@@ -195,15 +167,8 @@
       "event": "op"
     },
     "output_link" : [
-      {
-        "name": "",
-        "event": ""
-      }
     ],
     "observable_label" : "cls",
     "relevant_label" : "f6"
   }
-
-
-
 ]
