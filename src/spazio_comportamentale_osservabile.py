@@ -225,13 +225,15 @@ def spazio_comportamentale_osservabile(fa_list, transitions_list,
     serialize_object(behavioral_state_graph, behavioral_state_final)
     return behavioral_state_graph, behavioral_state_final
 
+
 def serialize_object(behavioral_state_graph, behavioral_state_final):
-    serialize_path="data/serialized_objects/"
+    serialize_path = "data/serialized_objects/"
     with open(os.path.join(serialize_path, "obs_behave_state"), 'wb') as f:
-    #outfile=open(filename, 'wb')
-        data=(behavioral_state_graph, behavioral_state_final)
+        #outfile=open(filename, 'wb')
+        data = (behavioral_state_graph, behavioral_state_final)
         pickle.dump(data, f)
     #outfile.close()
+
 
 def enumerate_states(behavioral_state_graph):
     behavioral_state_enumerated = copy.deepcopy(behavioral_state_graph)
@@ -292,7 +294,7 @@ def formatted_graph_labels(behavioral_state_graph):
 
 
 def start_execution(fa_json, transitions_json, link_original_json, linear_observation):
-    logger=my_logger.Logger.__call__().get_logger()
+    logger = my_logger.Logger.__call__().get_logger()
     logger.debug("STARTING SPAZIO COMPORTAMENTALE OSSERVABILE")
     util.start_timer()
     try:
@@ -316,6 +318,7 @@ def start_execution(fa_json, transitions_json, link_original_json, linear_observ
         logger.critical(my_logger.EXECUTION_TIME
                         + str(util.get_code_time_execution()))
         sys.exit(1)
+
 
 if __name__ == '__main__':
     logger = my_logger.Logger(

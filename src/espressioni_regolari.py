@@ -353,7 +353,7 @@ def stati_accettazione(dict):
 
 
 def start_execution(data):
-    logger=my_logger.Logger.__call__().get_logger()
+    logger = my_logger.Logger.__call__().get_logger()
     logger.debug("STARTING ESPRESSIONI REGOLARI")
     util.start_timer()
     try:

@@ -170,12 +170,13 @@ def spazio_comportamentale(fa_list, transitions_list, original_link_list):
 
 
 def serialize_object(behavioral_state_graph, behavioral_state_final):
-    serialize_path="data/serialized_objects/"
+    serialize_path = "data/serialized_objects/"
     with open(os.path.join(serialize_path, "behave_state"), 'wb') as f:
-    #outfile=open(filename, 'wb')
-        data=(behavioral_state_graph, behavioral_state_final)
+        #outfile=open(filename, 'wb')
+        data = (behavioral_state_graph, behavioral_state_final)
         pickle.dump(data, f)
     #outfile.close()
+
 
 def enumerate_states(behavioral_state_graph):
     behavioral_state_enumerated = copy.deepcopy(behavioral_state_graph)
@@ -229,7 +230,7 @@ def formatted_graph_labels(behavioral_state_graph):
 
 
 def start_execution(fa_json, transitions_json, link_original_json):
-    logger=my_logger.Logger.__call__().get_logger()
+    logger = my_logger.Logger.__call__().get_logger()
     logger.debug("STARTING SPAZIO COMPORTAMENTALE")
     util.start_timer()
     try:
@@ -243,7 +244,8 @@ def start_execution(fa_json, transitions_json, link_original_json):
         for li in link_original_json:
             original_link.append(Link(li["name"], li["event"]))
         # Out to video
-        spazio_comportamentale(fa_main_list, transition_main_list, original_link)
+        spazio_comportamentale(
+            fa_main_list, transition_main_list, original_link)
         util.stop_timer()
         logger.critical(my_logger.EXECUTION_TIME
                         + str(util.get_code_time_execution()))
@@ -253,6 +255,7 @@ def start_execution(fa_json, transitions_json, link_original_json):
         logger.critical(my_logger.EXECUTION_TIME
                         + str(util.get_code_time_execution()))
         sys.exit(1)
+
 
 if __name__ == '__main__':
     logger = my_logger.Logger("log/spazio_comportamentale").get_logger()

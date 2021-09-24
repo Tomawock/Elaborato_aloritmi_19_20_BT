@@ -294,8 +294,8 @@ def stati_accettazione(dict):
 
 
 def start_execution(data):
-    logger=my_logger.Logger.__call__().get_logger()
-    logger.debug("STARTING ESPREZZIONE REGOLARE")
+    logger = my_logger.Logger.__call__().get_logger()
+    logger.debug("STARTING REGULAR EXPRESSION")
     util.start_timer()
     try:
         espressione_regolare(data)
@@ -310,22 +310,22 @@ def start_execution(data):
         sys.exit(1)
 
 
-if __name__ == '__main__':
-    #set up logger
-    logger = my_logger.Logger("log/espressione_regolare").get_logger()
-
-    with open(os.path.join('testing_data', 'espressione_regolare.json')) as f:
-      data = json.load(f)
-
-    util.start_timer()
-    try:
-        espressione_regolare(data)
-        util.stop_timer()
-        logger.critical(my_logger.EXECUTION_TIME
-                        + str(util.get_code_time_execution()))
-    except KeyboardInterrupt:
-        logger.critical(my_logger.INTERRUPED_FROM_KEYBOARD)
-        util.stop_timer()
-        logger.critical(my_logger.EXECUTION_TIME
-                        + str(util.get_code_time_execution()))
-        sys.exit(1)
+# if __name__ == '__main__':
+#     #set up logger
+#     logger = my_logger.Logger("log/espressione_regolare").get_logger()
+#
+#     with open(os.path.join('testing_data', 'espressione_regolare.json')) as f:
+#       data = json.load(f)
+#
+#     util.start_timer()
+#     try:
+#         espressione_regolare(data)
+#         util.stop_timer()
+#         logger.critical(my_logger.EXECUTION_TIME
+#                         + str(util.get_code_time_execution()))
+#     except KeyboardInterrupt:
+#         logger.critical(my_logger.INTERRUPED_FROM_KEYBOARD)
+#         util.stop_timer()
+#         logger.critical(my_logger.EXECUTION_TIME
+#                         + str(util.get_code_time_execution()))
+#         sys.exit(1)

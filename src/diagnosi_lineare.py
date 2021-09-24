@@ -91,19 +91,23 @@ def start_execution(fa_json, transitions_json, link_original_json, linear_observ
         for i in range(len(silent_space)):
             silent_space[i].name = i
             silent_space[i].decorate()
+            logger.info("SILENT SPACE \t:"
+                        + str(silent_space[i].name) + "DELTA", str(silent_space[i].delta))
+            for (p, t, c) in silent_space[i].exit_transitions:
+                logger.info("EXIT TRANSICTIONS-> PARENT:" + str(p)
+                            + "\tTRANSICTION:" + str(t) + "\tCHILD:" + str(c))
 
         logger.debug("STARTING GENERATE_DIAGNOSTIC_GRAPH")
         diagnostic_graph = generate_diagnostic_graph(silent_space)
-
         for (p, t, c) in diagnostic_graph:
-            print("SILENT_PARENT", p.name,
-                  "\tTRANSITION ", t.unique_name,
-                  t.observable_label, t.relevant_label,
-                  "\tSILENT_CHILD", c.name)
+            logger.critical("SILENT_PARENT" + p.name
+                            + "\tTRANSITION " + t.unique_name
+                            + t.observable_label + t.relevant_label
+                            + "\tSILENT_CHILD", + c.name)
 
         logger.debug("STARTING GENERATE_LINEAR_DIAGNOSIS")
         r = generate_linear_diagnostic(diagnostic_graph, linear_observation)
-        print("FINEEEE\t", r)
+        logger.critical("LINEAR DIAGNOSIS: "+r)
         util.stop_timer()
     except KeyboardInterrupt:
         logger.critical(my_logger.INTERRUPED_FROM_KEYBOARD)
@@ -122,17 +126,23 @@ def start_execution_from_serialized_behave_space(behavioral_state_graph, linear_
         for i in range(len(silent_space)):
             silent_space[i].name = i
             silent_space[i].decorate()
+            logger.info("SILENT SPACE \t:"
+                        + str(silent_space[i].name) + "DELTA", str(silent_space[i].delta))
+            for (p, t, c) in silent_space[i].exit_transitions:
+                logger.info("EXIT TRANSICTIONS-> PARENT:" + str(p)
+                            + "\tTRANSICTION:" + str(t) + "\tCHILD:" + str(c))
 
         logger.debug("STARTING GENERATE_DIAGNOSTIC_GRAPH")
         diagnostic_graph = generate_diagnostic_graph(silent_space)
         for (p, t, c) in diagnostic_graph:
-            print("SILENT_PARENT", p.name,
-                  "\tTRANSITION ", t.unique_name,
-                  t.observable_label, t.relevant_label,
-                  "\tSILENT_CHILD", c.name)
+            logger.critical("SILENT_PARENT" + p.name
+                            + "\tTRANSITION " + t.unique_name
+                            + t.observable_label + t.relevant_label
+                            + "\tSILENT_CHILD", + c.name)
+
         logger.debug("STARTING GENERATE_LINEAR_DIAGNOSIS")
         r = generate_linear_diagnostic(diagnostic_graph, linear_observation)
-        print("FINEEEE\t", r)
+        logger.critical("LINEAR DIAGNOSIS:"+r)
         util.stop_timer()
     except KeyboardInterrupt:
         logger.critical(my_logger.INTERRUPED_FROM_KEYBOARD)
@@ -149,13 +159,14 @@ def start_execution_from_serialized_silent_space(silent_space, linear_observatio
         logger.debug("STARTING GENERATE_DIAGNOSTIC_GRAPH")
         diagnostic_graph = generate_diagnostic_graph(silent_space)
         for (p, t, c) in diagnostic_graph:
-            print("SILENT_PARENT", p.name,
-                  "\tTRANSITION ", t.unique_name,
-                  t.observable_label, t.relevant_label,
-                  "\tSILENT_CHILD", c.name)
+            logger.critical("SILENT_PARENT" + p.name
+                            + "\tTRANSITION " + t.unique_name
+                            + t.observable_label + t.relevant_label
+                            + "\tSILENT_CHILD", + c.name)
+
         logger.debug("STARTING GENERATE_LINEAR_DIAGNOSIS")
         r = generate_linear_diagnostic(diagnostic_graph, linear_observation)
-        print("FINEEEE\t", r)
+        logger.critical("LINEAR DIAGNOSIS:"+r)
         util.stop_timer()
     except KeyboardInterrupt:
         logger.critical(my_logger.INTERRUPED_FROM_KEYBOARD)
@@ -171,7 +182,7 @@ def start_execution_from_serialized_diagnostic_graph(diagnostic_graph, linear_ob
     try:
         logger.debug("STARTING GENERATE_LINEAR_DIAGNOSIS")
         r = generate_linear_diagnostic(diagnostic_graph, linear_observation)
-        print("FINEEEE\t", r)
+        logger.critical("LINEAR DIAGNOSIS: "+r)
     except KeyboardInterrupt:
         logger.critical(my_logger.INTERRUPED_FROM_KEYBOARD)
         util.stop_timer()
@@ -222,4 +233,4 @@ if __name__ == '__main__':
 
     linear_observation = ['o3', 'o2', 'o3', 'o2']
     r = generate_linear_diagnostic(diagnostic_graph, linear_observation)
-    print("FINEEEE\t", r)
+    logger.critical("LINEAR DIAGNOSIS:"+r)

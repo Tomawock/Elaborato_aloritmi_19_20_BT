@@ -44,9 +44,6 @@ def diagnosis_from_observable(observation_graph, final_states, n0, nq):
         global_sequence = espressione_regolare.create_loop_from_graph(
             global_sequence, n0, nq)
 
-# Unite sequence if oredered, it unite one sequenze of arbitrary dimension
-# Prerequisite: cant contains miltiplie sequence to unite
-
 
 def parsing(observation_graph):
     global_sequence = []
@@ -96,7 +93,7 @@ def start_execution(fa_json, transitions_json, link_original_json, linear_observ
 
 
 def start_execution_from_serialized_obs_graph(observation_graph, final_states):
-    logger=my_logger.Logger.__call__().get_logger()
+    logger = my_logger.Logger.__call__().get_logger()
     util.start_timer()
     try:
         with open(os.path.join('data', 'stateNQ.json')) as f:
@@ -111,8 +108,8 @@ def start_execution_from_serialized_obs_graph(observation_graph, final_states):
             util.stop_timer()
         else:
             util.stop_timer()
-            logger.critical("OBSERVATION: "
-                            + str(linear_observation)+" IS NOT CORRECT")
+            logger.error("OBSERVATION: "
+                         + str(linear_observation)+" IS NOT CORRECT")
         logger.critical(my_logger.EXECUTION_TIME
                         + str(util.get_code_time_execution()))
     except KeyboardInterrupt:
@@ -121,6 +118,7 @@ def start_execution_from_serialized_obs_graph(observation_graph, final_states):
         logger.critical(my_logger.EXECUTION_TIME
                         + str(util.get_code_time_execution()))
         sys.exit(1)
+
 
 if __name__ == '__main__':
     logger = my_logger.Logger(
