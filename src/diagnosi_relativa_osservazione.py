@@ -56,53 +56,71 @@ def parsing(observation_graph):
 
 
 def start_execution(fa_json, transitions_json, link_original_json, linear_observation):
-    fa_main_list = []
-    transition_main_list = []
-    original_link = []
-    for fa in fa_json:
-        fa_main_list.append(FA(fa))
-    for ta in transitions_json:
-        transition_main_list.append(Transition(ta))
-    for li in link_original_json:
-        original_link.append(Link(li["name"], li["event"]))
-
-    with open(os.path.join('data', 'stateNQ.json')) as f:
-        nq = json.load(f)
-    # da gestire con gli oggetti
-    with open(os.path.join('data', 'stateN0.json')) as f:
-        n0 = json.load(f)
-
-    util.start_timer()
     logger = my_logger.Logger.__call__().get_logger()
-    logger.warning("LINEAR OBSERVATION:"+str(linear_observation))
-    logger.debug("STARTING SPAZIO_COMPORTAMENTALE_OSSERVABILE")
-    observation_graph, final_states = spazio_comportamentale_osservabile(
-        fa_main_list, transition_main_list, original_link, linear_observation)
+    util.start_timer()
+    try:
+        fa_main_list = []
+        transition_main_list = []
+        original_link = []
+        for fa in fa_json:
+            fa_main_list.append(FA(fa))
+            for ta in transitions_json:
+                transition_main_list.append(Transition(ta))
+                for li in link_original_json:
+                    original_link.append(Link(li["name"], li["event"]))
 
-    if len(observation_graph) != 0:
-        logger.debug("STARTING DIAGNOSIS_FROM_OBSERVABLE")
-        diagnosis_from_observable(observation_graph, final_states, n0, nq)
+                    with open(os.path.join('data', 'stateNQ.json')) as f:
+                        nq = json.load(f)
+                        # da gestire con gli oggetti
+                        with open(os.path.join('data', 'stateN0.json')) as f:
+                            n0 = json.load(f)
+        observation_graph, final_states = spazio_comportamentale_osservabile(
+            fa_main_list, transition_main_list, original_link, linear_observation)
+
+        if len(observation_graph) != 0:
+            logger.debug("STARTING DIAGNOSIS_FROM_OBSERVABLE")
+            diagnosis_from_observable(observation_graph, final_states, n0, nq)
+            util.stop_timer()
+        else:
+            util.stop_timer()
+            logger.critical("OBSERVATION: "
+                            + str(linear_observation)+" IS NOT CORRECT")
+        logger.critical(my_logger.EXECUTION_TIME
+                        + str(util.get_code_time_execution()))
+    except KeyboardInterrupt:
+        logger.critical(my_logger.INTERRUPED_FROM_KEYBOARD)
         util.stop_timer()
-    else:
-        util.stop_timer()
-        logger.critical("OBSERVATION: "
-                        + str(linear_observation)+" IS NOT CORRECT")
+        logger.critical(my_logger.EXECUTION_TIME
+                        + str(util.get_code_time_execution()))
+        sys.exit(1)
+
 
 def start_execution_from_serialized_obs_graph(observation_graph, final_states):
     logger=my_logger.Logger.__call__().get_logger()
-    with open(os.path.join('data', 'stateNQ.json')) as f:
-        nq = json.load(f)
-    # da gestire con gli oggetti
-    with open(os.path.join('data', 'stateN0.json')) as f:
-        n0 = json.load(f)
+    util.start_timer()
+    try:
+        with open(os.path.join('data', 'stateNQ.json')) as f:
+            nq = json.load(f)
+        # da gestire con gli oggetti
+        with open(os.path.join('data', 'stateN0.json')) as f:
+            n0 = json.load(f)
 
-    if len(observation_graph) != 0:
-        logger.warning("STARTING DIAGNOSIS_FROM_OBSERVABLE")
-        diagnosis_from_observable(observation_graph, final_states, n0, nq)
+        if len(observation_graph) != 0:
+            logger.debug("STARTING DIAGNOSIS_FROM_OBSERVABLE")
+            diagnosis_from_observable(observation_graph, final_states, n0, nq)
+            util.stop_timer()
+        else:
+            util.stop_timer()
+            logger.critical("OBSERVATION: "
+                            + str(linear_observation)+" IS NOT CORRECT")
+        logger.critical(my_logger.EXECUTION_TIME
+                        + str(util.get_code_time_execution()))
+    except KeyboardInterrupt:
+        logger.critical(my_logger.INTERRUPED_FROM_KEYBOARD)
         util.stop_timer()
-    else:
-        util.stop_timer()
-        print("Observation is not correct")
+        logger.critical(my_logger.EXECUTION_TIME
+                        + str(util.get_code_time_execution()))
+        sys.exit(1)
 
 if __name__ == '__main__':
     logger = my_logger.Logger(

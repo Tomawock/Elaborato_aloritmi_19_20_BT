@@ -58,11 +58,11 @@ def execute(args, input_read):
             logger = my_logger.Logger("log/diagnosi_relativa_osservazione_from_silent_closure_space").get_logger()
             diagnostica.start_execution_from_serialized_silent_space(input_read[0]) #
         elif x==3:
-            logger = my_logger.Logger("log/diagnosi_relativa_osservazione_from_spazio_comportamentale").get_logger()
-            diagnosi_lineare.start_execution_from_serialized_behave_space(input_read[0][0]) #
+            logger = my_logger.Logger("log/diagnosi_relativa_osservazione_from_spazio_comportamental").get_logger()
+            diagnosi_lineare.start_execution_from_serialized_behave_space(input_read[0][0], input_read[1]) #
         elif x==4:
             logger = my_logger.Logger("log/diagnosi_relativa_osservazione_from_silent_closure_space").get_logger()
-            diagnosi_lineare.start_execution_from_serialized_silent_space(input_read[0]) #
+            diagnosi_lineare.start_execution_from_serialized_silent_space(input_read[0], input_read[1]) #
         elif x==5:
             logger = my_logger.Logger("log/diagnosi_relativa_osservazione_from_diagnostic_graph").get_logger()
             diagnosi_lineare.start_execution_from_serialized_diagnostic_graph(input_read[0], input_read[1]) #

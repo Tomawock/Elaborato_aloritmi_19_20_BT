@@ -353,9 +353,20 @@ def stati_accettazione(dict):
 
 
 def start_execution(data):
+    logger=my_logger.Logger.__call__().get_logger()
+    logger.debug("STARTING ESPRESSIONI REGOLARI")
     util.start_timer()
-    espressioni_regolari(data)
-    util.stop_timer()
+    try:
+        espressioni_regolari(data)
+        util.stop_timer()
+        logger.critical(my_logger.EXECUTION_TIME
+                        + str(util.get_code_time_execution()))
+    except KeyboardInterrupt:
+        logger.critical(my_logger.INTERRUPED_FROM_KEYBOARD)
+        util.stop_timer()
+        logger.critical(my_logger.EXECUTION_TIME
+                        + str(util.get_code_time_execution()))
+        sys.exit(1)
 
 
 if __name__ == '__main__':
@@ -363,10 +374,10 @@ if __name__ == '__main__':
     logger = my_logger.Logger("log/espressioni_regolari").get_logger()
 
     with open(os.path.join('data', 'espressioni_regolari.json')) as f:
-        dict = json.load(f)
+        data = json.load(f)
     util.start_timer()
     try:
-        espressioni_regolari(dict)
+        espressioni_regolari(data)
         util.stop_timer()
         logger.critical(my_logger.EXECUTION_TIME
                         + str(util.get_code_time_execution()))
