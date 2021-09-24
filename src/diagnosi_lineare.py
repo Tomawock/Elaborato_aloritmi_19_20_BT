@@ -3,10 +3,10 @@ import os
 import model.utility as util
 import my_logger
 import pickle
+import sys
 from model.fa import FA
 from model.link import Link
 from model.transition import Transition
-from model.silent_closure import SilentClosure
 from spazio_comportamentale import spazio_comportamentale
 from diagnostica import generate_closure_space, generate_diagnostic_graph
 
@@ -27,7 +27,6 @@ def relevant_label_correct(relevant_label):
     else:
         relevant_label_correct = relevant_label
 
-    # print("CORRECT_", relevant_label_correct)
     return relevant_label_correct.strip().replace(" ", "")
 
 
@@ -47,24 +46,13 @@ def generate_linear_diagnostic(diagnostic_graph, linear_observation):
                         if x2_primo == c:
                             found = True
                             del X_new[i]
-                            # print("X1", x1.name)
-                            # print("P2", p2)
-                            # print("X_PRIMO", x2_primo.name)
-                            # print("P2_PRIMO", p2_primo)
-                            # print("@@@@")
-                            # se p2 == p2 primo non serve concatenare i due elementi
                             if p2 != p2_primo:
                                 p2_primo = OPEN_BRA+p2_primo+OP_ALT+p2+CLOSE_BRA
                             X_new.append((x2_primo, p2_primo))
                             break
                     if not found:
                         X_new.append((c, p2))
-        # X <- X_new
         X = X_new
-
-        # for (x, p) in X:
-        #     print("CLOSURE:", x.name, "LABEL", p)
-        # print("##########")
     for (x, p) in X:
         if x.delta == "":
             X.remove((x, p))
@@ -81,7 +69,7 @@ def generate_linear_diagnostic(diagnostic_graph, linear_observation):
 
 
 def start_execution(fa_json, transitions_json, link_original_json, linear_observation):
-    logger=my_logger.Logger.__call__().get_logger()
+    logger = my_logger.Logger.__call__().get_logger()
     util.start_timer()
     try:
         fa_main_list = []
@@ -126,7 +114,7 @@ def start_execution(fa_json, transitions_json, link_original_json, linear_observ
 
 
 def start_execution_from_serialized_behave_space(behavioral_state_graph, linear_observation):
-    logger=my_logger.Logger.__call__().get_logger()
+    logger = my_logger.Logger.__call__().get_logger()
     util.start_timer()
     try:
         logger.debug("STARTING GENERATE_CLOSURE_SPACE")
@@ -153,8 +141,9 @@ def start_execution_from_serialized_behave_space(behavioral_state_graph, linear_
                         + str(util.get_code_time_execution()))
         sys.exit(1)
 
+
 def start_execution_from_serialized_silent_space(silent_space, linear_observation):
-    logger=my_logger.Logger.__call__().get_logger()
+    logger = my_logger.Logger.__call__().get_logger()
     util.start_timer()
     try:
         logger.debug("STARTING GENERATE_DIAGNOSTIC_GRAPH")
@@ -175,8 +164,9 @@ def start_execution_from_serialized_silent_space(silent_space, linear_observatio
                         + str(util.get_code_time_execution()))
         sys.exit(1)
 
+
 def start_execution_from_serialized_diagnostic_graph(diagnostic_graph, linear_observation):
-    logger=my_logger.Logger.__call__().get_logger()
+    logger = my_logger.Logger.__call__().get_logger()
     util.start_timer()
     try:
         logger.debug("STARTING GENERATE_LINEAR_DIAGNOSIS")
@@ -189,7 +179,9 @@ def start_execution_from_serialized_diagnostic_graph(diagnostic_graph, linear_ob
                         + str(util.get_code_time_execution()))
         sys.exit(1)
 
+
 if __name__ == '__main__':
+    logger = my_logger.Logger("log/diagnosi_lineare").get_logger()
     # Load initial data from json files
     with open(os.path.join('data', 'stateNQ.json')) as f:
         nq = json.load(f)
@@ -215,10 +207,6 @@ if __name__ == '__main__':
 
     behavioral_state_graph, final_states = spazio_comportamentale(
         fa_main_list, transition_main_list, original_link)
-    # silent_closure = create_silent_closure(
-    #     behavioral_state_graph, behavioral_state_graph[2][0])
-    # print("SILENT CLOSURE")
-    # silent_closure.to_video()
     silent_space = generate_closure_space(behavioral_state_graph)
     for i in range(len(silent_space)):
         silent_space[i].name = i

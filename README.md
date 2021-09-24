@@ -13,3 +13,10 @@ Type puo essere:
 * N:  Neutro
 * A:  Accettazione
 * AF: Accettazione (solo NQ)
+
+## Logger description:
+* **DEBUG** : starting finishing new function
+* **INFO** : default info for summury
+* **WARNING** : unused
+* **ERROR** : unused
+* **CRITICAL** : Objective value and execution time
