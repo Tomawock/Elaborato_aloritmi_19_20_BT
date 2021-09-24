@@ -43,7 +43,6 @@ def generate_closure_space(behavioral_state_graph):
             silent_closure = create_silent_closure(
                 behavioral_state_graph, child_node)
             silent_closure_space.append(silent_closure)
-    serialize_silent_closure_space(silent_closure_space)
     return silent_closure_space
 
 
@@ -103,6 +102,8 @@ def start_execution(fa_json, transitions_json, link_original_json):
         for i in range(len(silent_space)):
             silent_space[i].name = i
             silent_space[i].decorate()
+        # salvataggio del silent space
+        serialize_silent_closure_space(silent_space)
 
         logger.debug("STARTING GENERATE_DIAGNOSTIC_GRAPH")
         diagnostic_graph = generate_diagnostic_graph(silent_space)
@@ -111,7 +112,7 @@ def start_execution(fa_json, transitions_json, link_original_json):
                   "\tTRANSITION ", t.unique_name,
                   t.observable_label, t.relevant_label,
                   "\tSILENT_CHILD", c.name)
-
+        util.stop_timer()
     except KeyboardInterrupt:
         logger.critical(my_logger.INTERRUPED_FROM_KEYBOARD)
         util.stop_timer()
@@ -136,6 +137,7 @@ def start_execution_from_serialized_behave_space(behavioral_state_graph):
                   "\tTRANSITION ", t.unique_name,
                   t.observable_label, t.relevant_label,
                   "\tSILENT_CHILD", c.name)
+        util.stop_timer()
     except KeyboardInterrupt:
         logger.critical(my_logger.INTERRUPED_FROM_KEYBOARD)
         util.stop_timer()
@@ -155,6 +157,7 @@ def start_execution_from_serialized_silent_space(silent_space):
                   "\tTRANSITION ", t.unique_name,
                   t.observable_label, t.relevant_label,
                   "\tSILENT_CHILD", c.name)
+        util.stop_timer()
     except KeyboardInterrupt:
         logger.critical(my_logger.INTERRUPED_FROM_KEYBOARD)
         util.stop_timer()

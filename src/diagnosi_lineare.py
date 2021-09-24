@@ -116,6 +116,7 @@ def start_execution(fa_json, transitions_json, link_original_json, linear_observ
         logger.debug("STARTING GENERATE_LINEAR_DIAGNOSIS")
         r = generate_linear_diagnostic(diagnostic_graph, linear_observation)
         print("FINEEEE\t", r)
+        util.stop_timer()
     except KeyboardInterrupt:
         logger.critical(my_logger.INTERRUPED_FROM_KEYBOARD)
         util.stop_timer()
@@ -144,6 +145,7 @@ def start_execution_from_serialized_behave_space(behavioral_state_graph, linear_
         logger.debug("STARTING GENERATE_LINEAR_DIAGNOSIS")
         r = generate_linear_diagnostic(diagnostic_graph, linear_observation)
         print("FINEEEE\t", r)
+        util.stop_timer()
     except KeyboardInterrupt:
         logger.critical(my_logger.INTERRUPED_FROM_KEYBOARD)
         util.stop_timer()
@@ -165,6 +167,7 @@ def start_execution_from_serialized_silent_space(silent_space, linear_observatio
         logger.debug("STARTING GENERATE_LINEAR_DIAGNOSIS")
         r = generate_linear_diagnostic(diagnostic_graph, linear_observation)
         print("FINEEEE\t", r)
+        util.stop_timer()
     except KeyboardInterrupt:
         logger.critical(my_logger.INTERRUPED_FROM_KEYBOARD)
         util.stop_timer()
