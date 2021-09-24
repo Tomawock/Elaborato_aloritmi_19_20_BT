@@ -294,10 +294,20 @@ def stati_accettazione(dict):
 
 
 def start_execution(data):
-    logger = my_logger.Logger("log/espressione_regolare").get_logger()
+    logger=my_logger.Logger.__call__().get_logger()
+    logger.debug("STARTING ESPREZZIONE REGOLARE")
     util.start_timer()
-    espressione_regolare(data)
-    util.stop_timer()
+    try:
+        espressione_regolare(data)
+        util.stop_timer()
+        logger.critical(my_logger.EXECUTION_TIME
+                        + str(util.get_code_time_execution()))
+    except KeyboardInterrupt:
+        logger.critical(my_logger.INTERRUPED_FROM_KEYBOARD)
+        util.stop_timer()
+        logger.critical(my_logger.EXECUTION_TIME
+                        + str(util.get_code_time_execution()))
+        sys.exit(1)
 
 
 if __name__ == '__main__':
