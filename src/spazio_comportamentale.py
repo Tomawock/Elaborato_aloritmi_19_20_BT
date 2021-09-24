@@ -38,7 +38,9 @@ def spazio_comportamentale(fa_list, transitions_list, original_link_list):
     logger.info("DIMENSION QUEUE:"+str(behavioral_state_queue.qsize())
                 + " ADDED TO QUEUE:" + str(initial_state))
     while not behavioral_state_queue.empty():
+
         behavioral_state_actual = behavioral_state_queue.get()
+        logger.info("ACTUAL BEHAVIORAL STATE: " + str(behavioral_state_actual))
         possible_transitions = []
         for (_, state) in behavioral_state_actual.list_fa_state:
             for transition_string in state.outgoings_transitions:

@@ -1,5 +1,5 @@
 import argparse
-import sys
+import time
 import json
 import pickle
 import my_logger
@@ -11,38 +11,43 @@ import \
 
 
 def execute(args, input_read):
+    ts = time.time()
     x = args.task[0]
     if args.json:
         if x == 0:
-            logger = my_logger.Logger("log/espressione_regolare").get_logger()
+            logger = my_logger.Logger(
+                "log/espressione_regolare" + "_" + str(ts)).get_logger()
             espressione_regolare.start_execution(input_read[0])
         elif x == 1:
-            logger = my_logger.Logger("log/espressioni_regolari").get_logger()
+            logger = my_logger.Logger(
+                "log/espressioni_regolari" + "_" + str(ts)).get_logger()
             espressioni_regolari.start_execution(input_read[0])
         elif x == 2:
             logger = my_logger.Logger(
-                "log/spazio_comportamentale").get_logger()
+                "log/spazio_comportamentale" + "_" + str(ts)).get_logger()
             spazio_comportamentale.start_execution(
                 input_read[0], input_read[1], input_read[2])  # fa, transition, original_link
         elif x == 3:
             logger = my_logger.Logger(
-                "log/spazio_comportamentale_osservabile").get_logger()
+                "log/spazio_comportamentale_osservabile" + "_" + str(ts)).get_logger()
             # fa, transition, original_link, observation list
             spazio_comportamentale_osservabile.start_execution(
                 input_read[0], input_read[1], input_read[2], input_read[3])
         elif x == 4:
             logger = my_logger.Logger(
-                "log/diagnosi_relativa_osservazione").get_logger()
+                "log/diagnosi_relativa_osservazione" + "_" + str(ts)).get_logger()
             # fa, transition, original_link, observation_list
             diagnosi_relativa_osservazione.start_execution(
                 input_read[0], input_read[1], input_read[2], input_read[3])
         elif x == 5:
-            logger = my_logger.Logger("log/diagnostica").get_logger()
+            logger = my_logger.Logger(
+                "log/diagnostica" + "_" + str(ts)).get_logger()
             # fa, transition, original_link
             diagnostica.start_execution(
                 input_read[0], input_read[1], input_read[2])
         elif x == 6:
-            logger = my_logger.Logger("log/diagnosi_lineare").get_logger()
+            logger = my_logger.Logger(
+                "log/diagnosi_lineare" + "_" + str(ts)).get_logger()
             # fa, transition, original_link
             diagnosi_lineare.start_execution(
                 input_read[0], input_read[1], input_read[2], input_read[3])
@@ -51,33 +56,33 @@ def execute(args, input_read):
     elif args.bin:
         if x == 0:
             logger = my_logger.Logger(
-                "log/diagnosi_relativa_osservazione_from_spazio_comportamentale_osservabile").get_logger()
+                "log/diagnosi_relativa_osservazione_from_spazio_comportamentale_osservabile" + "_" + str(ts)).get_logger()
             # posso richiamare diagnosi_relativa_osservazione partendo dall'observable graph
             diagnosi_relativa_osservazione.start_execution_from_serialized_obs_graph(
                 input_read[0][0], input_read[0][1])  # observation_graph, finals_states
         elif x == 1:
             logger = my_logger.Logger(
-                "log/diagnosi_relativa_osservazione_from_spazio_comportamentale").get_logger()
+                "log/diagnosi_relativa_osservazione_from_spazio_comportamentale" + "_" + str(ts)).get_logger()
             diagnostica.start_execution_from_serialized_behave_space(
                 input_read[0][0])  # [0][0]identifing the behavioral_state_graph
         elif x == 2:
             logger = my_logger.Logger(
-                "log/diagnosi_relativa_osservazione_from_silent_closure_space").get_logger()
+                "log/diagnosi_relativa_osservazione_from_silent_closure_space" + "_" + str(ts)).get_logger()
             diagnostica.start_execution_from_serialized_silent_space(
                 input_read[0])
         elif x == 3:
             logger = my_logger.Logger(
-                "log/diagnosi_relativa_osservazione_from_spazio_comportamental").get_logger()
+                "log/diagnosi_relativa_osservazione_from_spazio_comportamental" + "_" + str(ts)).get_logger()
             diagnosi_lineare.start_execution_from_serialized_behave_space(
                 input_read[0][0], input_read[1])
         elif x == 4:
             logger = my_logger.Logger(
-                "log/diagnosi_relativa_osservazione_from_silent_closure_space").get_logger()
+                "log/diagnosi_relativa_osservazione_from_silent_closure_space" + "_" + str(ts)).get_logger()
             diagnosi_lineare.start_execution_from_serialized_silent_space(
                 input_read[0], input_read[1])
         elif x == 5:
             logger = my_logger.Logger(
-                "log/diagnosi_relativa_osservazione_from_diagnostic_graph").get_logger()
+                "log/diagnosi_relativa_osservazione_from_diagnostic_graph" + "_" + str(ts)).get_logger()
             diagnosi_lineare.start_execution_from_serialized_diagnostic_graph(
                 input_read[0], input_read[1])
 
