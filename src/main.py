@@ -23,7 +23,6 @@ def execute(args, input_read):
     # options[args.task[0]]()
     x=args.task[0]
     if args.json:
-
         if x==0:
             logger = my_logger.Logger("log/espressione_regolare").get_logger()
             espressione_regolare.start_execution(input_read[0])
@@ -45,18 +44,30 @@ def execute(args, input_read):
         elif x==6:
             logger = my_logger.Logger("log/diagnosi_lineare").get_logger()
             diagnosi_lineare.start_execution(input_read[0], input_read[1], input_read[2], input_read[3]) # fa, transition, original_link
-
         else:
             print("ERROR: there was an index input error")
     elif args.bin:
-
-        if x==4:
+        if x==0:
+            logger = my_logger.Logger("log/diagnosi_relativa_osservazione_from_spazio_comportamentale_osservabile").get_logger()
             # posso richiamare diagnosi_relativa_osservazione partendo dall'observable graph
-            diagnosi_relativa_osservazione.start_execution_from_serialized(input_read[0], input_read[1]) #observation_graph, finals_states
+            diagnosi_relativa_osservazione.start_execution_from_serialized_obs_graph(input_read[0][0], input_read[0][1]) #observation_graph, finals_states
+        elif x==1:
+            logger = my_logger.Logger("log/diagnosi_relativa_osservazione_from_spazio_comportamentale").get_logger()
+            diagnostica.start_execution_from_serialized_behave_space(input_read[0][0]) #[0][0]identifing the behavioral_state_graph
+        elif x==2:
+            logger = my_logger.Logger("log/diagnosi_relativa_osservazione_from_silent_closure_space").get_logger()
+            diagnostica.start_execution_from_serialized_silent_space(input_read[0]) #
+        elif x==3:
+            logger = my_logger.Logger("log/diagnosi_relativa_osservazione_from_spazio_comportamentale").get_logger()
+            diagnosi_lineare.start_execution_from_serialized_behave_space(input_read[0][0]) #
+        elif x==4:
+            logger = my_logger.Logger("log/diagnosi_relativa_osservazione_from_silent_closure_space").get_logger()
+            diagnosi_lineare.start_execution_from_serialized_silent_space(input_read[0]) #
         elif x==5:
-            diagnostica.start_execution_from_serialized() #
-        elif x==6:
-            diagnosi_lineare.start_execution_from_serialized() #
+            logger = my_logger.Logger("log/diagnosi_relativa_osservazione_from_diagnostic_graph").get_logger()
+            diagnosi_lineare.start_execution_from_serialized_diagnostic_graph(input_read[0], input_read[1]) #
+
+
         else:
             print("ERROR: there was an index input error")
 
@@ -131,10 +142,10 @@ if __name__ == '__main__':
         line = ''.join(line for line in lines)
         print("line from args.bin", line)
         with open(line, 'rb') as f:
-            behavioral_state_graph, behavioral_state_final = pickle.load(f)
-            input_read.append(behavioral_state_graph)
-            input_read.append(behavioral_state_final)
-
+            # behavioral_state_graph, behavioral_state_final = pickle.load(f)
+            # input_read.append(behavioral_state_graph)
+            # input_read.append(behavioral_state_final)
+            input_read.append(pickle.load(f))
     elif args.json:
     #    print("JSON", args.json[1].name)
         for i in range (len(args.json)):

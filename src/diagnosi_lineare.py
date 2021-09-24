@@ -2,6 +2,7 @@ import json
 import os
 import model.utility as util
 import my_logger
+import pickle
 from model.fa import FA
 from model.link import Link
 from model.transition import Transition
@@ -112,6 +113,40 @@ def start_execution(fa_json, transitions_json, link_original_json, linear_observ
               t.observable_label, t.relevant_label,
               "\tSILENT_CHILD", c.name)
 
+    logger.warning("STARTING GENERATE_LINEAR_DIAGNOSIS")
+    r = generate_linear_diagnostic(diagnostic_graph, linear_observation)
+    print("FINEEEE\t", r)
+
+def start_execution_from_serialized_behave_space(behavioral_state_graph):
+    util.start_timer()
+    logger=my_logger.Logger.__call__().get_logger()
+    logger.warning("STARTING GENERATE_CLOSURE_SPACE")
+    silent_space = generate_closure_space(behavioral_state_graph)
+    for i in range(len(silent_space)):
+        silent_space[i].name = i
+        silent_space[i].decorate()
+
+    logger.warning("STARTING GENERATE_DIAGNOSTIC_GRAPH")
+    diagnostic_graph = generate_diagnostic_graph(silent_space)
+    for (p, t, c) in diagnostic_graph:
+        print("SILENT_PARENT", p.name,
+              "\tTRANSITION ", t.unique_name,
+              t.observable_label, t.relevant_label,
+              "\tSILENT_CHILD", c.name)
+
+def start_execution_from_serialized_silent_space(silent_space):
+    util.start_timer()
+    logger=my_logger.Logger.__call__().get_logger()
+    logger.warning("STARTING GENERATE_DIAGNOSTIC_GRAPH")
+    diagnostic_graph = generate_diagnostic_graph(silent_space)
+    for (p, t, c) in diagnostic_graph:
+        print("SILENT_PARENT", p.name,
+              "\tTRANSITION ", t.unique_name,
+              t.observable_label, t.relevant_label,
+              "\tSILENT_CHILD", c.name)
+
+def start_execution_from_serialized_diagnostic_graph(diagnostic_graph, linear_observation):
+    logger=my_logger.Logger.__call__().get_logger()
     logger.warning("STARTING GENERATE_LINEAR_DIAGNOSIS")
     r = generate_linear_diagnostic(diagnostic_graph, linear_observation)
     print("FINEEEE\t", r)
