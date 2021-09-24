@@ -67,7 +67,7 @@ def execute(args, input_read):
                 input_read[0])
         elif x == 3:
             logger = my_logger.Logger(
-                "log/diagnosi_relativa_osservazione_from_spazio_comportamental").get_logger()
+                "log/diagnosi_relativa_osservazione_from_spazio_comportamentale").get_logger()
             diagnosi_lineare.start_execution_from_serialized_behave_space(
                 input_read[0][0], input_read[1])
         elif x == 4:
@@ -120,7 +120,8 @@ if __name__ == '__main__':
             lines = [line.strip() for line in args.json[i].name]
             line = ''.join(line for line in lines)
             with open(line) as f:
-              input_read.append(json.load(f))
+                print(i)
+                input_read.append(json.load(f))
 
     if args.obs_list:
         arr = args.obs_list[0].split(',')

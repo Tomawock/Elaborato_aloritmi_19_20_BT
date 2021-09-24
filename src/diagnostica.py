@@ -35,6 +35,7 @@ def generate_closure(behavioral_state_graph, initial_state, silent_closure):
 def generate_closure_space(behavioral_state_graph):
     silent_closure_space = []
     # stato inziale : behavioral_state_graph[0][0]
+    print(behavioral_state_graph)
     silent_closure = create_silent_closure(
         behavioral_state_graph, behavioral_state_graph[0][0])
     silent_closure_space.append(silent_closure)
