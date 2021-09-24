@@ -1,0 +1,209 @@
+[
+  {
+    "unique_name" : "s1",
+    "fa_name" : "S",
+    "next_state" : "11",
+    "input_link" : {
+      "name": "",
+      "event": ""
+    },
+    "output_link" : [
+      {
+        "name": "L",
+        "event": "op"
+      }
+    ],
+    "observable_label" : "act",
+    "relevant_label" : "ε"
+  },
+  {
+    "unique_name" : "s2",
+    "fa_name" : "S",
+    "next_state" : "10",
+    "input_link" : {
+      "name": "",
+      "event": ""
+    },
+    "output_link" : [
+      {
+        "name": "L",
+        "event": "cl"
+      }
+    ],
+    "observable_label" : "sby",
+    "relevant_label" : "ε"
+  },
+  {
+    "unique_name" : "s3",
+    "fa_name" : "S",
+    "next_state" : "10",
+    "input_link" : {
+      "name": "",
+      "event": ""
+    },
+    "output_link" : [
+      {
+        "name": "L",
+        "event": "cl"
+      }
+    ],
+    "observable_label" : "ε",
+    "relevant_label" : "f1"
+  },
+  {
+    "unique_name" : "s4",
+    "fa_name" : "S",
+    "next_state" : "11",
+    "input_link" : {
+      "name": "",
+      "event": ""
+    },
+    "output_link" : [
+      {
+        "name": "L",
+        "event": "op"
+      }
+    ],
+    "observable_label" : "ε",
+    "relevant_label" : "f2"
+  },
+  {
+    "unique_name" : "b1",
+    "fa_name" : "B",
+    "next_state" : "21",
+    "input_link" : {
+      "name": "L",
+      "event": "op"
+    },
+    "output_link" : [
+      {
+        "name": "",
+        "event": ""
+      }
+    ],
+    "observable_label" : "opn",
+    "relevant_label" : "ε"
+  },
+  {
+    "unique_name" : "b2",
+    "fa_name" : "B",
+    "next_state" : "20",
+    "input_link" : {
+      "name": "L",
+      "event": "cl"
+    },
+    "output_link" : [
+      {
+        "name": "",
+        "event": ""
+      }
+    ],
+    "observable_label" : "cls",
+    "relevant_label" : "ε"
+  },
+  {
+    "unique_name" : "b3",
+    "fa_name" : "B",
+    "next_state" : "20",
+    "input_link" : {
+      "name": "L",
+      "event": "op"
+    },
+    "output_link" : [
+      {
+        "name": "",
+        "event": ""
+      }
+    ],
+    "observable_label" : "ε",
+    "relevant_label" : "f3"
+  },
+  {
+    "unique_name" : "b4",
+    "fa_name" : "B",
+    "next_state" : "21",
+    "input_link" : {
+      "name": "L",
+      "event": "cl"
+    },
+    "output_link" : [
+      {
+        "name": "",
+        "event": ""
+      }
+    ],
+    "observable_label" : "ε",
+    "relevant_label" : "f4"
+  },
+  {
+    "unique_name" : "b5",
+    "fa_name" : "B",
+    "next_state" : "20",
+    "input_link" : {
+      "name": "L",
+      "event": "cl"
+    },
+    "output_link" : [
+      {
+        "name": "",
+        "event": ""
+      }
+    ],
+    "observable_label" : "nop",
+    "relevant_label" : "ε"
+  },
+  {
+    "unique_name" : "b6",
+    "fa_name" : "B",
+    "next_state" : "21",
+    "input_link" : {
+      "name": "L",
+      "event": "op"
+    },
+    "output_link" : [
+      {
+        "name": "",
+        "event": ""
+      }
+    ],
+    "observable_label" : "nop",
+    "relevant_label" : "ε"
+  },
+  {
+    "unique_name" : "b7",
+    "fa_name" : "B",
+    "next_state" : "21",
+    "input_link" : {
+      "name": "L",
+      "event": "cl"
+    },
+    "output_link" : [
+      {
+        "name": "",
+        "event": ""
+      }
+    ],
+    "observable_label" : "opn",
+    "relevant_label" : "f5"
+  },
+  {
+    "unique_name" : "b8",
+    "fa_name" : "B",
+    "next_state" : "20",
+    "input_link" : {
+      "name": "L",
+      "event": "op"
+    },
+    "output_link" : [
+      {
+        "name": "",
+        "event": ""
+      }
+    ],
+    "observable_label" : "cls",
+    "relevant_label" : "f6"
+  }
+
+
+
+]

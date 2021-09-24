@@ -1,0 +1,96 @@
+[
+  {
+    "name": "S",
+    "states": [
+      {
+        "name": "10",
+        "initial": true,
+        "outgoings_transitions":[
+          "s1"
+        ]
+      },
+      {
+        "name": "10",
+        "initial": true,
+        "outgoings_transitions":[
+          "s3"
+        ]
+      },
+      {
+        "name": "11",
+        "initial": false,
+        "outgoings_transitions":[
+          "s2"
+        ]
+      },
+      {
+        "name": "11",
+        "initial": false,
+        "outgoings_transitions":[
+          "s4"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "B",
+    "states": [
+      {
+        "name": "20",
+        "initial": true,
+        "outgoings_transitions":[
+          "b1"
+        ]
+      },
+      {
+        "name": "20",
+        "initial": true,
+        "outgoings_transitions":[
+          "b7"
+        ]
+      },
+      {
+        "name": "20",
+        "initial": true,
+        "outgoings_transitions":[
+          "b3"
+        ]
+      },
+      {
+        "name": "20",
+        "initial": true,
+        "outgoings_transitions":[
+          "b5"
+        ]
+      },
+      {
+        "name": "21",
+        "initial": false,
+        "outgoings_transitions":[
+          "b2"
+        ]
+      },
+      {
+        "name": "21",
+        "initial": false,
+        "outgoings_transitions":[
+          "b4"
+        ]
+      },
+      {
+        "name": "21",
+        "initial": false,
+        "outgoings_transitions":[
+          "b6"
+        ]
+      },
+      {
+        "name": "21",
+        "initial": false,
+        "outgoings_transitions":[
+          "b8"
+        ]
+      }
+    ]
+  }
+]
