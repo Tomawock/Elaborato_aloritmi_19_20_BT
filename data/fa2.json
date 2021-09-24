@@ -1,0 +1,48 @@
+[
+  {
+    "name": "S",
+    "states": [
+      {
+        "name": "10",
+        "initial": true,
+        "outgoings_transitions":[
+          "s1",
+          "s3"
+        ]
+      },
+      {
+        "name": "11",
+        "initial": false,
+        "outgoings_transitions":[
+          "s2",
+          "s4"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "B",
+    "states": [
+      {
+        "name": "20",
+        "initial": true,
+        "outgoings_transitions":[
+          "b1",
+          "b7",
+          "b3",
+          "b5"
+        ]
+      },
+      {
+        "name": "21",
+        "initial": false,
+        "outgoings_transitions":[
+          "b2",
+          "b4",
+          "b6",
+          "b8"
+        ]
+      }
+    ]
+  }
+]

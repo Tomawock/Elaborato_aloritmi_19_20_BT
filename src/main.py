@@ -125,7 +125,8 @@ if __name__ == '__main__':
             lines = [line.strip() for line in args.json[i].name]
             line = ''.join(line for line in lines)
             with open(line) as f:
-              input_read.append(json.load(f))
+                print(i)
+                input_read.append(json.load(f))
 
     if args.obs_list:
         arr = args.obs_list[0].split(',')
