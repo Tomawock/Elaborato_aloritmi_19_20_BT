@@ -1,0 +1,61 @@
+[
+  {
+    "name": "C1",
+    "states": [
+      {
+        "name": "10",
+        "initial": true,
+        "outgoings_transitions":[
+          "t1a"
+          "t1c"
+        ]
+      },
+      {
+        "name": "11",
+        "initial": false,
+        "outgoings_transitions":[
+          "t1b"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "C2",
+    "states": [
+      {
+        "name": "20",
+        "initial": true,
+        "outgoings_transitions":[
+          "t2a"
+        ]
+      },
+      {
+        "name": "21",
+        "initial": false,
+        "outgoings_transitions":[
+          "t2b"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "C3",
+    "states": [
+      {
+        "name": "30",
+        "initial": true,
+        "outgoings_transitions":[
+          "t3a"
+        ]
+      },
+      {
+        "name": "31",
+        "initial": false,
+        "outgoings_transitions":[
+          "t3b",
+          "t3c"
+        ]
+      }
+    ]
+  }
+]
