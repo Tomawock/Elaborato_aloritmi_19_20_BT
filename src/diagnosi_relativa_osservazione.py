@@ -61,16 +61,17 @@ def start_execution(fa_json, transitions_json, link_original_json, linear_observ
         original_link = []
         for fa in fa_json:
             fa_main_list.append(FA(fa))
-            for ta in transitions_json:
-                transition_main_list.append(Transition(ta))
-                for li in link_original_json:
-                    original_link.append(Link(li["name"], li["event"]))
+        for ta in transitions_json:
+            transition_main_list.append(Transition(ta))
+        for li in link_original_json:
+            original_link.append(Link(li["name"], li["event"]))
 
-                    with open(os.path.join('data', 'stateNQ.json')) as f:
-                        nq = json.load(f)
-                        # da gestire con gli oggetti
-                        with open(os.path.join('data', 'stateN0.json')) as f:
-                            n0 = json.load(f)
+        with open(os.path.join('data', 'stateNQ.json')) as f:
+            nq = json.load(f)
+            # da gestire con gli oggetti
+        with open(os.path.join('data', 'stateN0.json')) as f:
+            n0 = json.load(f)
+            
         observation_graph, final_states = spazio_comportamentale_osservabile(
             fa_main_list, transition_main_list, original_link, linear_observation)
 
