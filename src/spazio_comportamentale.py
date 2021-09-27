@@ -114,6 +114,8 @@ def spazio_comportamentale(fa_list, transitions_list, original_link_list):
                 if parent_node == next_behavioral_state:
                     can_add = False
                     break
+            if can_add and next_behavioral_state in behavioral_state_queue.queue:
+                can_add = False
 
             if can_add:
                 # Aggiungi il nuovo nodo alla coda per essere analizzato
