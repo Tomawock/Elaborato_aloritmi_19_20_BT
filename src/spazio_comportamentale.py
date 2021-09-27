@@ -120,7 +120,7 @@ def spazio_comportamentale(fa_list, transitions_list, original_link_list):
                 behavioral_state_queue.put(next_behavioral_state)
                 logger.info("FOUND NEW BEHAVIORAL STATE: "
                             + str(next_behavioral_state))
-            if next_behavioral_state.is_final():
+            if next_behavioral_state.is_final() and not next_behavioral_state in behavioral_state_final:
                 behavioral_state_final.append(
                     next_behavioral_state)
                 logger.info("FOUND NEW FINAL STATE: "
