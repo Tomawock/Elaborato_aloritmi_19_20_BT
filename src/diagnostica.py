@@ -24,6 +24,7 @@ def generate_closure(behavioral_state_graph, initial_state, silent_closure):
             if transition.observable_label == 'ε':
                 silent_closure.sub_graph.append((
                     parent_node, transition, child_node))
+                print("\n", silent_closure.to_video())
                 generate_closure(behavioral_state_graph,
                                  child_node, silent_closure)
             else:
@@ -35,7 +36,7 @@ def generate_closure(behavioral_state_graph, initial_state, silent_closure):
 def generate_closure_space(behavioral_state_graph):
     silent_closure_space = []
     # stato inziale : behavioral_state_graph[0][0]
-    print(behavioral_state_graph)
+    # print(behavioral_state_graph)
     silent_closure = create_silent_closure(
         behavioral_state_graph, behavioral_state_graph[0][0])
     silent_closure_space.append(silent_closure)
@@ -106,10 +107,11 @@ def start_execution(fa_json, transitions_json, link_original_json):
             silent_space[i].name = i
             silent_space[i].decorate()
             logger.info("SILENT SPACE \t:"
-                        + str(silent_space[i].name) + "DELTA", str(silent_space[i].delta))
+                        + str(silent_space[i].name) + "DELTA"
+                        + str(silent_space[i].delta))
             for (p, t, c) in silent_space[i].exit_transitions:
-                logger.info("EXIT TRANSICTIONS-> PARENT:" + str(p)
-                            + "\tTRANSICTION:" + str(t) + "\tCHILD:" + str(c))
+                logger.info("EXIT TRANSICTIONS-> PARENT: " + str(p)
+                            + "\tTRANSICTION: " + str(t) + "\tCHILD: " + str(c))
 
         # salvataggio del silent space
         serialize_silent_closure_space(silent_space)
@@ -117,10 +119,10 @@ def start_execution(fa_json, transitions_json, link_original_json):
         logger.debug("STARTING GENERATE_DIAGNOSTIC_GRAPH")
         diagnostic_graph = generate_diagnostic_graph(silent_space)
         for (p, t, c) in diagnostic_graph:
-            logger.critical("SILENT_PARENT" + p.name
+            logger.critical("SILENT_PARENT " + str(p.name)
                             + "\tTRANSITION " + t.unique_name
                             + t.observable_label + t.relevant_label
-                            + "\tSILENT_CHILD", + c.name)
+                            + "\tSILENT_CHILD " + str(c.name))
         util.stop_timer()
     except KeyboardInterrupt:
         logger.critical(my_logger.INTERRUPED_FROM_KEYBOARD)
