@@ -112,7 +112,8 @@ def create_loop_from_graph(global_sequence, n0, nq):
                     for (next_next_in_node, next_next_transaction, next_next_out_node) in global_sequence:
                         if (next_next_in_node == i and next_next_out_node != i):
                             if(i == o):
-                                r = next_transaction+OP_CONCAT+t+OP_REP+OP_CONCAT+next_next_transaction
+                                r = next_transaction+OP_CONCAT+OPEN_BRA+t + \
+                                    CLOSE_BRA+OP_REP+OP_CONCAT+next_next_transaction
                                 tmp_global.append(
                                     (next_in_node, r, next_next_out_node))
                                 banned_list.append((i, t, o))
@@ -120,6 +121,18 @@ def create_loop_from_graph(global_sequence, n0, nq):
                                     (next_in_node, next_transaction, next_out_node))
                                 banned_list.append(
                                     (next_next_in_node, next_next_transaction, next_next_out_node))
+                                cycle_found = True
+                            elif next_in_node == next_next_out_node:
+                                r = OPEN_BRA+next_transaction+OP_CONCAT+next_next_transaction+CLOSE_BRA
+                                # print("NEXT", (next_in_node,
+                                #                next_transaction, next_out_node))
+                                # print("NEXT NEXT", (next_next_in_node,
+                                #                     next_next_transaction, next_next_out_node))
+                                # print("ORIGINAL", (i, t, o))
+                                tmp_global.append(
+                                    (next_in_node, r, next_next_out_node))
+                                banned_list.append(
+                                    (next_in_node, next_transaction, next_out_node))
                                 cycle_found = True
         if cycle_found:
             break

@@ -24,8 +24,6 @@ def diagnosis_from_observable(observation_graph, final_states, n0, nq):
     logger = my_logger.Logger.__call__().get_logger()
 
     global_sequence = parsing(observation_graph)
-    logger.info("DIMENSION:"+str(len(global_sequence))
-                + " ORIGINAL SEQUENCE:" + str(global_sequence))
 
     for i, t, o in observation_graph:
         for el in final_states:
@@ -34,7 +32,11 @@ def diagnosis_from_observable(observation_graph, final_states, n0, nq):
             elif el == o and (o.name, NULL_SMIB, "NQ") not in global_sequence:
                 global_sequence.append((o.name, NULL_SMIB, "NQ"))
 
+    logger.info("DIMENSION:"+str(len(global_sequence))
+                + " ORIGINAL SEQUENCE:" + str(global_sequence))
+
     # print("GLOBAL", global_sequence)
+
     while len(global_sequence) > 1:
         # print("START CICLO")
         global_sequence = espressione_regolare.create_series_from_graph(
@@ -71,7 +73,7 @@ def start_execution(fa_json, transitions_json, link_original_json, linear_observ
             # da gestire con gli oggetti
         with open(os.path.join('data', 'stateN0.json')) as f:
             n0 = json.load(f)
-            
+
         observation_graph, final_states = spazio_comportamentale_osservabile(
             fa_main_list, transition_main_list, original_link, linear_observation)
 

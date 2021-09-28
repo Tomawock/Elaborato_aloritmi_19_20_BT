@@ -83,20 +83,23 @@ def spazio_comportamentale_osservabile(fa_list, transitions_list,
                     break
 
         # deleting not allowed transition_object
+        allowed_transitions_tmp = []
         if len(linear_observation) > behavioral_state_actual.observation_index:
             for at in allowed_transitions:
-                #print("BEH ACTUAL INDEX",
-                #      behavioral_state_actual.observation_index)
                 if at.observable_label != linear_observation[behavioral_state_actual.observation_index] \
                         and at.observable_label != NULL_SMIB:
                     # print("T")
-                    allowed_transitions.remove(at)
+                    allowed_transitions_tmp.append(at)
         elif len(linear_observation) == behavioral_state_actual.observation_index:
             for at in allowed_transitions:
                 if at.observable_label != NULL_SMIB:
-                    allowed_transitions.remove(at)
+                    allowed_transitions_tmp.append(at)
         else:
             allowed_transitions = []
+
+        for to_remove in allowed_transitions_tmp:
+            if to_remove in allowed_transitions:
+                allowed_transitions.remove(to_remove)
 
         logger.info("DIMENSION ALLOWED TRANSITION: "
                     + str(len(allowed_transitions)))
@@ -135,7 +138,8 @@ def spazio_comportamentale_osservabile(fa_list, transitions_list,
                     and at.observable_label == linear_observation[behavioral_state_actual.observation_index]:
                 next_behavioral_state.observation_index = next_behavioral_state.observation_index + 1
 
-            print(next_behavioral_state.observation_index)
+                # print(
+                #     "TEST:", linear_observation[behavioral_state_actual.observation_index])
             # Create graph node with transiction from parent node to child node
             behavioral_state_graph.append(
                 (behavioral_state_actual, at, next_behavioral_state))
@@ -169,22 +173,12 @@ def spazio_comportamentale_osservabile(fa_list, transitions_list,
                             behavioral_state_final))
                         + "\t"
                         + "|DIMENSIONE CODA->" + str(behavioral_state_queue.qsize()))
-    # print("END CREAZIONE GRAFO")
-    # print("##################################################")
-    # print("STATI FINALI")
-    #for final in behavioral_state_final:
-    #    print(final)
-    # print("##################################################")
-    # formatted_graph_labels(behavioral_state_graph)
-    # print("|DIMENSIONE GRAFO->", len(behavioral_state_graph),
-    #       "|DIMENSIONE STATI FINALI->", len(behavioral_state_final),
-    #       "|DIMENSIONE CODA->", behavioral_state_queue.qsize())
-    # print("##################################################")
+
     final_states_string = ""
     for final in behavioral_state_final:
         final_states_string = final_states_string + "\n" + str(final)
     logger.info("FINAL STATES:" + final_states_string)
-    # print("##################################################")
+
     logger.info("COMPLETE "+formatted_graph_labels(behavioral_state_graph))
     logger.info("DIMENSIONE GRAFO->" + str(len(behavioral_state_graph))
                 + "\t"
@@ -198,8 +192,7 @@ def spazio_comportamentale_osservabile(fa_list, transitions_list,
     while pruned_touple != pruned_touple_before:
         pruned_touple_before = pruned_touple
         for (parent_node, transition, child_node) in behavioral_state_graph:
-            if child_node not in behavioral_state_final \
-                        and not child_node.has_son(behavioral_state_graph):
+            if (child_node not in behavioral_state_final) and (not child_node.has_son(behavioral_state_graph)):
                 behavioral_state_graph.remove(
                         (parent_node, transition, child_node))
                 pruned_touple += 1
@@ -207,32 +200,11 @@ def spazio_comportamentale_osservabile(fa_list, transitions_list,
     logger.warning(
         "PRUNED " + formatted_graph_labels(behavioral_state_graph))
 
-    # print("END PRUNING")
-    # print("##################################################")
-    # formatted_graph_labels(behavioral_state_graph)
-    # print("|DIMENSIONE GRAFO->", len(behavioral_state_graph),
-    #       "|DIMENSIONE STATI FINALI->", len(behavioral_state_final),
-    #       "|DIMENSIONE CODA->", behavioral_state_queue.qsize())
-    # print("##################################################")
-    # print("STARTING RENAMING")
-    behavioral_state_graph = enumerate_states_observable(
+    behavioral_state_graph = enumerate_states(
         behavioral_state_graph)
 
     logger.warning(
         "RENAMED " + formatted_graph_labels(behavioral_state_graph))
-    # print("END RENAMING")
-    # print("FINE ELABORAZIONE")
-
-    # print("##################################################")
-    # formatted_graph_labels(behavioral_state_graph)
-    # print("|DIMENSIONE GRAFO->", len(behavioral_state_graph),
-    #       "|DIMENSIONE STATI FINALI->", len(behavioral_state_final),
-    #       "|DIMENSIONE CODA->", behavioral_state_queue.qsize())
-    # print("##################################################")
-    # print("CREAZIONE IMMAGINI")
-    # my_path = os.path.dirname(__file__)
-    # create_pretty_graph(os.path.join(my_path, "images/"),
-    #                     behavioral_state_graph)
     serialize_object(behavioral_state_graph, behavioral_state_final)
     return behavioral_state_graph, behavioral_state_final
 
@@ -286,9 +258,11 @@ def enumerate_states_observable(behavioral_state_graph):
                     state_name += 1
                     p2.name = state_name
     for (p, t, c) in behavioral_state_enumerated:
-        if(c.name == ""):
-            state_name += 1
-            c.name = state_name
+        for (p2, t2, c2) in behavioral_state_enumerated:
+
+            if(c.name == ""):
+                state_name += 1
+                c.name = state_name
     return behavioral_state_enumerated
 
 
