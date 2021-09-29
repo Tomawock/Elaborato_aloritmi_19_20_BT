@@ -3,6 +3,7 @@ import os
 import model.utility as util
 import sys
 import my_logger
+import time
 
 
 OP_CONCAT = ' '
@@ -26,6 +27,8 @@ def create_series_from_graph(global_sequence):
         series_sequence.append((in_node, transaction, out_node))
         ## Generate Series
         while(series_found == 1):
+            # print("out node", out_node, "incoming", count_incoming(global_sequence, out_node),
+            #       "outcoming", count_outcoming(global_sequence, out_node))
             if (count_incoming(global_sequence, out_node) == 1 and count_outcoming(global_sequence, out_node) == 1):
                 for next_in_node, next_transaction, next_out_node in global_sequence:
                     if(next_in_node == out_node and (count_incoming(global_sequence, out_node) == 1 and count_outcoming(global_sequence, out_node) == 1)):
@@ -107,11 +110,16 @@ def create_loop_from_graph(global_sequence, n0, nq):
     cycle_found = False
     for i, t, o in global_sequence:
         if(i != n0['name'] and o != nq['name']):
+            # print("0:", i, t, o)
             for (next_in_node, next_transaction, next_out_node) in global_sequence:
+                # print("1:", next_in_node, next_transaction, next_out_node)
                 if (next_in_node != i and next_out_node == i):
+                    # print("2:", next_in_node, next_transaction, next_out_node)
                     for (next_next_in_node, next_next_transaction, next_next_out_node) in global_sequence:
+
                         if (next_next_in_node == i and next_next_out_node != i):
                             if(i == o):
+                                # print("DIOCAN")
                                 r = next_transaction+OP_CONCAT+OPEN_BRA+t + \
                                     CLOSE_BRA+OP_REP+OP_CONCAT+next_next_transaction
                                 tmp_global.append(
@@ -214,9 +222,12 @@ def diagnosis(observation_graph, final_states):
         n0 = json.load(f)
     # parsing objects from observation graph into tuple array
     global_sequence = parsing(observation_graph)
-
+    # INsert n0 in the to the first elemnt
+    global_sequence = [
+        ("N0", NULL_SMIB, global_sequence[0][0])] + global_sequence
     for i, t, o in observation_graph:
         for el in final_states:
+            # print("FINALI:", el)
             if el == i and (i.name, NULL_SMIB, "NQ") not in global_sequence:
                 global_sequence.append((i.name, NULL_SMIB, "NQ"))
             elif el == o and (o.name, NULL_SMIB, "NQ") not in global_sequence:
@@ -226,6 +237,7 @@ def diagnosis(observation_graph, final_states):
         global_sequence = create_series_from_graph(global_sequence)
         global_sequence = create_parallel_from_graph(global_sequence)
         global_sequence = create_loop_from_graph(global_sequence, n0, nq)
+        # time.sleep(0.5)
 
     # print("FINAL_", global_sequence)
     return global_sequence

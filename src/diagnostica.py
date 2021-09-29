@@ -22,14 +22,15 @@ def generate_closure(behavioral_state_graph, initial_state, silent_closure):
     for (parent_node, transition, child_node) in behavioral_state_graph:
         if parent_node == initial_state:
             if transition.observable_label == 'ε':
-                silent_closure.sub_graph.append((
-                    parent_node, transition, child_node))
-                print("\n", silent_closure.to_video())
-                generate_closure(behavioral_state_graph,
-                                 child_node, silent_closure)
-            else:
+                if (parent_node, transition, child_node) not in silent_closure.sub_graph:
+                    silent_closure.sub_graph.append((
+                        parent_node, transition, child_node))
+                    generate_closure(behavioral_state_graph,
+                                     child_node, silent_closure)
+            elif (parent_node, transition, child_node) not in silent_closure.exit_transitions:
                 silent_closure.exit_transitions.append((
                     parent_node, transition, child_node))
+
     return ((None, None, None))
 
 
@@ -37,24 +38,26 @@ def generate_closure_space(behavioral_state_graph):
     silent_closure_space = []
     # stato inziale : behavioral_state_graph[0][0]
     # print(behavioral_state_graph)
+    inital_used_nodes = []
     silent_closure = create_silent_closure(
         behavioral_state_graph, behavioral_state_graph[0][0])
     silent_closure_space.append(silent_closure)
 
+    inital_used_nodes.append(behavioral_state_graph[0][0])
+
     for (parent_node, transition, child_node) in behavioral_state_graph:
-        if transition.observable_label != 'ε':
+        if transition.observable_label != 'ε' and child_node not in inital_used_nodes:
             silent_closure = create_silent_closure(
                 behavioral_state_graph, child_node)
             silent_closure_space.append(silent_closure)
+            inital_used_nodes.append(child_node)
     return silent_closure_space
 
 
 def serialize_silent_closure_space(silent_closure_space):
     serialize_path = "data/serialized_objects/"
     with open(os.path.join(serialize_path, "silent_closure_space"), 'wb') as f:
-        #outfile=open(filename, 'wb')
         pickle.dump(silent_closure_space, f)
-        #outfile.close()
 
 
 def generate_diagnostic_graph(silent_space):
@@ -121,7 +124,7 @@ def start_execution(fa_json, transitions_json, link_original_json):
         for (p, t, c) in diagnostic_graph:
             logger.critical("SILENT_PARENT " + str(p.name)
                             + "\tTRANSITION " + t.unique_name
-                            + t.observable_label + t.relevant_label
+                            + t.observable_label + " RELEVANT: "+t.relevant_label
                             + "\tSILENT_CHILD " + str(c.name))
         util.stop_timer()
     except KeyboardInterrupt:
@@ -150,10 +153,10 @@ def start_execution_from_serialized_behave_space(behavioral_state_graph):
         logger.warning("STARTING GENERATE_DIAGNOSTIC_GRAPH")
         diagnostic_graph = generate_diagnostic_graph(silent_space)
         for (p, t, c) in diagnostic_graph:
-            logger.critical("SILENT_PARENT" + p.name
+            logger.critical("SILENT_PARENT " + str(p.name)
                             + "\tTRANSITION " + t.unique_name
-                            + t.observable_label + t.relevant_label
-                            + "\tSILENT_CHILD", + c.name)
+                            + t.observable_label + " RELEVANT: "+t.relevant_label
+                            + "\tSILENT_CHILD " + str(c.name))
         util.stop_timer()
     except KeyboardInterrupt:
         logger.critical(my_logger.INTERRUPED_FROM_KEYBOARD)
@@ -170,10 +173,10 @@ def start_execution_from_serialized_silent_space(silent_space):
     try:
         diagnostic_graph = generate_diagnostic_graph(silent_space)
         for (p, t, c) in diagnostic_graph:
-            logger.critical("SILENT_PARENT" + p.name
+            logger.critical("SILENT_PARENT " + str(p.name)
                             + "\tTRANSITION " + t.unique_name
-                            + t.observable_label + t.relevant_label
-                            + "\tSILENT_CHILD", + c.name)
+                            + t.observable_label + " RELEVANT: "+t.relevant_label
+                            + "\tSILENT_CHILD " + str(c.name))
         util.stop_timer()
     except KeyboardInterrupt:
         logger.critical(my_logger.INTERRUPED_FROM_KEYBOARD)

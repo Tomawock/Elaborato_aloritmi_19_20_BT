@@ -19,10 +19,10 @@ class SilentClosure:
         self.exit_expressions = exit_expressions
 
     def to_video(self):
-        print("SUBGRAPH")
+        print("SUBGRAPH "+str(len(self.sub_graph)))
         for (p, t, c) in self.sub_graph:
             print("P:", p, "\tT:", t, "\tC:", c)
-        print("EXIT TRANSITIONS")
+        print("EXIT TRANSITIONS "+str(len(self.exit_transitions)))
         for (p, t, c) in self.exit_transitions:
             print("P:", p, "\tT:", t, "\tC:", c)
 
@@ -47,7 +47,7 @@ class SilentClosure:
     def decorate(self):
         delta_final_states = self.get_delta_final_states()
         exit_final_states = self.get_exit_final_states()
-        if len(self.sub_graph) > 0:
+        if len(self.sub_graph) > 1:
             for final_state in delta_final_states:
                 # pruning
                 pruned_graph = self.silent_prune(final_state)
