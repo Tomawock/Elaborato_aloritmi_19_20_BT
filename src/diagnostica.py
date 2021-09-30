@@ -122,8 +122,8 @@ def start_execution(fa_json, transitions_json, link_original_json):
         logger.debug("STARTING GENERATE_DIAGNOSTIC_GRAPH")
         diagnostic_graph = generate_diagnostic_graph(silent_space)
         for (p, t, c) in diagnostic_graph:
-            logger.critical("SILENT_PARENT " + str(p.name)
-                            + "\tTRANSITION " + t.unique_name
+            logger.critical("SILENT_PARENT " + str(p.name) + " DELTA: " + p.delta
+                            + "\tTRANSITION " + t.unique_name + " OBSERVABLE: "
                             + t.observable_label + " RELEVANT: "+t.relevant_label
                             + "\tSILENT_CHILD " + str(c.name))
         util.stop_timer()
@@ -153,8 +153,8 @@ def start_execution_from_serialized_behave_space(behavioral_state_graph):
         logger.warning("STARTING GENERATE_DIAGNOSTIC_GRAPH")
         diagnostic_graph = generate_diagnostic_graph(silent_space)
         for (p, t, c) in diagnostic_graph:
-            logger.critical("SILENT_PARENT " + str(p.name)
-                            + "\tTRANSITION " + t.unique_name
+            logger.critical("SILENT_PARENT " + str(p.name) + " DELTA: " + p.delta
+                            + "\tTRANSITION " + t.unique_name + " OBSERVABLE: "
                             + t.observable_label + " RELEVANT: "+t.relevant_label
                             + "\tSILENT_CHILD " + str(c.name))
         util.stop_timer()
@@ -173,8 +173,8 @@ def start_execution_from_serialized_silent_space(silent_space):
     try:
         diagnostic_graph = generate_diagnostic_graph(silent_space)
         for (p, t, c) in diagnostic_graph:
-            logger.critical("SILENT_PARENT " + str(p.name)
-                            + "\tTRANSITION " + t.unique_name
+            logger.critical("SILENT_PARENT " + str(p.name) + " DELTA: " + p.delta
+                            + "\tTRANSITION " + t.unique_name + " OBSERVABLE: "
                             + t.observable_label + " RELEVANT: "+t.relevant_label
                             + "\tSILENT_CHILD " + str(c.name))
         util.stop_timer()

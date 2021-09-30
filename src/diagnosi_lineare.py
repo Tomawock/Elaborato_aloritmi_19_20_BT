@@ -92,7 +92,7 @@ def start_execution(fa_json, transitions_json, link_original_json, linear_observ
             silent_space[i].name = i
             silent_space[i].decorate()
             logger.info("SILENT SPACE \t:"
-                        + str(silent_space[i].name) + "DELTA", str(silent_space[i].delta))
+                        + str(silent_space[i].name) + "DELTA"+str(silent_space[i].delta))
             for (p, t, c) in silent_space[i].exit_transitions:
                 logger.info("EXIT TRANSICTIONS-> PARENT:" + str(p)
                             + "\tTRANSICTION:" + str(t) + "\tCHILD:" + str(c))
@@ -100,10 +100,10 @@ def start_execution(fa_json, transitions_json, link_original_json, linear_observ
         logger.debug("STARTING GENERATE_DIAGNOSTIC_GRAPH")
         diagnostic_graph = generate_diagnostic_graph(silent_space)
         for (p, t, c) in diagnostic_graph:
-            logger.critical("SILENT_PARENT" + p.name
-                            + "\tTRANSITION " + t.unique_name
-                            + t.observable_label + t.relevant_label
-                            + "\tSILENT_CHILD", + c.name)
+            logger.critical("SILENT_PARENT " + str(p.name) + " DELTA: " + p.delta
+                            + "\tTRANSITION " + t.unique_name + " OBSERVABLE: "
+                            + t.observable_label + " RELEVANT: "+t.relevant_label
+                            + "\tSILENT_CHILD " + str(c.name))
 
         logger.debug("STARTING GENERATE_LINEAR_DIAGNOSIS")
         r = generate_linear_diagnostic(diagnostic_graph, linear_observation)
@@ -135,10 +135,10 @@ def start_execution_from_serialized_behave_space(behavioral_state_graph, linear_
         logger.debug("STARTING GENERATE_DIAGNOSTIC_GRAPH")
         diagnostic_graph = generate_diagnostic_graph(silent_space)
         for (p, t, c) in diagnostic_graph:
-            logger.critical("SILENT_PARENT" + p.name
-                            + "\tTRANSITION " + t.unique_name
-                            + t.observable_label + t.relevant_label
-                            + "\tSILENT_CHILD", + c.name)
+            logger.critical("SILENT_PARENT " + str(p.name) + " DELTA: " + p.delta
+                            + "\tTRANSITION " + t.unique_name + " OBSERVABLE: "
+                            + t.observable_label + " RELEVANT: "+t.relevant_label
+                            + "\tSILENT_CHILD " + str(c.name))
 
         logger.debug("STARTING GENERATE_LINEAR_DIAGNOSIS")
         r = generate_linear_diagnostic(diagnostic_graph, linear_observation)
@@ -159,10 +159,10 @@ def start_execution_from_serialized_silent_space(silent_space, linear_observatio
         logger.debug("STARTING GENERATE_DIAGNOSTIC_GRAPH")
         diagnostic_graph = generate_diagnostic_graph(silent_space)
         for (p, t, c) in diagnostic_graph:
-            logger.critical("SILENT_PARENT" + p.name
-                            + "\tTRANSITION " + t.unique_name
-                            + t.observable_label + t.relevant_label
-                            + "\tSILENT_CHILD", + c.name)
+            logger.critical("SILENT_PARENT " + str(p.name) + " DELTA: " + p.delta
+                            + "\tTRANSITION " + t.unique_name + " OBSERVABLE: "
+                            + t.observable_label + " RELEVANT: "+t.relevant_label
+                            + "\tSILENT_CHILD " + str(c.name))
 
         logger.debug("STARTING GENERATE_LINEAR_DIAGNOSIS")
         r = generate_linear_diagnostic(diagnostic_graph, linear_observation)
