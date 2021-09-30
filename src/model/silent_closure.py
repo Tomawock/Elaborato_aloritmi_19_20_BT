@@ -47,37 +47,40 @@ class SilentClosure:
     def decorate(self):
         delta_final_states = self.get_delta_final_states()
         exit_final_states = self.get_exit_final_states()
-        if len(self.sub_graph) > 1:
+        if len(self.sub_graph) > 0:
             for final_state in delta_final_states:
                 # pruning
                 pruned_graph = []
                 pruned_graph = self.silent_prune(final_state)
-                # if len(pruned_graph) > 0:
-                regular_expression = diagnosis(pruned_graph, [final_state])
-                self.delta = self.delta + regular_expression[0][1] + OP_ALT
+                if len(pruned_graph) > 0:
+                    regular_expression = diagnosis(pruned_graph, [final_state])
+                    self.delta = self.delta + regular_expression[0][1] + OP_ALT
             self.delta = self.delta[:-1]
 
-            local_exit_transitions = []
-            for final_state in exit_final_states:
-                # pruning
-                pruned_graph = []
-                pruned_graph = self.silent_prune(final_state)
-                # if len(pruned_graph) > 0:
-                regular_expression = diagnosis(pruned_graph, [final_state])
-                for i in range(len(self.exit_transitions)):
-                    p = copy.deepcopy(self.exit_transitions[i][0])
-                    t = copy.deepcopy(self.exit_transitions[i][1])
-                    c = copy.deepcopy(self.exit_transitions[i][2])
-                    if final_state == p:
+        local_exit_transitions = []
+        for final_state in exit_final_states:
+            # pruning
+            pruned_graph = []
+            pruned_graph = self.silent_prune(final_state)
+            for i in range(len(self.exit_transitions)):
+                p = copy.deepcopy(self.exit_transitions[i][0])
+                t = copy.deepcopy(self.exit_transitions[i][1])
+                c = copy.deepcopy(self.exit_transitions[i][2])
+                if final_state == p:
+                    if len(pruned_graph) > 0:
+                        regular_expression = diagnosis(
+                            pruned_graph, [final_state])
                         t.relevant_label = t.relevant_label + \
-                                OP_CONCAT + regular_expression[0][1]
+                            OP_CONCAT + regular_expression[0][1]
                         # remove unused NULL_SMIB
                         t.relevant_label = t.relevant_label.replace(
                                     NULL_SMIB, '').strip()
                         if len(t.relevant_label) == 0:
                             t.relevant_label = NULL_SMIB
                         local_exit_transitions.append((p, t, c))
-                self.exit_transitions = local_exit_transitions
+                    elif len(pruned_graph) == 0:
+                        local_exit_transitions.append((p, t, c))
+        self.exit_transitions = local_exit_transitions
 
     def silent_prune(self, final_state):
         behavioral_state_graph = copy.deepcopy(self.sub_graph)

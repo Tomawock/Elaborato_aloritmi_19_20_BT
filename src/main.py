@@ -11,7 +11,7 @@ import \
 
 
 def execute(args, input_read):
-    ts = time.time()
+    ts = time.asctime(time.localtime(time.time()))[11:19]
     x = args.task[0]
     if args.json:
         if x == 0:
