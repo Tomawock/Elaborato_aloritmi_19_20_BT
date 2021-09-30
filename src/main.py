@@ -122,6 +122,7 @@ if __name__ == '__main__':
             input_read.append(pickle.load(f))
     elif args.json:
         for i in range(len(args.json)):
+            print(i)
             lines = [line.strip() for line in args.json[i].name]
             line = ''.join(line for line in lines)
             with open(line) as f:
