@@ -46,7 +46,7 @@ def create_series_from_graph(global_sequence):
                     # print("Added:", series_sequence[0])
                     tmp_global.append(series_sequence[0])
                 else:
-                    print("SERIED", series_sequence)
+                    #print("SERIED", series_sequence)
                     for el in unite_series(series_sequence):
                         tmp_global.append(el)
 

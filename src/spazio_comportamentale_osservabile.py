@@ -141,8 +141,9 @@ def spazio_comportamentale_osservabile(fa_list, transitions_list,
                 # print(
                 #     "TEST:", linear_observation[behavioral_state_actual.observation_index])
             # Create graph node with transiction from parent node to child node
-            behavioral_state_graph.append(
-                (behavioral_state_actual, at, next_behavioral_state))
+            if (behavioral_state_actual, at, next_behavioral_state) not in behavioral_state_graph:
+                behavioral_state_graph.append(
+                    (behavioral_state_actual, at, next_behavioral_state))
 
             can_add = True
             for (parent_node, transition, child_node) in behavioral_state_graph:
@@ -157,7 +158,7 @@ def spazio_comportamentale_osservabile(fa_list, transitions_list,
                 logger.info("FOUND NEW BEHAVIORAL STATE: "
                             + str(next_behavioral_state))
 
-            if next_behavioral_state.is_final_obs(len(linear_observation)):
+            if next_behavioral_state.is_final_obs(len(linear_observation))and not next_behavioral_state in behavioral_state_final:
                 behavioral_state_final.append(
                     next_behavioral_state)
                 logger.info("FOUND NEW FINAL STATE: "
