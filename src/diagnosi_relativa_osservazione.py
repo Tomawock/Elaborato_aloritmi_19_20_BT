@@ -24,6 +24,8 @@ def diagnosis_from_observable(observation_graph, final_states, n0, nq):
     logger = my_logger.Logger.__call__().get_logger()
 
     global_sequence = parsing(observation_graph)
+    global_sequence = [
+        ("N0", NULL_SMIB, global_sequence[0][0])] + global_sequence
 
     for i, t, o in observation_graph:
         for el in final_states:

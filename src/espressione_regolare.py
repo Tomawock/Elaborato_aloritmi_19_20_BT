@@ -43,17 +43,20 @@ def create_series_from_graph(global_sequence):
                         series_sequence = []
                 #add series elemnts to global
                 if len(series_sequence) == 1:
+                    # print("Added:", series_sequence[0])
                     tmp_global.append(series_sequence[0])
                 else:
-                    #print("SERIED",series_sequence)
+                    print("SERIED", series_sequence)
                     for el in unite_series(series_sequence):
                         tmp_global.append(el)
 
                 for el in series_sequence:
+                    # print("BANNED_LIST", banned_list)
                     banned_list.append(el)
                 #print("BANNED",banned_list)
                 series_sequence = []
                 series_found = 0
+    # print("######################")
     logger = my_logger.Logger.__call__().get_logger()
     logger.info("DIMENSION:"+str(len(tmp_global))
                 + " NEW SERIES EXECUTED:" + str(tmp_global))

@@ -6,10 +6,6 @@
       {
         "transaction": "a",
         "node": "1"
-      },
-      {
-        "transaction": "a",
-        "node": "2"
       }
     ],
     "incomings": [
@@ -26,16 +22,12 @@
     ]
   },
   {
-    "name": "2",
+    "name": "1",
     "type":"N",
     "outgoings": [
       {
-        "transaction": "b",
+        "transaction": "ε",
         "node": "3"
-      },
-      {
-        "transaction": "c",
-        "node": "2"
       }
     ]
   },
@@ -44,11 +36,7 @@
     "type":"N",
     "outgoings": [
       {
-        "transaction": "a",
-        "node": "3"
-      },
-      {
-        "transaction": "c",
+        "transaction": "ε",
         "node": "4"
       }
     ]
