@@ -41,12 +41,50 @@ def diagnosis_from_observable(observation_graph, final_states, n0, nq):
 
     while len(global_sequence) > 1:
         # print("START CICLO")
+        dim = len(global_sequence)
         global_sequence = espressione_regolare.create_series_from_graph(
             global_sequence)
         global_sequence = espressione_regolare.create_parallel_from_graph(
             global_sequence)
         global_sequence = espressione_regolare.create_loop_from_graph(
             global_sequence, n0, nq)
+        if dim == len(global_sequence):
+            logger.warning("SPECIAL CASE REACHED")
+            all_path = []
+            dfs(global_sequence, global_sequence[0], [], all_path)
+            for i in range(len(all_path)):
+                while len(all_path[i]) > 1:
+                    # print("START CICLO")
+                    all_path[i] = espressione_regolare.create_series_from_graph(
+                        all_path[i])
+            logger.warning("ALL PATH:" + str(all_path))
+            to_parallel = []
+            for el in all_path:
+                to_parallel.append(el[0])
+
+            while len(to_parallel) > 1:
+                # print("START CICLO")
+                to_parallel = espressione_regolare.create_parallel_from_graph(
+                    to_parallel)
+                    
+            global_sequence = to_parallel
+
+
+def dfs(global_sequence, currentVertex, visited_list, all_path):
+    (current_parent, current_transition, current_child) = currentVertex
+    # find adiacenti
+    adj = []
+    for p, t, c in global_sequence:
+        if p == current_child:
+            adj.append((p, t, c))
+    visited_list.append(currentVertex)
+
+    for vertex in adj:
+        if vertex not in visited_list:
+            dfs(global_sequence, vertex, visited_list.copy(), all_path)
+    # get only the path that goes to nq and starts from N0
+    if visited_list[-1][2] == "NQ" and visited_list[0][0] == "N0":
+        all_path.append(visited_list)
 
 
 def parsing(observation_graph):
