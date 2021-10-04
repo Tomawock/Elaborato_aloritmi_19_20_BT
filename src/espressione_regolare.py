@@ -20,6 +20,7 @@ def create_series_from_graph(global_sequence):
     banned_list = []  # List of elemnts in banned since already added to a list
     series_sequence = []
     ordered_list = []
+
     for i,t,o in global_sequence:
         if i == "N0":
             ordered_list.append((i,t,o))
