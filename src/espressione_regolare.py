@@ -137,8 +137,22 @@ def create_loop_from_graph(global_sequence, n0, nq):
 
                         if (next_next_in_node == i and next_next_out_node != i):
                             if(i == o):
-                                r = next_transaction+OP_CONCAT+OPEN_BRA+t + \
-                                    CLOSE_BRA+OP_REP+OP_CONCAT+next_next_transaction
+                                if t == NULL_SMIB and next_transaction != NULL_SMIB and next_next_transaction != NULL_SMIB:
+                                    r = OPEN_BRA+next_transaction+OP_CONCAT+next_next_transaction+CLOSE_BRA
+                                elif t != NULL_SMIB and next_transaction == NULL_SMIB and next_next_transaction != NULL_SMIB:
+                                    r = OPEN_BRA + OPEN_BRA + t + CLOSE_BRA+OP_REP+OP_CONCAT+next_next_transaction + CLOSE_BRA
+                                elif t != NULL_SMIB and next_transaction != NULL_SMIB and next_next_transaction == NULL_SMIB:
+                                    r = OPEN_BRA + next_transaction+OP_CONCAT+OPEN_BRA+t + CLOSE_BRA+OP_REP + CLOSE_BRA
+                                elif t == NULL_SMIB and next_transaction != NULL_SMIB and next_next_transaction == NULL_SMIB:
+                                    r = OPEN_BRA + next_transaction + CLOSE_BRA
+                                elif t == NULL_SMIB and next_transaction == NULL_SMIB and next_next_transaction != NULL_SMIB:
+                                    r = OPEN_BRA + next_next_transaction + CLOSE_BRA
+                                elif t == NULL_SMIB and next_transaction == NULL_SMIB and next_next_transaction == NULL_SMIB:
+                                    r = OPEN_BRA + t + CLOSE_BRA
+                                else:
+                                    r = OPEN_BRA + next_transaction+OP_CONCAT+OPEN_BRA+t + \
+                                    CLOSE_BRA+OP_REP+OP_CONCAT+next_next_transaction +CLOSE_BRA
+
                                 tmp_global.append(
                                     (next_in_node, r, next_next_out_node))
                                 # banned_list.append((i, t, o))
@@ -148,7 +162,15 @@ def create_loop_from_graph(global_sequence, n0, nq):
                                 #     (next_next_in_node, next_next_transaction, next_next_out_node))
                                 cycle_found = True
                             else:
-                                r = OPEN_BRA+next_transaction+OP_CONCAT+next_next_transaction+CLOSE_BRA
+                                if next_transaction == NULL_SMIB and next_next_transaction != NULL_SMIB:
+                                    r = next_next_transaction
+                                elif next_transaction != NULL_SMIB and next_next_transaction == NULL_SMIB:
+                                    r = next_transaction
+                                elif next_transaction == NULL_SMIB and next_next_transaction == NULL_SMIB:
+                                    r = next_transaction
+                                else:
+                                    r = OPEN_BRA+next_transaction+OP_CONCAT+next_next_transaction+CLOSE_BRA
+
                                 # print("NEXT", (next_in_node,
                                 #                next_transaction, next_out_node))
                                 # print("NEXT NEXT", (next_next_in_node,
@@ -294,7 +316,8 @@ def unite_parallel(series_sequence):
         destination = series_sequence[len(series_sequence)-1][2]
         transaction = series_sequence[0][1]
         for i in range(len(series_sequence)-1):
-            transaction += OP_ALT+series_sequence[i+1][1]
+            if series_sequence[i+1][1] != NULL_SMIB:
+                transaction += OP_ALT+series_sequence[i+1][1]
         transaction = OPEN_BRA+transaction+CLOSE_BRA
         seried_sequence.append((origin, transaction, destination))
     return seried_sequence
