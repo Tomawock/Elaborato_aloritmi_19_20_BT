@@ -59,7 +59,7 @@ def execute(args, input_read):
                 "log/diagnosi_relativa_osservazione_from_spazio_comportamentale_osservabile" + "_" + str(ts)).get_logger()
             # posso richiamare diagnosi_relativa_osservazione partendo dall'observable graph
             diagnosi_relativa_osservazione.start_execution_from_serialized_obs_graph(
-                input_read[0][0], input_read[0][1])  # observation_graph, finals_states
+                input_read[0][0], input_read[0][1])  # observation_graph, linear_observation
         elif x == 1:
             logger = my_logger.Logger(
                 "log/diagnosi_relativa_osservazione_from_spazio_comportamentale" + "_" + str(ts)).get_logger()
