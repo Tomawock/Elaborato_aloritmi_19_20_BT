@@ -158,6 +158,8 @@ def start_execution_from_serialized_behave_space(behavioral_state_graph):
                             + t.observable_label + " RELEVANT: "+t.relevant_label
                             + "\tSILENT_CHILD " + str(c.name))
         util.stop_timer()
+        logger.critical(my_logger.EXECUTION_TIME
+                        + str(util.get_code_time_execution()))
     except KeyboardInterrupt:
         logger.critical(my_logger.INTERRUPED_FROM_KEYBOARD)
         util.stop_timer()
@@ -178,6 +180,8 @@ def start_execution_from_serialized_silent_space(silent_space):
                             + t.observable_label + " RELEVANT: "+t.relevant_label
                             + "\tSILENT_CHILD " + str(c.name))
         util.stop_timer()
+        logger.critical(my_logger.EXECUTION_TIME
+                        + str(util.get_code_time_execution()))
     except KeyboardInterrupt:
         logger.critical(my_logger.INTERRUPED_FROM_KEYBOARD)
         util.stop_timer()
