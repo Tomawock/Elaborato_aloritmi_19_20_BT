@@ -62,27 +62,27 @@ def execute(args, input_read):
                 input_read[0][0], input_read[0][1])  # observation_graph, linear_observation
         elif x == 1:
             logger = my_logger.Logger(
-                "log/diagnosi_relativa_osservazione_from_spazio_comportamentale" + "_" + str(ts)).get_logger()
+                "log/diagnostica_from_spazio_comportamentale" + "_" + str(ts)).get_logger()
             diagnostica.start_execution_from_serialized_behave_space(
                 input_read[0][0])  # [0][0]identifing the behavioral_state_graph
         elif x == 2:
             logger = my_logger.Logger(
-                "log/diagnosi_relativa_osservazione_from_silent_closure_space" + "_" + str(ts)).get_logger()
+                "log/diagnostica_from_silent_closure_space" + "_" + str(ts)).get_logger()
             diagnostica.start_execution_from_serialized_silent_space(
                 input_read[0])
         elif x == 3:
             logger = my_logger.Logger(
-                "log/diagnosi_relativa_osservazione_from_spazio_comportamental" + "_" + str(ts)).get_logger()
+                "log/diagnosi_lineare_from_spazio_comportamentale" + "_" + str(ts)).get_logger()
             diagnosi_lineare.start_execution_from_serialized_behave_space(
                 input_read[0][0], input_read[1])
         elif x == 4:
             logger = my_logger.Logger(
-                "log/diagnosi_relativa_osservazione_from_silent_closure_space" + "_" + str(ts)).get_logger()
+                "log/diagnosi_lineare_from_silent_closure_space" + "_" + str(ts)).get_logger()
             diagnosi_lineare.start_execution_from_serialized_silent_space(
                 input_read[0], input_read[1])
         elif x == 5:
             logger = my_logger.Logger(
-                "log/diagnosi_relativa_osservazione_from_diagnostic_graph" + "_" + str(ts)).get_logger()
+                "log/diagnosi_lineare_from_diagnostic_graph" + "_" + str(ts)).get_logger()
             diagnosi_lineare.start_execution_from_serialized_diagnostic_graph(
                 input_read[0], input_read[1])
 

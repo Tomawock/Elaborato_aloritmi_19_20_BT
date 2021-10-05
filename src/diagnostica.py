@@ -145,7 +145,7 @@ def start_execution_from_serialized_behave_space(behavioral_state_graph):
             silent_space[i].name = i
             silent_space[i].decorate()
             logger.info("SILENT SPACE \t:"
-                        + str(silent_space[i].name) + "DELTA", str(silent_space[i].delta))
+                        + str(silent_space[i].name) + "DELTA" + str(silent_space[i].delta))
             for (p, t, c) in silent_space[i].exit_transitions:
                 logger.info("EXIT TRANSICTIONS-> PARENT:" + str(p)
                             + "\tTRANSICTION:" + str(t) + "\tCHILD:" + str(c))

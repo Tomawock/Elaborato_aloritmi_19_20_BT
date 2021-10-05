@@ -9,4 +9,4 @@
 [INFO]	DIMENSION:2 NEW SERIES EXECUTED:[('N0', 'f (r (ε|f))', 'NQ'), ('N0', 'ε', 'NQ')]
 [INFO]	DIMENSION:1 NEW PARALLEL EXECUTED:[('N0', '(f (r (ε|f)))', 'NQ')]
 [INFO]	DIMENSION:1 NEW LOOP EXECUTED:[('N0', '(f (r (ε|f)))', 'NQ')]
-[CRITICAL]	Execution time|0:00:00.000979
+[CRITICAL]	Execution time|0:00:00.001094
