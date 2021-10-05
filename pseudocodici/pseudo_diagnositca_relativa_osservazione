@@ -1,0 +1,12 @@
+diagnosis_from_observable(observation_graph, final_states):
+
+  global_sequence=parsing(observation_graph)
+  add N0 and NQ to global_sequence according to the indication in section 1 of the PDF
+  
+  while len(global_sequence) > 1:
+      global_sequence = espressione_regolare.create_series_from_graph(
+          global_sequence)
+      global_sequence = espressione_regolare.create_parallel_from_graph(
+          global_sequence)
+      global_sequence = espressione_regolare.create_loop_from_graph(
+          global_sequence, n0, nq)
