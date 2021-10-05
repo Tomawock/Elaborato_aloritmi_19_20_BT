@@ -1,0 +1,181 @@
+[
+  {
+    "unique_name" : "a_on",
+    "fa_name" : "A",
+    "next_state" : "a1",
+    "input_link" : {
+      "name": "",
+      "event": ""
+    },
+    "output_link" : [
+
+    ],
+    "observable_label" : "ε",
+    "relevant_label" : "ε"
+  },
+  {
+    "unique_name" : "a_off",
+    "fa_name" : "A",
+    "next_state" : "a0",
+    "input_link" : {
+      "name": "",
+      "event": ""
+    },
+    "output_link" : [
+
+    ],
+    "observable_label" : "Oa",
+    "relevant_label" : "ε"
+  },
+  {
+    "unique_name" : "a_control",
+    "fa_name" : "A",
+    "next_state" : "a1",
+    "input_link" : {
+      "name": "L1",
+      "event": "av"
+    },
+    "output_link" : [
+
+    ],
+    "observable_label" : "ε",
+    "relevant_label" : "ε"
+  },
+  {
+    "unique_name" : "a_alter",
+    "fa_name" : "A",
+    "next_state" : "a2",
+    "input_link" : {
+      "name": "",
+      "event": ""
+    },
+    "output_link" : [
+      {
+        "name":"L2",
+        "event":"alter"
+      }
+    ],
+    "observable_label" : "O1",
+    "relevant_label" : "alter"
+  },
+  {
+    "unique_name" : "a_rip",
+    "fa_name" : "A",
+    "next_state" : "a1",
+    "input_link" : {
+      "name": "L1",
+      "event": "fr"
+    },
+    "output_link" : [
+
+    ],
+    "observable_label" : "ε",
+    "relevant_label" : "ε"
+  },
+  {
+    "unique_name" : "f_on",
+    "fa_name" : "F",
+    "next_state" : "f1",
+    "input_link" : {
+      "name": "",
+      "event": ""
+    },
+    "output_link" : [
+
+    ],
+    "observable_label" : "ε",
+    "relevant_label" : "ε"
+  },
+  {
+    "unique_name" : "f_off",
+    "fa_name" : "F",
+    "next_state" : "f0",
+    "input_link" : {
+      "name": "",
+      "event": ""
+    },
+    "output_link" : [
+
+    ],
+    "observable_label" : "Of",
+    "relevant_label" : "ε"
+  },
+  {
+    "unique_name" : "f_control",
+    "fa_name" : "F",
+    "next_state" : "f1",
+    "input_link" : {
+      "name": "",
+      "event": ""
+    },
+    "output_link" : [
+      {
+        "name":"L1",
+        "event":"av"
+      }
+
+    ],
+    "observable_label" : "O2",
+    "relevant_label" : "ε"
+  },
+  {
+    "unique_name" : "f_manomesso",
+    "fa_name" : "F",
+    "next_state" : "f2",
+    "input_link" : {
+      "name": "L2",
+      "event": "alter"
+    },
+    "output_link" : [
+
+    ],
+    "observable_label" : "ε",
+    "relevant_label" : "stop"
+  },
+  {
+    "unique_name" : "f_rev",
+    "fa_name" : "F",
+    "next_state" : "f3",
+    "input_link" : {
+      "name": "",
+      "event": ""
+    },
+    "output_link" : [
+
+    ],
+    "observable_label" : "O3",
+    "relevant_label" : "rev"
+  },
+  {
+    "unique_name" : "f_rip",
+    "fa_name" : "F",
+    "next_state" : "f3",
+    "input_link" : {
+      "name": "",
+      "event": ""
+    },
+    "output_link" : [
+      {
+        "name":"L1",
+        "event":"fr"
+      }
+
+    ],
+    "observable_label" : "ε",
+    "relevant_label" : "ε"
+  },
+  {
+    "unique_name" : "f_fine_manut",
+    "fa_name" : "F",
+    "next_state" : "f1",
+    "input_link" : {
+      "name": "",
+      "event": ""
+    },
+    "output_link" : [
+
+    ],
+    "observable_label" : "ε",
+    "relevant_label" : "restart"
+  },
+]
