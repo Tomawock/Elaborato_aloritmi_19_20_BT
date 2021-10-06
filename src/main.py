@@ -54,33 +54,33 @@ def execute(args, input_read):
         else:
             print("ERROR: there was an index input error")
     elif args.bin:
-        if x == 0:
+        if x == 7:
             logger = my_logger.Logger(
                 "log/diagnosi_relativa_osservazione_from_spazio_comportamentale_osservabile" + "_" + str(ts)).get_logger()
             # posso richiamare diagnosi_relativa_osservazione partendo dall'observable graph
             diagnosi_relativa_osservazione.start_execution_from_serialized_obs_graph(
                 input_read[0][0], input_read[0][1])  # observation_graph, finals_states
-        elif x == 1:
+        elif x == 8:
             logger = my_logger.Logger(
                 "log/diagnosi_relativa_osservazione_from_spazio_comportamentale" + "_" + str(ts)).get_logger()
             diagnostica.start_execution_from_serialized_behave_space(
                 input_read[0][0])  # [0][0]identifing the behavioral_state_graph
-        elif x == 2:
+        elif x == 9:
             logger = my_logger.Logger(
                 "log/diagnosi_relativa_osservazione_from_silent_closure_space" + "_" + str(ts)).get_logger()
             diagnostica.start_execution_from_serialized_silent_space(
                 input_read[0])
-        elif x == 3:
+        elif x == 10:
             logger = my_logger.Logger(
                 "log/diagnosi_relativa_osservazione_from_spazio_comportamental" + "_" + str(ts)).get_logger()
             diagnosi_lineare.start_execution_from_serialized_behave_space(
                 input_read[0][0], input_read[1])
-        elif x == 4:
+        elif x == 11:
             logger = my_logger.Logger(
                 "log/diagnosi_relativa_osservazione_from_silent_closure_space" + "_" + str(ts)).get_logger()
             diagnosi_lineare.start_execution_from_serialized_silent_space(
                 input_read[0], input_read[1])
-        elif x == 5:
+        elif x == 12:
             logger = my_logger.Logger(
                 "log/diagnosi_relativa_osservazione_from_diagnostic_graph" + "_" + str(ts)).get_logger()
             diagnosi_lineare.start_execution_from_serialized_diagnostic_graph(
@@ -96,21 +96,17 @@ def execute(args, input_read):
 
 if __name__ == '__main__':
 
-    desc = "ddddd"
+    desc = ""
 
     argParser = argparse.ArgumentParser(description=desc)
     argGroup = argParser.add_argument_group(title='Command List')
     argGroup.add_argument('-t', '--task', dest='task', required=True, nargs=1, type=int,
-                          choices=[0, 1, 2, 3, 4, 5, 6], help='Specify the task to be accomplished.')
+                          choices=[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], help='Specify the task to be accomplished.')
     argGroup.add_argument('--json', dest='json', nargs='+', type=argparse.FileType(
         'r'), help='File containing the json object')  # quanti file json ci servono?
     argGroup.add_argument('--bin', dest='bin', nargs=1, type=argparse.FileType(
         'rb'), help='File containing the binary structure')
     argGroup.add_argument('-O', '--obs-list', dest='obs_list', action='append')
-    argGroup.add_argument('-d', '--diagnosis',
-                          dest='diagnosis', action='store_true')
-    argGroup.add_argument('-T', '--max-time', dest='max_time', type=float,
-                          nargs=1, action='append', help="Max execution time in seconds")
 
     args = argParser.parse_args()
 
