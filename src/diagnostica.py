@@ -127,6 +127,8 @@ def start_execution(fa_json, transitions_json, link_original_json):
                             + t.observable_label + " RELEVANT: "+t.relevant_label
                             + "\tSILENT_CHILD " + str(c.name))
         util.stop_timer()
+        logger.critical(my_logger.EXECUTION_TIME
+                        + str(util.get_code_time_execution()))
     except KeyboardInterrupt:
         logger.critical(my_logger.INTERRUPED_FROM_KEYBOARD)
         util.stop_timer()
