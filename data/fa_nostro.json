@@ -22,7 +22,7 @@
         "name": "a2",
         "initial": false,
         "outgoings_transitions":[
-          "a_rip"
+          "a_ripristino"
         ]
       }
     ]
@@ -42,8 +42,8 @@
         "initial": false,
         "outgoings_transitions":[
           "f_off",
-          "f_rev",
-          "f_manomesso",
+          "f_revisione",
+          "f_manomissione",
           "f_control"
         ]
       },
@@ -51,14 +51,14 @@
         "name": "f2",
         "initial": false,
         "outgoings_transitions":[
-          "f_rip"
+          "f_ripristino"
         ]
       },
       {
         "name": "f3",
         "initial": false,
         "outgoings_transitions":[
-          "f_fine_man"
+          "f_fine_manutenzione"
         ]
       }
     ]
