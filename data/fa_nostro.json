@@ -1,0 +1,66 @@
+[
+  {
+    "name": "A",
+    "states": [
+      {
+        "name": "a0",
+        "initial": true,
+        "outgoings_transitions":[
+          "a_on"
+        ]
+      },
+      {
+        "name": "a1",
+        "initial": false,
+        "outgoings_transitions":[
+          "a_off",
+          "a_alert",
+          "a_control"
+        ]
+      },
+      {
+        "name": "a2",
+        "initial": false,
+        "outgoings_transitions":[
+          "a_ripristino"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "F",
+    "states": [
+      {
+        "name": "f0",
+        "initial": true,
+        "outgoings_transitions":[
+          "f_on"
+        ]
+      },
+      {
+        "name": "f1",
+        "initial": false,
+        "outgoings_transitions":[
+          "f_off",
+          "f_revisione",
+          "f_manomissione",
+          "f_control"
+        ]
+      },
+      {
+        "name": "f2",
+        "initial": false,
+        "outgoings_transitions":[
+          "f_ripristino"
+        ]
+      },
+      {
+        "name": "f3",
+        "initial": false,
+        "outgoings_transitions":[
+          "f_fine_manutenzione"
+        ]
+      }
+    ]
+  }
+]

@@ -1,0 +1,14 @@
+generate_diagnostic_graph(silent_space):
+  diagnostic_graph[]
+  for el in silent_space:
+    for (parent,transition,child) in exit_transitions of el:
+      for el' in silent_space:
+        if (len(subgraph of el') > 0):
+          main_parent = initial state of the silent_closure el'
+          if main_parent == child:
+            append(el, transition, el') to generate_diagnostic_graph
+        else:
+          main_parent = parent node of the first exit transition in exit_transitions of el'
+          if main_parent == child:
+            append(el, transition, el') to generate_diagnostic_graph
+  return diagnostic_graph

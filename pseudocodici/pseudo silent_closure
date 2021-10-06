@@ -1,0 +1,12 @@
+pseudocodice chiusura silenziosa
+
+
+generate_closure(behavioral_state_graph, initial_state, silent_closure):
+  for (parent, transition, child) in behavioral_state_graph:
+    if parent==initial_state:
+      if transition label is NULL_SIMBOL
+        if (parent,transition,child) is not present in silent closure subgraph:
+          append (parent, transition, child) to silent closure subgraph
+          generate_closure(behavioral_state_graph, child, silent_closure)
+      elif (parent, transition, child) is not present in silent_closure exit_transitions:
+          append (parent,transition,child) to silent_closure exit_transitions

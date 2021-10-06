@@ -20,3 +20,11 @@ Type puo essere:
 * **WARNING** : unused
 * **ERROR** : unused
 * **CRITICAL** : Objective value and execution time
+
+
+# TO DO
+- [ ] check di tutte le funzioni con tutte le reti di FA
+- [ ] rilevamento tempi per ogni funzione su ogni rete di FA
+- [ ] creare il nostro benchmark
+- [ ] scrivere tutti gli pseudocodici
+- [ ] scrivere relazione

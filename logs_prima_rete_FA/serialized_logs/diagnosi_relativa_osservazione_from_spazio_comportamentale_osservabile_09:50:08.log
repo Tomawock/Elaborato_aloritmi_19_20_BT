@@ -1,0 +1,12 @@
+[DEBUG]	STARTING DIAGNOSIS_FROM_OBSERVABLE
+[INFO]	DIMENSION:12 ORIGINAL SEQUENCE:[('N0', 'ε', 0), (0, 'ε', 1), (1, 'ε', 2), (2, 'ε', 5), (2, 'f', 3), (3, 'r', 4), (4, 'ε', 6), (4, 'f', 7), (5, 'ε', 'NQ'), (3, 'ε', 'NQ'), (6, 'ε', 'NQ'), (7, 'ε', 'NQ')]
+[INFO]	DIMENSION:7 NEW SERIES EXECUTED:[('N0', 'ε', 2), (2, 'ε', 'NQ'), (2, 'f', 3), (3, 'r', 4), (4, 'ε', 'NQ'), (4, 'f', 'NQ'), (3, 'ε', 'NQ')]
+[INFO]	DIMENSION:6 NEW PARALLEL EXECUTED:[('N0', 'ε', 2), (2, 'ε', 'NQ'), (2, 'f', 3), (3, 'r', 4), (4, '(ε|f)', 'NQ'), (3, 'ε', 'NQ')]
+[INFO]	DIMENSION:5 NEW LOOP EXECUTED:[('N0', 'f', 3), (3, 'r', 4), (4, '(ε|f)', 'NQ'), (3, 'ε', 'NQ'), ('N0', 'ε', 'NQ')]
+[INFO]	DIMENSION:4 NEW SERIES EXECUTED:[('N0', 'f', 3), ('N0', 'ε', 'NQ'), (3, 'r (ε|f)', 'NQ'), (3, 'ε', 'NQ')]
+[INFO]	DIMENSION:3 NEW PARALLEL EXECUTED:[('N0', 'f', 3), ('N0', 'ε', 'NQ'), (3, '(r (ε|f))', 'NQ')]
+[INFO]	DIMENSION:3 NEW LOOP EXECUTED:[('N0', 'f', 3), ('N0', 'ε', 'NQ'), (3, '(r (ε|f))', 'NQ')]
+[INFO]	DIMENSION:2 NEW SERIES EXECUTED:[('N0', 'f (r (ε|f))', 'NQ'), ('N0', 'ε', 'NQ')]
+[INFO]	DIMENSION:1 NEW PARALLEL EXECUTED:[('N0', '(f (r (ε|f)))', 'NQ')]
+[INFO]	DIMENSION:1 NEW LOOP EXECUTED:[('N0', '(f (r (ε|f)))', 'NQ')]
+[CRITICAL]	Execution time|0:00:00.001094

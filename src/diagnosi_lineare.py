@@ -127,7 +127,7 @@ def start_execution_from_serialized_behave_space(behavioral_state_graph, linear_
             silent_space[i].name = i
             silent_space[i].decorate()
             logger.info("SILENT SPACE \t:"
-                        + str(silent_space[i].name) + "DELTA", str(silent_space[i].delta))
+                        + str(silent_space[i].name) + "DELTA" + str(silent_space[i].delta))
             for (p, t, c) in silent_space[i].exit_transitions:
                 logger.info("EXIT TRANSICTIONS-> PARENT:" + str(p)
                             + "\tTRANSICTION:" + str(t) + "\tCHILD:" + str(c))
@@ -144,6 +144,8 @@ def start_execution_from_serialized_behave_space(behavioral_state_graph, linear_
         r = generate_linear_diagnostic(diagnostic_graph, linear_observation)
         logger.critical("LINEAR DIAGNOSIS:"+r)
         util.stop_timer()
+        logger.critical(my_logger.EXECUTION_TIME
+                        + str(util.get_code_time_execution()))
     except KeyboardInterrupt:
         logger.critical(my_logger.INTERRUPED_FROM_KEYBOARD)
         util.stop_timer()
@@ -168,6 +170,8 @@ def start_execution_from_serialized_silent_space(silent_space, linear_observatio
         r = generate_linear_diagnostic(diagnostic_graph, linear_observation)
         logger.critical("LINEAR DIAGNOSIS:"+r)
         util.stop_timer()
+        logger.critical(my_logger.EXECUTION_TIME
+                        + str(util.get_code_time_execution()))
     except KeyboardInterrupt:
         logger.critical(my_logger.INTERRUPED_FROM_KEYBOARD)
         util.stop_timer()
@@ -183,6 +187,9 @@ def start_execution_from_serialized_diagnostic_graph(diagnostic_graph, linear_ob
         logger.debug("STARTING GENERATE_LINEAR_DIAGNOSIS")
         r = generate_linear_diagnostic(diagnostic_graph, linear_observation)
         logger.critical("LINEAR DIAGNOSIS: "+r)
+        util.stop_timer()
+        logger.critical(my_logger.EXECUTION_TIME
+                        + str(util.get_code_time_execution()))
     except KeyboardInterrupt:
         logger.critical(my_logger.INTERRUPED_FROM_KEYBOARD)
         util.stop_timer()

@@ -1,0 +1,16 @@
+generate_closure_space(behavioral_state_graph):
+    silent_closure_space = []
+    inital_used_nodes = []
+
+    silent_closure = create_silent_closure(
+        behavioral_state_graph, behavioral_state_graph[0][0]) #behavioral_state_graph[0][0] is the parent of the first transition present in behavioral_state_graph
+    append(silent_closure) to silent_closure_space
+
+    append(behavioral_state_graph[0][0]) to inital_used_nodes
+
+    for (parent, transition, child) in behavioral_state_graph:
+        if transition label is not NULL_SIMBOL AND child is not present in inital_used_nodes:
+            silent_closure = create_silent_closure(behavioral_state_graph, child)
+            append(silent_closure) to silent_closure_space
+            append(child) to inital_used_nodes
+    return silent_closure_space

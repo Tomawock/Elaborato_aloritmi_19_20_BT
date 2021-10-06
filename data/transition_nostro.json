@@ -1,0 +1,181 @@
+[
+  {
+    "unique_name" : "a_on",
+    "fa_name" : "A",
+    "next_state" : "a1",
+    "input_link" : {
+      "name": "",
+      "event": ""
+    },
+    "output_link" : [
+
+    ],
+    "observable_label" : "ε",
+    "relevant_label" : "ε"
+  },
+  {
+    "unique_name" : "a_off",
+    "fa_name" : "A",
+    "next_state" : "a0",
+    "input_link" : {
+      "name": "",
+      "event": ""
+    },
+    "output_link" : [
+
+    ],
+    "observable_label" : "Oa",
+    "relevant_label" : "ε"
+  },
+  {
+    "unique_name" : "a_control",
+    "fa_name" : "A",
+    "next_state" : "a1",
+    "input_link" : {
+      "name": "L1",
+      "event": "av"
+    },
+    "output_link" : [
+
+    ],
+    "observable_label" : "ε",
+    "relevant_label" : "ε"
+  },
+  {
+    "unique_name" : "a_alert",
+    "fa_name" : "A",
+    "next_state" : "a2",
+    "input_link" : {
+      "name": "",
+      "event": ""
+    },
+    "output_link" : [
+      {
+        "name":"L2",
+        "event":"alert"
+      }
+    ],
+    "observable_label" : "O1",
+    "relevant_label" : "alert"
+  },
+  {
+    "unique_name" : "a_ripristino",
+    "fa_name" : "A",
+    "next_state" : "a1",
+    "input_link" : {
+      "name": "L1",
+      "event": "cr"
+    },
+    "output_link" : [
+
+    ],
+    "observable_label" : "ε",
+    "relevant_label" : "ε"
+  },
+  {
+    "unique_name" : "f_on",
+    "fa_name" : "F",
+    "next_state" : "f1",
+    "input_link" : {
+      "name": "",
+      "event": ""
+    },
+    "output_link" : [
+
+    ],
+    "observable_label" : "ε",
+    "relevant_label" : "ε"
+  },
+  {
+    "unique_name" : "f_off",
+    "fa_name" : "F",
+    "next_state" : "f0",
+    "input_link" : {
+      "name": "",
+      "event": ""
+    },
+    "output_link" : [
+
+    ],
+    "observable_label" : "Of",
+    "relevant_label" : "ε"
+  },
+  {
+    "unique_name" : "f_control",
+    "fa_name" : "F",
+    "next_state" : "f1",
+    "input_link" : {
+      "name": "",
+      "event": ""
+    },
+    "output_link" : [
+      {
+        "name":"L1",
+        "event":"av"
+      }
+
+    ],
+    "observable_label" : "O2",
+    "relevant_label" : "ε"
+  },
+  {
+    "unique_name" : "f_manomissione",
+    "fa_name" : "F",
+    "next_state" : "f2",
+    "input_link" : {
+      "name": "L2",
+      "event": "alter"
+    },
+    "output_link" : [
+
+    ],
+    "observable_label" : "ε",
+    "relevant_label" : "stop"
+  },
+  {
+    "unique_name" : "f_revisione",
+    "fa_name" : "F",
+    "next_state" : "f3",
+    "input_link" : {
+      "name": "",
+      "event": ""
+    },
+    "output_link" : [
+
+    ],
+    "observable_label" : "O3",
+    "relevant_label" : "rev"
+  },
+  {
+    "unique_name" : "f_ripristino",
+    "fa_name" : "F",
+    "next_state" : "f3",
+    "input_link" : {
+      "name": "",
+      "event": ""
+    },
+    "output_link" : [
+      {
+        "name":"L1",
+        "event":"cr"
+      }
+
+    ],
+    "observable_label" : "ε",
+    "relevant_label" : "ε"
+  },
+  {
+    "unique_name" : "f_fine_manutenzione",
+    "fa_name" : "F",
+    "next_state" : "f1",
+    "input_link" : {
+      "name": "",
+      "event": ""
+    },
+    "output_link" : [
+
+    ],
+    "observable_label" : "ε",
+    "relevant_label" : "restart"
+  }
+]

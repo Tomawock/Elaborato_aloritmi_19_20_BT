@@ -15,9 +15,21 @@ CLOSE_BRA = ')'
 
 
 def create_series_from_graph(global_sequence):
+    logger = my_logger.Logger.__call__().get_logger()
     tmp_global = []  # Copy of global_sequence in order to be able to modify it
     banned_list = []  # List of elemnts in banned since already added to a list
     series_sequence = []
+    ordered_list = []
+
+    for i,t,o in global_sequence:
+        if i == "N0":
+            ordered_list.append((i,t,o))
+
+    for i,t,o in global_sequence:
+        if i != "N0":
+            ordered_list.append((i,t,o))
+    global_sequence = ordered_list
+
     for i, t, o in global_sequence:
         series_found = 1
         in_node = i
@@ -53,11 +65,14 @@ def create_series_from_graph(global_sequence):
                 for el in series_sequence:
                     # print("BANNED_LIST", banned_list)
                     banned_list.append(el)
-                #print("BANNED",banned_list)
+
+                # print("BANNED",banned_list)
+                # logger.error("BANNED LIST" + str(banned_list))
                 series_sequence = []
                 series_found = 0
+
     # print("######################")
-    logger = my_logger.Logger.__call__().get_logger()
+
     logger.info("DIMENSION:"+str(len(tmp_global))
                 + " NEW SERIES EXECUTED:" + str(tmp_global))
     # print("FINAL_GLOBAL_SERIES", tmp_global)
@@ -122,19 +137,40 @@ def create_loop_from_graph(global_sequence, n0, nq):
 
                         if (next_next_in_node == i and next_next_out_node != i):
                             if(i == o):
-                                # print("DIOCAN")
-                                r = next_transaction+OP_CONCAT+OPEN_BRA+t + \
-                                    CLOSE_BRA+OP_REP+OP_CONCAT+next_next_transaction
+                                if t == NULL_SMIB and next_transaction != NULL_SMIB and next_next_transaction != NULL_SMIB:
+                                    r = OPEN_BRA+next_transaction+OP_CONCAT+next_next_transaction+CLOSE_BRA
+                                elif t != NULL_SMIB and next_transaction == NULL_SMIB and next_next_transaction != NULL_SMIB:
+                                    r = OPEN_BRA + OPEN_BRA + t + CLOSE_BRA+OP_REP+OP_CONCAT+next_next_transaction + CLOSE_BRA
+                                elif t != NULL_SMIB and next_transaction != NULL_SMIB and next_next_transaction == NULL_SMIB:
+                                    r = OPEN_BRA + next_transaction+OP_CONCAT+OPEN_BRA+t + CLOSE_BRA+OP_REP + CLOSE_BRA
+                                elif t == NULL_SMIB and next_transaction != NULL_SMIB and next_next_transaction == NULL_SMIB:
+                                    r = OPEN_BRA + next_transaction + CLOSE_BRA
+                                elif t == NULL_SMIB and next_transaction == NULL_SMIB and next_next_transaction != NULL_SMIB:
+                                    r = OPEN_BRA + next_next_transaction + CLOSE_BRA
+                                elif t == NULL_SMIB and next_transaction == NULL_SMIB and next_next_transaction == NULL_SMIB:
+                                    r = OPEN_BRA + t + CLOSE_BRA
+                                else:
+                                    r = OPEN_BRA + next_transaction+OP_CONCAT+OPEN_BRA+t + \
+                                    CLOSE_BRA+OP_REP+OP_CONCAT+next_next_transaction +CLOSE_BRA
+
                                 tmp_global.append(
                                     (next_in_node, r, next_next_out_node))
-                                banned_list.append((i, t, o))
-                                banned_list.append(
-                                    (next_in_node, next_transaction, next_out_node))
-                                banned_list.append(
-                                    (next_next_in_node, next_next_transaction, next_next_out_node))
+                                # banned_list.append((i, t, o))
+                                # banned_list.append(
+                                #     (next_in_node, next_transaction, next_out_node))
+                                # banned_list.append(
+                                #     (next_next_in_node, next_next_transaction, next_next_out_node))
                                 cycle_found = True
-                            elif next_in_node == next_next_out_node:
-                                r = OPEN_BRA+next_transaction+OP_CONCAT+next_next_transaction+CLOSE_BRA
+                            else:
+                                if next_transaction == NULL_SMIB and next_next_transaction != NULL_SMIB:
+                                    r = next_next_transaction
+                                elif next_transaction != NULL_SMIB and next_next_transaction == NULL_SMIB:
+                                    r = next_transaction
+                                elif next_transaction == NULL_SMIB and next_next_transaction == NULL_SMIB:
+                                    r = next_transaction
+                                else:
+                                    r = OPEN_BRA+next_transaction+OP_CONCAT+next_next_transaction+CLOSE_BRA
+
                                 # print("NEXT", (next_in_node,
                                 #                next_transaction, next_out_node))
                                 # print("NEXT NEXT", (next_next_in_node,
@@ -142,16 +178,22 @@ def create_loop_from_graph(global_sequence, n0, nq):
                                 # print("ORIGINAL", (i, t, o))
                                 tmp_global.append(
                                     (next_in_node, r, next_next_out_node))
-                                banned_list.append(
-                                    (next_in_node, next_transaction, next_out_node))
+                                # banned_list.append(
+                                #     (next_in_node, next_transaction, next_out_node))
+                                # banned_list.append(
+                                #     (next_next_in_node, next_next_transaction, next_next_out_node))
                                 cycle_found = True
+
         if cycle_found:
+            for p, tr, c in global_sequence:
+                if p==i or c==i:
+                    banned_list.append((p,tr,c))
             break
 
     for el in global_sequence:
         if el not in banned_list:
             tmp_global.append(el)
-    #move the fist elemnt into last position in order to have the graph ordered and mantains sereis sequence correct
+    #move the fist elemnt into last position in order to have the graph ordered and mantains series sequence correct
     if cycle_found:
         loop = tmp_global[0]
         tmp_global.pop(0)
@@ -274,7 +316,8 @@ def unite_parallel(series_sequence):
         destination = series_sequence[len(series_sequence)-1][2]
         transaction = series_sequence[0][1]
         for i in range(len(series_sequence)-1):
-            transaction += OP_ALT+series_sequence[i+1][1]
+            if series_sequence[i+1][1] != NULL_SMIB:
+                transaction += OP_ALT+series_sequence[i+1][1]
         transaction = OPEN_BRA+transaction+CLOSE_BRA
         seried_sequence.append((origin, transaction, destination))
     return seried_sequence
