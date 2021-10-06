@@ -78,8 +78,8 @@ def spazio_comportamentale_osservabile(fa_list, transitions_list,
                         for link_beh in behavioral_state_actual.list_link:
                             if link_beh.event == NULL_SMIB and link_beh.name == out_link.name:
                                 allowed_transitions.append(pt)
-                        if len(pt.output_link) == 0:
-                            allowed_transitions.append(pt)
+                    if len(pt.output_link) == 0:
+                        allowed_transitions.append(pt)
                     break
 
         # deleting not allowed transition_object
