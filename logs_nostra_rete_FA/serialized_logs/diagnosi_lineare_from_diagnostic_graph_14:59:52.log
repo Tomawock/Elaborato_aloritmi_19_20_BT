@@ -1,0 +1,3 @@
+[DEBUG]	STARTING GENERATE_LINEAR_DIAGNOSIS
+[CRITICAL]	LINEAR DIAGNOSIS: (alert(ε stop|ε stop|(ε stop (ε restart|restart))))|((ε))|(alert(ε stop|ε stop|(ε stop (ε restart|restart))))|((ε))|(rev(ε restart))|((ε))|((ε|ε|ε))|(rev(ε|(ε restart|restart)|ε restart))|((ε))|
+[CRITICAL]	Execution time|0:00:00.000256

@@ -60,19 +60,19 @@ def spazio_comportamentale_osservabile(fa_list, transitions_list,
         logger.info("DIMENSION POSSIBLE TRANSITION:"
                     + str(len(possible_transitions)))
 
-        print(str(behavioral_state_actual))
-
-        for el in possible_transitions:
-            print("PT", str(el))
-            logger.info("POSSIBLE TRANSITION "+str(el))
+        # print(str(behavioral_state_actual))
+        #
+        # for el in possible_transitions:
+        #     print("PT", str(el))
+        #     logger.info("POSSIBLE TRANSITION "+str(el))
 
         allowed_transitions = []
         for pt in possible_transitions:
             for link in behavioral_state_actual.list_link:
-                print(pt.input_link.event)
+                #print(pt.input_link.event)
                 if (link.event == pt.input_link.event
                         and link.name == pt.input_link.name):
-                    print("IN IF")
+                    #print("IN IF")
                     for out_link in pt.output_link:
                         for link_beh in behavioral_state_actual.list_link:
                             if link_beh.event == NULL_SMIB and link_beh.name == out_link.name:
@@ -81,7 +81,7 @@ def spazio_comportamentale_osservabile(fa_list, transitions_list,
                         allowed_transitions.append(pt)
 
                 elif pt.input_link.event == "" and pt.input_link.name == "":
-                    print("IN ELIF")
+                    #print("IN ELIF")
                     for out_link in pt.output_link:
                         for link_beh in behavioral_state_actual.list_link:
                             if link_beh.event == NULL_SMIB and link_beh.name == out_link.name:
@@ -93,16 +93,16 @@ def spazio_comportamentale_osservabile(fa_list, transitions_list,
         '''
         PRINT DI AT -- DEBUG
         '''
-
-        for el in allowed_transitions:
-            print("AT", index, " ", str(el))
+        #
+        # for el in allowed_transitions:
+        #     print("AT", index, " ", str(el))
 
         # deleting not allowed transition_object
         allowed_transitions_tmp = []
         if len(linear_observation) > behavioral_state_actual.observation_index:
             for at in allowed_transitions:
-                print(at.observable_label)
-                print("LIN OBS",linear_observation[behavioral_state_actual.observation_index])
+                #print(at.observable_label)
+                #print("LIN OBS",linear_observation[behavioral_state_actual.observation_index])
                 if at.observable_label != linear_observation[behavioral_state_actual.observation_index] \
                         and at.observable_label != NULL_SMIB:
                     # print("T")
