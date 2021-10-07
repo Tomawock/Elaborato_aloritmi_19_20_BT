@@ -10,50 +10,50 @@ json
 
   diagnostica: Execution time|0:00:00.020030
 
-  diagnosi_lineare:
+  diagnosi_lineare: Execution time|0:00:00.025889
 
 bin
 
-  diagnosi_relativa_osservazione_from_spazio_comportamentale_osservabile:
+  diagnosi_relativa_osservazione_from_spazio_comportamentale_osservabile: Execution time|0:00:00.001094
 
-  diagnostica_from_spazio_comportamentale:
+  diagnostica_from_spazio_comportamentale: Execution time|0:00:00.017743
 
-  diagnostica_from_silent_closure_space:
+  diagnostica_from_silent_closure_space: Execution time|0:00:00.001127
 
-  diagnosi_lineare_from_spazio_comportamentale:
+  diagnosi_lineare_from_spazio_comportamentale: Execution time|0:00:00.017820
 
-  diagnosi_lineare_from_silent_closure_space:
+  diagnosi_lineare_from_silent_closure_space: Execution time|0:00:00.001057
 
-  diagnosi_lineare_from_diagnostic_graph:
+  diagnosi_lineare_from_diagnostic_graph: Execution time|0:00:00.000213
 
 
 SECONDA FA
 
 json
 
-  spazio_comportamentale:
+  spazio_comportamentale: Execution time|0:00:00.009795
 
-  spazio_comportamentale_osservabile:
+  spazio_comportamentale_osservabile: Execution time|0:00:00.003489
 
-  diagnosi_relativa_osservazione:
+  diagnosi_relativa_osservazione: Execution time|0:00:00.004533
 
-  diagnostica:
+  diagnostica: Execution time|0:00:00.017930
 
-  diagnosi_lineare:
+  diagnosi_lineare: Execution time|0:00:00.019734
 
 bin
 
-  diagnosi_relativa_osservazione_from_spazio_comportamentale_osservabile:
+  diagnosi_relativa_osservazione_from_spazio_comportamentale_osservabile: Execution time|0:00:00.000518
 
-  diagnostica_from_spazio_comportamentale:
+  diagnostica_from_spazio_comportamentale: Execution time|0:00:00.018473
 
-  diagnostica_from_silent_closure_space:
+  diagnostica_from_silent_closure_space: Execution time|0:00:00.001257
 
-  diagnosi_lineare_from_spazio_comportamentale:
+  diagnosi_lineare_from_spazio_comportamentale: Execution time|0:00:00.020720
 
-  diagnosi_lineare_from_silent_closure_space:
+  diagnosi_lineare_from_silent_closure_space: Execution time|0:00:00.001306
 
-  diagnosi_lineare_from_diagnostic_graph:
+  diagnosi_lineare_from_diagnostic_graph: Execution time|0:00:00.000431
 
 
 
@@ -61,55 +61,55 @@ TERZA FA
 
 json
 
-  spazio_comportamentale:
+  spazio_comportamentale: Execution time|0:00:00.086406
 
-  spazio_comportamentale_osservabile:
+  spazio_comportamentale_osservabile: Execution time|0:00:00.011326
 
-  diagnosi_relativa_osservazione:
+  diagnosi_relativa_osservazione: Execution time|0:00:00.014601
 
-  diagnostica:
+  diagnostica: Execution time|0:00:01.016401
 
-  diagnosi_lineare:
+  diagnosi_lineare: Execution time|0:00:01.089705
 
 bin
 
-  diagnosi_relativa_osservazione_from_spazio_comportamentale_osservabile:
+  diagnosi_relativa_osservazione_from_spazio_comportamentale_osservabile: Execution time|0:00:00.001929
 
-  diagnostica_from_spazio_comportamentale:
+  diagnostica_from_spazio_comportamentale: Execution time|0:00:00.378686
 
-  diagnostica_from_silent_closure_space:
+  diagnostica_from_silent_closure_space: Execution time|0:00:00.011559
 
-  diagnosi_lineare_from_spazio_comportamentale:
+  diagnosi_lineare_from_spazio_comportamentale: Execution time|0:00:00.387589
 
-  diagnosi_lineare_from_silent_closure_space:
+  diagnosi_lineare_from_silent_closure_space: Execution time|0:00:00.010225
 
-  diagnosi_lineare_from_diagnostic_graph:
+  diagnosi_lineare_from_diagnostic_graph: Execution time|0:00:00.000202
 
 
 NOSTRA FA
 
 json
 
-  spazio_comportamentale:
+  spazio_comportamentale: Execution time|0:00:00.039729
 
-  spazio_comportamentale_osservabile:
+  spazio_comportamentale_osservabile: Execution time|0:00:00.004735
 
-  diagnosi_relativa_osservazione:
+  diagnosi_relativa_osservazione: Execution time|0:00:00.006555
 
-  diagnostica:
+  diagnostica: Execution time|0:00:00.188677
 
-  diagnosi_lineare:
+  diagnosi_lineare: Execution time|0:00:00.224614
 
 bin
 
-  diagnosi_relativa_osservazione_from_spazio_comportamentale_osservabile:
+  diagnosi_relativa_osservazione_from_spazio_comportamentale_osservabile: Execution time|0:00:00.001166
 
-  diagnostica_from_spazio_comportamentale:
+  diagnostica_from_spazio_comportamentale: Execution time|0:00:00.165255
 
-  diagnostica_from_silent_closure_space:
+  diagnostica_from_silent_closure_space: Execution time|0:00:00.010229
 
-  diagnosi_lineare_from_spazio_comportamentale:
+  diagnosi_lineare_from_spazio_comportamentale: Execution time|0:00:00.163146
 
-  diagnosi_lineare_from_silent_closure_space:
+  diagnosi_lineare_from_silent_closure_space: Execution time|0:00:00.010518
 
-  diagnosi_lineare_from_diagnostic_graph:
+  diagnosi_lineare_from_diagnostic_graph: Execution time|0:00:00.000256
