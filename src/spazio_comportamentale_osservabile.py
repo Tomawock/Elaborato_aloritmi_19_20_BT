@@ -10,6 +10,7 @@ from model.fa import FA
 from model.link import Link
 from model.transition import Transition
 from model.behavioral_state import BehavioralState
+#from memory_profiler import profile
 
 NULL_SMIB = 'ε'
 

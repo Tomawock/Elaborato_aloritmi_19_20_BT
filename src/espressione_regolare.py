@@ -4,7 +4,7 @@ import model.utility as util
 import sys
 import my_logger
 import time
-
+from memory_profiler import profile
 
 OP_CONCAT = ' '
 OP_ALT = '|'
@@ -204,7 +204,7 @@ def create_loop_from_graph(global_sequence, n0, nq):
     # print("FINAL_GLOBAL_LOOP", tmp_global)
     return tmp_global
 
-
+@property
 def espressione_regolare(dict):
     with open(os.path.join('data', 'stateNQ.json')) as f:
         nq = json.load(f)

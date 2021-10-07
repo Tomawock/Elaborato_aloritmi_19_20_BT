@@ -15,6 +15,7 @@ from model.behavioral_state import BehavioralState
 NULL_SMIB = 'ε'
 
 #@profile
+
 def spazio_comportamentale(fa_list, transitions_list, original_link_list):
     logger = my_logger.Logger.__call__().get_logger()
     initial_state = BehavioralState("", [], [], [])

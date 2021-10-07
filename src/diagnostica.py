@@ -9,6 +9,7 @@ from model.link import Link
 from model.transition import Transition
 from model.silent_closure import SilentClosure
 from spazio_comportamentale import spazio_comportamentale
+from memory_profiler import profile
 
 
 def create_silent_closure(behavioral_state_graph, initial_state):
@@ -18,6 +19,7 @@ def create_silent_closure(behavioral_state_graph, initial_state):
     return silent_closure
 
 
+#@profile
 def generate_closure(behavioral_state_graph, initial_state, silent_closure):
     for (parent_node, transition, child_node) in behavioral_state_graph:
         if parent_node == initial_state:
@@ -32,8 +34,7 @@ def generate_closure(behavioral_state_graph, initial_state, silent_closure):
                     parent_node, transition, child_node))
 
     return ((None, None, None))
-
-
+#@profile
 def generate_closure_space(behavioral_state_graph):
     silent_closure_space = []
     # stato inziale : behavioral_state_graph[0][0]

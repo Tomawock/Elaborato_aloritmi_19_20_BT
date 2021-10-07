@@ -9,6 +9,7 @@ from model.link import Link
 from model.transition import Transition
 from spazio_comportamentale import spazio_comportamentale
 from diagnostica import generate_closure_space, generate_diagnostic_graph
+from memory_profiler import profile
 
 OP_CONCAT = ' '
 OP_ALT = '|'
