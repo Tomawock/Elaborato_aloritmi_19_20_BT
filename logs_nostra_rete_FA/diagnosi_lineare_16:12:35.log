@@ -1750,3 +1750,4 @@ PARENT_NODE:(RENAMED:21|OBS INDEX []|STATI:a1,f0|EVENTI:ε,ε)	TRANSITION: f_on	
 [CRITICAL]	SILENT_PARENT 18 DELTA: ε	TRANSITION f_control OBSERVABLE: O2 RELEVANT: ε	SILENT_CHILD 18
 [DEBUG]	STARTING GENERATE_LINEAR_DIAGNOSIS
 [CRITICAL]	LINEAR DIAGNOSIS: (alert(ε stop|ε stop|(ε stop (ε restart|restart))))|((ε))|(alert(ε stop|ε stop|(ε stop (ε restart|restart))))|((ε))|(rev(ε restart))|((ε))|((ε|ε|ε))|(rev(ε|(ε restart|restart)|ε restart))|((ε))|
+[CRITICAL]	Execution time|0:00:00.224614

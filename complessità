@@ -1,0 +1,115 @@
+PRIMA FA
+
+json
+
+  spazio_comportamentale: Execution time|0:00:00.012103
+
+  spazio_comportamentale_osservabile: Execution time|0:00:00.005894
+
+  diagnosi_relativa_osservazione: Execution time|0:00:00.005337
+
+  diagnostica: Execution time|0:00:00.020030
+
+  diagnosi_lineare:
+
+bin
+
+  diagnosi_relativa_osservazione_from_spazio_comportamentale_osservabile:
+
+  diagnostica_from_spazio_comportamentale:
+
+  diagnostica_from_silent_closure_space:
+
+  diagnosi_lineare_from_spazio_comportamentale:
+
+  diagnosi_lineare_from_silent_closure_space:
+
+  diagnosi_lineare_from_diagnostic_graph:
+
+
+SECONDA FA
+
+json
+
+  spazio_comportamentale:
+
+  spazio_comportamentale_osservabile:
+
+  diagnosi_relativa_osservazione:
+
+  diagnostica:
+
+  diagnosi_lineare:
+
+bin
+
+  diagnosi_relativa_osservazione_from_spazio_comportamentale_osservabile:
+
+  diagnostica_from_spazio_comportamentale:
+
+  diagnostica_from_silent_closure_space:
+
+  diagnosi_lineare_from_spazio_comportamentale:
+
+  diagnosi_lineare_from_silent_closure_space:
+
+  diagnosi_lineare_from_diagnostic_graph:
+
+
+
+TERZA FA
+
+json
+
+  spazio_comportamentale:
+
+  spazio_comportamentale_osservabile:
+
+  diagnosi_relativa_osservazione:
+
+  diagnostica:
+
+  diagnosi_lineare:
+
+bin
+
+  diagnosi_relativa_osservazione_from_spazio_comportamentale_osservabile:
+
+  diagnostica_from_spazio_comportamentale:
+
+  diagnostica_from_silent_closure_space:
+
+  diagnosi_lineare_from_spazio_comportamentale:
+
+  diagnosi_lineare_from_silent_closure_space:
+
+  diagnosi_lineare_from_diagnostic_graph:
+
+
+NOSTRA FA
+
+json
+
+  spazio_comportamentale:
+
+  spazio_comportamentale_osservabile:
+
+  diagnosi_relativa_osservazione:
+
+  diagnostica:
+
+  diagnosi_lineare:
+
+bin
+
+  diagnosi_relativa_osservazione_from_spazio_comportamentale_osservabile:
+
+  diagnostica_from_spazio_comportamentale:
+
+  diagnostica_from_silent_closure_space:
+
+  diagnosi_lineare_from_spazio_comportamentale:
+
+  diagnosi_lineare_from_silent_closure_space:
+
+  diagnosi_lineare_from_diagnostic_graph:

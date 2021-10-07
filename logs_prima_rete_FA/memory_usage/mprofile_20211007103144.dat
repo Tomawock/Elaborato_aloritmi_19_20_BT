@@ -1,5 +1,0 @@
-CMDLINE /home/diego/Scrivania/Algoritmi_e_strutture_dati/Elaborato_aloritmi_19_20_BT/.env/bin/python3 src/main.py -t 3 --json data/fa.json data/transition.json data/original_link.json -O o3,o2
-MEM 3.781250 1633595504.4529
-MEM 25.816406 1633595504.5532
-MEM 44.492188 1633595504.6536
-MEM 54.824219 1633595504.7539

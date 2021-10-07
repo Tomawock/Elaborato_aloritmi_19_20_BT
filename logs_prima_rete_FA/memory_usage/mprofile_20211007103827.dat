@@ -1,7 +1,0 @@
-CMDLINE /home/diego/Scrivania/Algoritmi_e_strutture_dati/Elaborato_aloritmi_19_20_BT/.env/bin/python3 src/main.py -t 8 --bin logs_prima_rete_FA/serialized_objects/behave_state
-MEM 3.769531 1633595907.5173
-MEM 26.742188 1633595907.6176
-MEM 45.425781 1633595907.7179
-MEM 54.796875 1633595907.8182
-MEM 55.007812 1633595907.9185
-MEM 55.007812 1633595908.0188
