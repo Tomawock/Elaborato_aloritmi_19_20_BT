@@ -1,0 +1,6 @@
+CMDLINE /home/diego/Scrivania/Algoritmi_e_strutture_dati/Elaborato_aloritmi_19_20_BT/.env/bin/python3 src/main.py -t 9 --bin logs_prima_rete_FA/serialized_objects/silent_closure_space
+MEM 3.914062 1633595973.7749
+MEM 26.925781 1633595973.8752
+MEM 45.597656 1633595973.9755
+MEM 55.222656 1633595974.0760
+MEM 55.507812 1633595974.1766

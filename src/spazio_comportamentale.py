@@ -5,6 +5,7 @@ import copy
 import my_logger
 import sys
 import pickle
+#from memory_profiler import profile
 import model.utility as util
 from model.fa import FA
 from model.link import Link
@@ -13,7 +14,7 @@ from model.behavioral_state import BehavioralState
 
 NULL_SMIB = 'ε'
 
-
+#@profile
 def spazio_comportamentale(fa_list, transitions_list, original_link_list):
     logger = my_logger.Logger.__call__().get_logger()
     initial_state = BehavioralState("", [], [], [])
