@@ -48,26 +48,6 @@ def diagnosis_from_observable(observation_graph, final_states, n0, nq):
             global_sequence)
         global_sequence = espressione_regolare.create_loop_from_graph(
             global_sequence, n0, nq)
-        # if dim == len(global_sequence):
-        #     logger.warning("SPECIAL CASE REACHED")
-        #     all_path = []
-        #     dfs(global_sequence, global_sequence[0], [], all_path)
-        #     for i in range(len(all_path)):
-        #         while len(all_path[i]) > 1:
-        #             # print("START CICLO")
-        #             all_path[i] = espressione_regolare.create_series_from_graph(
-        #                 all_path[i])
-        #     logger.warning("ALL PATH:" + str(all_path))
-        #     to_parallel = []
-        #     for el in all_path:
-        #         to_parallel.append(el[0])
-        #
-        #     while len(to_parallel) > 1:
-        #         # print("START CICLO")
-        #         to_parallel = espressione_regolare.create_parallel_from_graph(
-        #             to_parallel)
-        #
-        #     global_sequence = to_parallel
 
 
 def dfs(global_sequence, currentVertex, visited_list, all_path):
