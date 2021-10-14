@@ -1,0 +1,10 @@
+FORNO - ALLARME
+
+l'ultimo benchmark è stato realizzato su un modello forno-allarme, in cui un forno (si ipotizza un forno per forgiatura di
+pezzi in metallo) ha un ciclo di funzionamento, e ad esso è colegato un allarme che attiva una sirena quando viene rilevato
+un malfunzionamento dovuto ad una causa esterna, ad esempio una manomissione, o un incidente durante la produzione.
+Quando l'allarme scatta il forno entra in uno stato di manutenzione per poter essere riparato e riprendere la produzione.
+L'allarme a sua volta, dopo aver attivato la sirena, viene ripristinata per poter rilevare un nuovo guasto.
+
+Come per tutte le altre reti di FA, sono stati eseguiti tutti i compiti presenti nella consegna e di seguito vengono
+riportati i risultati.

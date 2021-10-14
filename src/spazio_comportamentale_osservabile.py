@@ -10,6 +10,7 @@ from model.fa import FA
 from model.link import Link
 from model.transition import Transition
 from model.behavioral_state import BehavioralState
+#from memory_profiler import profile
 
 NULL_SMIB = 'ε'
 
@@ -39,6 +40,7 @@ def spazio_comportamentale_osservabile(fa_list, transitions_list,
     behavioral_state_graph = []
     behavioral_state_final = []
     snapshot = []
+    index = 0
 
     behavioral_state_queue.put(initial_state)
 
@@ -58,14 +60,20 @@ def spazio_comportamentale_osservabile(fa_list, transitions_list,
 
         logger.info("DIMENSION POSSIBLE TRANSITION:"
                     + str(len(possible_transitions)))
-        for el in possible_transitions:
-            logger.info("POSSIBLE TRANSITION "+str(el))
+
+        # print(str(behavioral_state_actual))
+        #
+        # for el in possible_transitions:
+        #     print("PT", str(el))
+        #     logger.info("POSSIBLE TRANSITION "+str(el))
 
         allowed_transitions = []
         for pt in possible_transitions:
             for link in behavioral_state_actual.list_link:
+                #print(pt.input_link.event)
                 if (link.event == pt.input_link.event
                         and link.name == pt.input_link.name):
+                    #print("IN IF")
                     for out_link in pt.output_link:
                         for link_beh in behavioral_state_actual.list_link:
                             if link_beh.event == NULL_SMIB and link_beh.name == out_link.name:
@@ -74,18 +82,28 @@ def spazio_comportamentale_osservabile(fa_list, transitions_list,
                         allowed_transitions.append(pt)
 
                 elif pt.input_link.event == "" and pt.input_link.name == "":
+                    #print("IN ELIF")
                     for out_link in pt.output_link:
                         for link_beh in behavioral_state_actual.list_link:
                             if link_beh.event == NULL_SMIB and link_beh.name == out_link.name:
                                 allowed_transitions.append(pt)
-                        if len(pt.output_link) == 0:
-                            allowed_transitions.append(pt)
+                    if len(pt.output_link) == 0:
+                        allowed_transitions.append(pt)
                     break
+
+        '''
+        PRINT DI AT -- DEBUG
+        '''
+        #
+        # for el in allowed_transitions:
+        #     print("AT", index, " ", str(el))
 
         # deleting not allowed transition_object
         allowed_transitions_tmp = []
         if len(linear_observation) > behavioral_state_actual.observation_index:
             for at in allowed_transitions:
+                #print(at.observable_label)
+                #print("LIN OBS",linear_observation[behavioral_state_actual.observation_index])
                 if at.observable_label != linear_observation[behavioral_state_actual.observation_index] \
                         and at.observable_label != NULL_SMIB:
                     # print("T")
@@ -101,10 +119,19 @@ def spazio_comportamentale_osservabile(fa_list, transitions_list,
             if to_remove in allowed_transitions:
                 allowed_transitions.remove(to_remove)
 
+
+        '''
+        PRINT DI AT -- DEBUG
+        '''
+        # for el in allowed_transitions:
+        #     print("AT AFTER", index, " ", str(el))
+        # index+=1
+
         logger.info("DIMENSION ALLOWED TRANSITION: "
                     + str(len(allowed_transitions)))
         for el in allowed_transitions:
             logger.info("ALLOWED TRANSITION " + str(el))
+
 
         for at in allowed_transitions:
             next_behavioral_state = copy.deepcopy(behavioral_state_actual)

@@ -9,6 +9,7 @@ from model.link import Link
 from model.transition import Transition
 from spazio_comportamentale import spazio_comportamentale
 from diagnostica import generate_closure_space, generate_diagnostic_graph
+from memory_profiler import profile
 
 OP_CONCAT = ' '
 OP_ALT = '|'
@@ -109,6 +110,8 @@ def start_execution(fa_json, transitions_json, link_original_json, linear_observ
         r = generate_linear_diagnostic(diagnostic_graph, linear_observation)
         logger.critical("LINEAR DIAGNOSIS: "+r)
         util.stop_timer()
+        logger.critical(my_logger.EXECUTION_TIME
+                        + str(util.get_code_time_execution()))
     except KeyboardInterrupt:
         logger.critical(my_logger.INTERRUPED_FROM_KEYBOARD)
         util.stop_timer()

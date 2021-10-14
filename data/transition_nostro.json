@@ -124,7 +124,7 @@
     "next_state" : "f2",
     "input_link" : {
       "name": "L2",
-      "event": "alter"
+      "event": "alert"
     },
     "output_link" : [
 

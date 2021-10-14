@@ -5,6 +5,7 @@ import copy
 import my_logger
 import sys
 import pickle
+#from memory_profiler import profile
 import model.utility as util
 from model.fa import FA
 from model.link import Link
@@ -13,6 +14,7 @@ from model.behavioral_state import BehavioralState
 
 NULL_SMIB = 'ε'
 
+#@profile
 
 def spazio_comportamentale(fa_list, transitions_list, original_link_list):
     logger = my_logger.Logger.__call__().get_logger()
@@ -33,6 +35,8 @@ def spazio_comportamentale(fa_list, transitions_list, original_link_list):
     behavioral_state_graph = []
     behavioral_state_final = []
     snapshot = []
+
+
 
     behavioral_state_queue.put(initial_state)
     logger.info("DIMENSION QUEUE:"+str(behavioral_state_queue.qsize())
@@ -56,6 +60,8 @@ def spazio_comportamentale(fa_list, transitions_list, original_link_list):
         allowed_transitions = []
         for pt in possible_transitions:
             for link in behavioral_state_actual.list_link:
+                #print("PT", str(pt))
+                #print("link event: ", pt.input_link.event, "link name: ", pt.input_link.name)
                 if (link.event == pt.input_link.event
                         and link.name == pt.input_link.name):
                     for out_link in pt.output_link:
@@ -70,8 +76,8 @@ def spazio_comportamentale(fa_list, transitions_list, original_link_list):
                         for link_beh in behavioral_state_actual.list_link:
                             if link_beh.event == NULL_SMIB and link_beh.name == out_link.name:
                                 allowed_transitions.append(pt)
-                        if len(pt.output_link) == 0:
-                            allowed_transitions.append(pt)
+                    if len(pt.output_link) == 0:
+                        allowed_transitions.append(pt)
                     break
 
         logger.info("DIMENSION ALLOWED TRANSITION: "
@@ -248,6 +254,7 @@ def start_execution(fa_json, transitions_json, link_original_json):
         for li in link_original_json:
             original_link.append(Link(li["name"], li["event"]))
         # Out to video
+        #print("BEFORE SPAZIO COMP", str(original_link[0]))
         spazio_comportamentale(
             fa_main_list, transition_main_list, original_link)
         util.stop_timer()

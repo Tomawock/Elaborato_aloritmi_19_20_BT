@@ -1,0 +1,19 @@
+Per individuare la quantità di memoria utilizzata durante l'esecuzione delle task, e il suo andamento, è stata utilizzata la libreria "memory profiler", in particolare il
+modulo "profile" (from memory_profiler import profile). Grazie a questo tool è stato possibile disegnare dei grafici che mostrano appunto l'andamento dell'occupazione di memoria
+durante tutta l'esecuzione in modo chiaro e preciso. Le osservazioni riguardo l'occupazione spaziale possono essere divise in due principali analisi riguardo:
+- le prime due reti di Fa, in cui otteniamo un andamento logaritmico che satura nella maggioranza dei casi a 60 MiB dopo circa 0.3 secondi.
+- la terza e la nostra rete di FA, in cui lo spazio utilizzato supera i 60 MiB nei casi "diagnosi lineare", "diagnosi lineare from spazio comportamentale",
+  "diagnostica", "diagnostica from spazio comportamentale", i quali impiegano anche più tempo per essere risolti rispetto agli altri casi.
+  In generale si può affermare che questo comportamento è dovuto alla maggiore complessità delle reti utilizzate, che generano uno
+  spazio comportamentale più ampio e intricato.
+
+
+Riguardo l'occupazione temporale, la prima cosa che si nota dai risultati è che, nella "prima" e "seconda" rete di FA, richiamando le funzioni che caricano oggetti binari, queste
+terminano sempre in minor tempo rispetto alle analoghe che caricano i dati dai file JSON, eccetto che per le funzioni che caricano i file binari di "spazio comportamentale",
+che sono le funzioni "diagnostica" e "diagnosi lineare", in questi casi abbiamo invece un leggero aumento del tempo di esecuzione.
+Nelle ultime due reti, la "terza" e la "nostra", invece si ha il comportamento opposto, quindi l'esecuzione delle funzioni con caricamento dai file binari "spazio comportamentale",
+impiega meno tempo rispetto all'esecuzione della medesima task con caricamento da file JSON.
+Considerando che le prime due reti sono meno complesse si può dedurre che l'esecuzione della diagnostica e della diagnosi lineare siano molto rapide, tanto da risultare
+secondario rispetto al caricamento dei file.
+Le ultime due reti invece, essendo più complesse, aumentano il tempo di esecuzione dovuto all'elaborazione effettiva dei task di "diagnostica" e "diagnosi lineare", mentre tempo di caricamento
+dei file risulta essere poco influente.

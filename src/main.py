@@ -8,8 +8,11 @@ import espressioni_regolari
 import \
     spazio_comportamentale, spazio_comportamentale_osservabile, diagnostica, \
     diagnosi_relativa_osservazione, diagnosi_lineare
+#from memory_profiler import profile
+import pylab
 
 
+#@profile
 def execute(args, input_read):
     ts = time.asctime(time.localtime(time.time()))[11:19]
     x = args.task[0]

@@ -1,0 +1,107 @@
+lista comandi
+
+ESPRESSIONI REGOLARI
+
+epressione regolare: python3 src/main.py -t 0 --json data/espressione_regolare.json
+
+epressioni regolari: python3 src/main.py -t 1 --json data/espressioni_regolari.json
+
+
+PRIMA RETE DI FA
+
+spazio_comportamentale: python3 src/main.py -t 2 --json data/fa.json data/transition.json data/original_link.json
+
+spazio_comportamentale_osservabile: python3 src/main.py -t 3 --json data/fa.json data/transition.json data/original_link.json -O "o3,o2"
+
+diagnosi_relativa_osservazione: python3 src/main.py -t 4 --json data/fa.json data/transition.json data/original_link.json -O "o3,o2"
+
+diagnostica: python3 src/main.py -t 5 --json data/fa.json data/transition.json data/original_link.json
+
+diagnosi_lineare: python3 src/main.py -t 6 --json data/fa.json data/transition.json data/original_link.json -O "o3,o2"
+
+diagnosi_relativa_osservazione_from_spazio_comportamentale_osservabile: python3 src/main.py -t 7 --bin logs_prima_rete_FA/serialized_objects/obs_behave_state -O "o3,o2"
+
+diagnostica_from_spazio_comportamentale: python3 src/main.py -t 8 --bin logs_prima_rete_FA/serialized_objects/behave_state
+
+diagnostica_from_silent_closure_space: python3 src/main.py -t 9 --bin logs_prima_rete_FA/serialized_objects/silent_closure_space
+
+diagnosi_lineare_from_spazio_comportamentale: python3 src/main.py -t 10 --bin logs_prima_rete_FA/serialized_objects/behave_state -O "o3,o2"
+
+diagnosi_lineare_from_silent_closure_space: python3 src/main.py -t 11 --bin logs_prima_rete_FA/serialized_objects/silent_closure_space -O "o3,o2"
+
+diagnosi_lineare_from_diagnostic_graph: python3 src/main.py -t 12 --bin logs_prima_rete_FA/serialized_objects/diagnostic_graph -O "o3,o2"
+
+
+SECONDA RETE DI FA
+
+spazio_comportamentale: python3 src/main.py -t 2 --json data/fa2.json data/transition2.json data/original_link2.json
+
+spazio_comportamentale_osservabile: python3 src/main.py -t 3 --json data/fa2.json data/transition2.json data/original_link2.json -O "act,sby,nop"
+
+diagnosi_relativa_osservazione: python3 src/main.py -t 4 --json data/fa2.json data/transition2.json data/original_link2.json -O "act,sby,nop"
+
+diagnostica: python3 src/main.py -t 5 --json data/fa2.json data/transition2.json data/original_link2.json
+
+diagnosi_lineare: python3 src/main.py -t 6 --json data/fa2.json data/transition2.json data/original_link2.json -O "act,sby,nop"
+
+diagnosi_relativa_osservazione_from_spazio_comportamentale_osservabile: python3 src/main.py -t 7 --bin logs_seconda_rete_FA/serialized_objects/obs_behave_state -O "act,sby,nop"
+
+diagnostica_from_spazio_comportamentale: python3 src/main.py -t 8 --bin logs_seconda_rete_FA/serialized_objects/behave_state
+
+diagnostica_from_silent_closure_space: python3 src/main.py -t 9 --bin logs_seconda_rete_FA/serialized_objects/silent_closure_space
+
+diagnosi_lineare_from_spazio_comportamentale: python3 src/main.py -t 10 --bin logs_seconda_rete_FA/serialized_objects/behave_state -O "act,sby,nop"
+
+diagnosi_lineare_from_silent_closure_space: python3 src/main.py -t 11 --bin logs_seconda_rete_FA/serialized_objects/silent_closure_space -O "act,sby,nop"
+
+diagnosi_lineare_from_diagnostic_graph: python3 src/main.py -t 12 --bin logs_seconda_rete_FA/serialized_objects/diagnostic_graph -O "act,sby,nop"
+
+
+TERZA RETE DI FA
+
+spazio_comportamentale: python3 src/main.py -t 2 --json data/fa3.json data/transition3.json data/original_link3.json
+
+spazio_comportamentale_osservabile: python3 src/main.py -t 3 --json data/fa3.json data/transition3.json data/original_link3.json -O "o1"
+
+diagnosi_relativa_osservazione: python3 src/main.py -t 4 --json data/fa3.json data/transition3.json data/original_link3.json -O "o1"
+
+diagnostica: python3 src/main.py -t 5 --json data/fa3.json data/transition3.json data/original_link3.json
+
+diagnosi_lineare: python3 src/main.py -t 6 --json data/fa3.json data/transition3.json data/original_link3.json -O "o1"
+
+diagnosi_relativa_osservazione_from_spazio_comportamentale_osservabile: python3 src/main.py -t 7 --bin logs_terza_rete_FA/serialized_objects/obs_behave_state -O "o1"
+
+diagnostica_from_spazio_comportamentale: python3 src/main.py -t 8 --bin logs_terza_rete_FA/serialized_objects/behave_state
+
+diagnostica_from_silent_closure_space: python3 src/main.py -t 9 --bin logs_terza_rete_FA/serialized_objects/silent_closure_space
+
+diagnosi_lineare_from_spazio_comportamentale: python3 src/main.py -t 10 --bin logs_terza_rete_FA/serialized_objects/behave_state -O "o1"
+
+diagnosi_lineare_from_silent_closure_space: python3 src/main.py -t 11 --bin logs_terza_rete_FA/serialized_objects/silent_closure_space -O "o1"
+
+diagnosi_lineare_from_diagnostic_graph: python3 src/main.py -t 12 --bin logs_terza_rete_FA/serialized_objects/diagnostic_graph -O "o1"
+
+
+NOSTRA RETE DI FA
+
+spazio_comportamentale: python3 src/main.py -t 2 --json data/fa_nostro.json data/transition_nostro.json data/original_link_nostro.json
+
+spazio_comportamentale_osservabile: python3 src/main.py -t 3 --json data/fa_nostro.json data/transition_nostro.json data/original_link_nostro.json -O "O1"
+
+diagnosi_relativa_osservazione: python3 src/main.py -t 4 --json data/fa_nostro.json data/transition_nostro.json data/original_link_nostro.json -O "O1"
+
+diagnostica: python3 src/main.py -t 5 --json data/fa_nostro.json data/transition_nostro.json data/original_link_nostro.json
+
+diagnosi_lineare: python3 src/main.py -t 6 --json data/fa_nostro.json data/transition_nostro.json data/original_link_nostro.json -O "O1"
+
+diagnosi_relativa_osservazione_from_spazio_comportamentale_osservabile: python3 src/main.py -t 7 --bin logs_nostra_rete_FA/serialized_objects/obs_behave_state -O "O1"
+
+diagnostica_from_spazio_comportamentale: python3 src/main.py -t 8 --bin logs_nostra_rete_FA/serialized_objects/behave_state
+
+diagnostica_from_silent_closure_space: python3 src/main.py -t 9 --bin logs_nostra_rete_FA/serialized_objects/silent_closure_space
+
+diagnosi_lineare_from_spazio_comportamentale: python3 src/main.py -t 10 --bin logs_nostra_rete_FA/serialized_objects/behave_state -O "O1"
+
+diagnosi_lineare_from_silent_closure_space: python3 src/main.py -t 11 --bin logs_nostra_rete_FA/serialized_objects/silent_closure_space -O "O1"
+
+diagnosi_lineare_from_diagnostic_graph: python3 src/main.py -t 12 --bin logs_nostra_rete_FA/serialized_objects/diagnostic_graph -O "O1"
